@@ -1,0 +1,95 @@
+version: '2'
+services:
+  log:
+    build: ./log/
+    restart: always
+    volumes:
+      - /var/log/shelter/:/var/log/docker/
+    ports:
+      - 1514:514
+  registry:
+    image: library/registry:2.4.0
+    restart: always
+    volumes:
+      - /data/registry:/storage
+      - ./config/registry/:/etc/registry/
+    environment:
+      - GODEBUG=netdns=cgo
+    ports:
+      - 5001:5001
+    command:
+      ["serve", "/etc/registry/config.yml"]
+    depends_on:
+      - log
+    logging:
+      driver: "syslog"
+      options:  
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "registry"
+  # mysql:
+  #   build: ./db/
+  #   restart: always
+  #   volumes:
+  #     - /data/database:/var/lib/mysql
+  #   env_file:
+  #     - ./config/db/env
+  #   depends_on:
+  #     - log
+  #   logging:
+  #     driver: "syslog"
+  #     options:  
+  #       syslog-address: "tcp://127.0.0.1:1514"
+  #       tag: "mysql"
+  shelter:
+    build:
+      context: ../
+      dockerfile: Dockerfile.shelter
+    # env_file:
+    #   - ./config/shelter/env
+    restart: always
+    volumes:
+      # - ./config/ui/app.conf:/etc/ui/app.conf
+      - ./config/ui/private_key.pem:/etc/ui/private_key.pem
+    depends_on:
+      - log
+    logging:
+      driver: "syslog"
+      options:  
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "ui"
+  # change to worker later
+  # jobservice:
+  #   build:
+  #     context: ../
+  #     dockerfile: Dockerfile.job
+  #   env_file:
+  #     - ./config/jobservice/env
+  #   restart: always
+  #   volumes:
+  #     - /data/job_logs:/var/log/jobs
+  #     - ./config/jobservice/app.conf:/etc/jobservice/app.conf
+  #   depends_on:
+  #     - ui
+  #   logging:
+  #     driver: "syslog"
+  #     options:  
+  #       syslog-address: "tcp://127.0.0.1:1514"
+  #       tag: "jobservice"
+  proxy:
+    image: library/nginx:1.9
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      # - mysql
+      - registry
+      - ui
+      - log
+    logging:
+      driver: "syslog"
+      options:  
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "proxy"
