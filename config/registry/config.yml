@@ -21,7 +21,7 @@ http:
 auth:
   token:
     issuer: registry-token-issuer
-    realm: http://reg.mydomain.com/service/token
+    realm: http://local.dev1.qinixapp.com/service/token
     rootcertbundle: /etc/registry/root.crt
     service: token-service
 

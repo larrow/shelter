@@ -1,7 +1,9 @@
 version: '2'
 services:
   log:
-    build: ./log/
+    build:
+      context: .
+      dockerfile: Dockerfile.log
     restart: always
     volumes:
       - /var/log/shelter/:/var/log/docker/
@@ -23,60 +25,39 @@ services:
       - log
     logging:
       driver: "syslog"
-      options:  
+      options:
         syslog-address: "tcp://127.0.0.1:1514"
         tag: "registry"
-  # mysql:
-  #   build: ./db/
-  #   restart: always
-  #   volumes:
-  #     - /data/database:/var/lib/mysql
-  #   env_file:
-  #     - ./config/db/env
-  #   depends_on:
-  #     - log
-  #   logging:
-  #     driver: "syslog"
-  #     options:  
-  #       syslog-address: "tcp://127.0.0.1:1514"
-  #       tag: "mysql"
-  shelter:
-    build:
-      context: ../
-      dockerfile: Dockerfile.shelter
-    # env_file:
-    #   - ./config/shelter/env
-    restart: always
-    volumes:
-      # - ./config/ui/app.conf:/etc/ui/app.conf
-      - ./config/ui/private_key.pem:/etc/ui/private_key.pem
+  db:
+    image: postgres
     depends_on:
       - log
     logging:
       driver: "syslog"
-      options:  
+      options:
         syslog-address: "tcp://127.0.0.1:1514"
-        tag: "ui"
-  # change to worker later
-  # jobservice:
-  #   build:
-  #     context: ../
-  #     dockerfile: Dockerfile.job
-  #   env_file:
-  #     - ./config/jobservice/env
-  #   restart: always
-  #   volumes:
-  #     - /data/job_logs:/var/log/jobs
-  #     - ./config/jobservice/app.conf:/etc/jobservice/app.conf
-  #   depends_on:
-  #     - ui
-  #   logging:
-  #     driver: "syslog"
-  #     options:  
-  #       syslog-address: "tcp://127.0.0.1:1514"
-  #       tag: "jobservice"
+        tag: "db"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    restart: always
+    command: bash -c 'bundle install && bundle exec rake db:create db:migrate && bundle exec rails s -p 3000 -b 0.0.0.0'
+    environment:
+      RAILS_ENV: production
+    volumes:
+      - .:/shelter
+    depends_on:
+      - log
+      - db
+      - registry
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "app"
   proxy:
-    image: library/nginx:1.9
+    image: nginx:1.9
     restart: always
     volumes:
       - ./config/nginx:/etc/nginx
@@ -84,12 +65,12 @@ services:
       - 80:80
       - 443:443
     depends_on:
-      # - mysql
-      - registry
-      - ui
       - log
+      - db
+      - registry
+      - app
     logging:
       driver: "syslog"
-      options:  
+      options:
         syslog-address: "tcp://127.0.0.1:1514"
         tag: "proxy"
