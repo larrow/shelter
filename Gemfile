@@ -1,4 +1,4 @@
-source 'https://gems.ruby-china.org'
+source 'https://ruby.taobao.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
@@ -28,6 +28,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'pry-rails'
 gem 'pg'
 gem 'devise'
+gem 'jwt'
+gem 'base32'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
