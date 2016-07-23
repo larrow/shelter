@@ -3,30 +3,33 @@ class ServiceController < ApplicationController
   end
 
   def token
-    # if user = authenticate_with_http_basic { |username, password| User.login(username, password) }
-    # end
+    authenticate_with_http_basic do |username, password|
+      resource = User.find_by_username(username)
+      sign_in :user, resource if resource&.valid_password? password
+    end
+    head 401 and return unless user_signed_in?
+
     rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
 
-    username = 'qinix'
     payload = {
       iss: 'registry-token-issuer',
-      sub: username,
+      sub: (current_user&.username || ''),
       aud: params[:service],
       exp: 10.minutes.from_now.to_i,
       nbf: 1.minutes.ago.to_i,
       iat: Time.now.to_i,
       jti: SecureRandom.uuid,
       access: [
-        {
-          type: 'repository',
-          name: 'qinix/qinix',
-          actions: ['pull', 'push']
-        },
-        {
-          type: 'registry',
-          name: 'catalog',
-          actions: ['*']
-        }
+        # {
+        #   type: 'repository',
+        #   name: 'qinix/qinix',
+        #   actions: ['pull', 'push']
+        # },
+        # {
+        #   type: 'registry',
+        #   name: 'catalog',
+        #   actions: ['*']
+        # }
       ]
     }
 
