@@ -30,6 +30,9 @@ gem 'pg'
 gem 'devise'
 gem 'jwt'
 gem 'base32'
+gem 'font-awesome-sass'
+gem 'font-ionicons-rails', git: 'https://github.com/ricardoemerson/font-ionicons-rails.git'
+gem 'bootstrap-sass'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

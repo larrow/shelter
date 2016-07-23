@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/ricardoemerson/font-ionicons-rails.git
+  revision: 172d7e3a8113969119f1016c68e055b46668956a
+  specs:
+    font-ionicons-rails (2.0.1.5)
+      railties (>= 3.2, < 6.0)
+
 GEM
   remote: https://ruby.taobao.org/
   specs:
@@ -39,8 +46,13 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.1.0)
+    autoprefixer-rails (6.3.7)
+      execjs
     base32 (0.3.2)
     bcrypt (3.1.11)
+    bootstrap-sass (3.3.6)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.5)
     coderay (1.1.1)
@@ -62,6 +74,8 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.14)
+    font-awesome-sass (4.6.2)
+      sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -179,9 +193,12 @@ PLATFORMS
 
 DEPENDENCIES
   base32
+  bootstrap-sass
   byebug
   coffee-rails (~> 4.2)
   devise
+  font-awesome-sass
+  font-ionicons-rails!
   jbuilder (~> 2.5)
   jquery-rails
   jwt
