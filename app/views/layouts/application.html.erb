@@ -66,11 +66,11 @@
                       <!-- The user image in the navbar-->
                       <%= image_tag avatar_url(current_user, 200), class: 'user-image', alt: 'User Image' if current_user %>
                       <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                      <span class="hidden-xs">Eric Zhang</span>
+                      <span class="hidden-xs"><%= current_user.username %></span>
                       <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a href="#">Profile</a></li>
+                      <li><%= link_to 'Profile', edit_user_registration_path %></li>
                       <li class="divider"></li>
                       <li><a href="#">Settings</a></li>
                       <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
@@ -89,19 +89,19 @@
         <div class="container">
           <section class="content-header">
             <h1>
-              Top Navigation
-              <small>Example 2.0</small>
+              <%= yield :content_title %>
+              <small><%= yield :content_subtitle %></small>
             </h1>
 
-            <ol class="breadcrumb">
-              <% if content_for? :breadcrumb %>
-                <%= yield :breadcrumb %>
-              <% else %>
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Layout</a></li>
-                <li class="active">Top Navigation</li>
-              <% end %>
-            </ol>
+            <!-- <ol class="breadcrumb"> -->
+              <%# if content_for? :breadcrumb %>
+                <%#= yield :breadcrumb %>
+              <%# else %>
+            <!-- <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> -->
+            <!-- <li><a href="#">Layout</a></li> -->
+            <!-- <li class="active">Top Navigation</li> -->
+              <%# end %>
+            <!-- </ol> -->
           </section>
 
           <!-- Main content -->
