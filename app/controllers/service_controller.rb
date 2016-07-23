@@ -3,6 +3,7 @@ class ServiceController < ApplicationController
   end
 
   def token
-    binding.pry
+    if user = authenticate_with_http_basic { |username, password| User.login(username, password) }
+    end
   end
 end
