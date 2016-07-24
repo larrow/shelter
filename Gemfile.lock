@@ -65,6 +65,8 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
     debug_inspector (0.0.2)
+    default_value_for (3.0.2)
+      activerecord (>= 3.2.0, < 5.1)
     devise (4.1.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -196,6 +198,7 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   coffee-rails (~> 4.2)
+  default_value_for
   devise
   font-awesome-sass
   font-ionicons-rails!

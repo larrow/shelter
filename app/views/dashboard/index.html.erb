@@ -1,2 +1,36 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<% content_for :content_title do %>
+  Repositories
+<% end %>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col-md-1">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%= current_user.username %> <span class="fa fa-caret-down"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="">TEst1</a></li>
+      <li><a href="">TEst1</a></li>
+    </ul>
+  </div>
+
+  <div class="col-md-2">
+    <a href="<%= new_namespace_repository_path current_user.namespace.username %>" class="btn btn-primary"><span class="fa fa-plus"> New repository</span></a>
+  </div>
+</div>
+
+<div class="box box-widget repository-cell">
+  <div class="box-body">
+    <a href="/qinix/nginx">
+      <div class="row">
+        <div class="col-md-11">
+          <div class="repository-name">
+            qinix/nginx
+          </div>
+          <div class="repository-publicity">
+            public
+          </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </a>
+      </div>
+  </div>
+</div>

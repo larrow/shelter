@@ -33,6 +33,7 @@ gem 'base32'
 gem 'font-awesome-sass'
 gem 'font-ionicons-rails', git: 'https://github.com/ricardoemerson/font-ionicons-rails.git'
 gem 'bootstrap-sass'
+gem 'default_value_for'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

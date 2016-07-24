@@ -25,20 +25,21 @@
 
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
-                  </ul>
-                </li>
+                <li class="<%= active_class(root_path) %>"><%= link_to 'Home', root_path %></li>
+                <li class="<%= active_class(dashboard_index_path) %>"><%= link_to 'Dashboard', dashboard_index_path %></li>
+                <!-- <li><a href="#">Link</a></li> -->
+                <!-- <li class="dropdown"> -->
+                <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a> -->
+                <!-- <ul class="dropdown-menu" role="menu"> -->
+                <!-- <li><a href="#">Action</a></li> -->
+                <!-- <li><a href="#">Another action</a></li> -->
+                <!-- <li><a href="#">Something else here</a></li> -->
+                <!-- <li class="divider"></li> -->
+                <!-- <li><a href="#">Separated link</a></li> -->
+                <!-- <li class="divider"></li> -->
+                <!-- <li><a href="#">One more separated link</a></li> -->
+                <!-- </ul> -->
+                <!-- </li> -->
               </ul>
 
               <form class="navbar-form navbar-left" role="search">
@@ -50,17 +51,19 @@
 
             <div class="navbar-custom-menu">
               <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                    Create <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
+                <% if user_signed_in? %>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                      Create <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to 'Create Repository', new_namespace_repository_path(current_user.username) %></li>
+                      <li><%= link_to 'Create Orgnization', new_namespace_path %></li>
 
-                  </ul>
-                </li>
+                    </ul>
+                  </li>
 
-                <li class="dropdown user user-menu">
-                  <% if user_signed_in? %>
+                  <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <!-- The user image in the navbar-->
@@ -75,10 +78,11 @@
                       <li><a href="#">Settings</a></li>
                       <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
                     </ul>
-                  <% else %>
-                    <%= link_to 'Log in', new_user_session_path %>
-                  <% end %>
-                </li>
+                  </li>
+                <% else %>
+                  <li><%= link_to 'Log in', new_user_session_path %></li>
+                  <li><%= link_to 'Sign up', new_user_registration_path %></li>
+                <% end %>
               </ul>
             </div>
           </div>
@@ -87,22 +91,25 @@
 
       <div class="content-wrapper">
         <div class="container">
-          <section class="content-header">
-            <h1>
-              <%= yield :content_title %>
-              <small><%= yield :content_subtitle %></small>
-            </h1>
 
-            <!-- <ol class="breadcrumb"> -->
+          <% if content_for? :content_title or content_for? :content_subtitle %>
+            <section class="content-header">
+              <h1>
+                <%= yield :content_title %>
+                <small><%= yield :content_subtitle %></small>
+              </h1>
+
+              <!-- <ol class="breadcrumb"> -->
               <%# if content_for? :breadcrumb %>
-                <%#= yield :breadcrumb %>
+              <%#= yield :breadcrumb %>
               <%# else %>
-            <!-- <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> -->
-            <!-- <li><a href="#">Layout</a></li> -->
-            <!-- <li class="active">Top Navigation</li> -->
+              <!-- <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> -->
+              <!-- <li><a href="#">Layout</a></li> -->
+              <!-- <li class="active">Top Navigation</li> -->
               <%# end %>
-            <!-- </ol> -->
-          </section>
+              <!-- </ol> -->
+            </section>
+          <% end %>
 
           <!-- Main content -->
           <section class="content">

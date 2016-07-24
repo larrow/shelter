@@ -33,6 +33,16 @@ class ServiceController < ApplicationController
       ]
     }
 
+    if params[:scope]
+      scope_type, scope_name, scope_actions = params[:scope].split(':')
+      scope_actions = scope_actions.split(',')
+      payload[:access] << {
+        type: scope_type,
+        name: scope_name,
+        actions: scope_actions
+      }
+    end
+
     header = {
       kid: Base32.encode(Digest::SHA256.digest(rsa_private_key.public_key.to_der)[0...30]).scan(/.{4}/).join(':')
     }

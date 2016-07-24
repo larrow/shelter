@@ -10,10 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723121058) do
+ActiveRecord::Schema.define(version: 20160724065453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "namespaces", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "type",       default: 0
+    t.integer  "user_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["user_id"], name: "index_namespaces_on_user_id", using: :btree
+  end
+
+  create_table "repository_teams", force: :cascade do |t|
+    t.string   "repository_name"
+    t.integer  "team_id"
+    t.integer  "role"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["team_id"], name: "index_repository_teams_on_team_id", using: :btree
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "namespace_id"
+    t.integer  "role"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["namespace_id"], name: "index_teams_on_namespace_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -34,4 +61,7 @@ ActiveRecord::Schema.define(version: 20160723121058) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
+  add_foreign_key "namespaces", "users"
+  add_foreign_key "repository_teams", "teams"
+  add_foreign_key "teams", "namespaces"
 end

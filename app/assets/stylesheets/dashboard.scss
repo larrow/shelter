@@ -1,3 +1,24 @@
 // Place all the styles related to the dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.repository-cell {
+  border: 1px solid #fff;
+
+  &:hover {
+    border: 1px solid #367fa9;
+    cursor: pointer;
+  }
+
+  .repository-name {
+    font-weight: 500;
+    color: #3c8dbc;
+    font-size: 20px;
+  }
+
+  .repository-publicity {
+    font-weight: 500;
+    font-size: 20px;
+    color: #357ca5;
+  }
+}

@@ -7,6 +7,9 @@ class User < ApplicationRecord
     :authentication_keys => [:login]
   validates_format_of :username, with: /^[a-zA-Z0-9_\.-]*$/, multiline: true
 
+  has_one :namespace
+  has_and_belongs_to_many :teams
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -20,5 +23,10 @@ class User < ApplicationRecord
         where(username: conditions[:username]).first
       end
     end
+  end
+
+  after_save :find_or_create_namespace
+  def find_or_create_namespace
+    self.namespace ||= Namespace.create(name: self.username, type: :by_user, user: self)
   end
 end
