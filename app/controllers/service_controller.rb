@@ -1,5 +1,13 @@
 class ServiceController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def notifications
+    events = JSON.parse(request.body.read)['events']
+    events.each do |event|
+      RegistryEvent.find_or_create_by(action: event['action'], repository: event['target']['repository'], original_id: event['id'], actor: event['actor']['name'], created_at: Time.parse(event['timestamp']))
+    end
+
+    render plain: ''
   end
 
   def token
@@ -9,45 +17,6 @@ class ServiceController < ApplicationController
     end
     head 401 and return unless user_signed_in?
 
-    rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
-
-    payload = {
-      iss: 'registry-token-issuer',
-      sub: (current_user&.username || ''),
-      aud: params[:service],
-      exp: 10.minutes.from_now.to_i,
-      nbf: 1.minutes.ago.to_i,
-      iat: Time.now.to_i,
-      jti: SecureRandom.uuid,
-      access: [
-        # {
-        #   type: 'repository',
-        #   name: 'qinix/qinix',
-        #   actions: ['pull', 'push']
-        # },
-        # {
-        #   type: 'registry',
-        #   name: 'catalog',
-        #   actions: ['*']
-        # }
-      ]
-    }
-
-    if params[:scope]
-      scope_type, scope_name, scope_actions = params[:scope].split(':')
-      scope_actions = scope_actions.split(',')
-      payload[:access] << {
-        type: scope_type,
-        name: scope_name,
-        actions: scope_actions
-      }
-    end
-
-    header = {
-      kid: Base32.encode(Digest::SHA256.digest(rsa_private_key.public_key.to_der)[0...30]).scan(/.{4}/).join(':')
-    }
-
-    token = JWT.encode payload, rsa_private_key, 'RS256', header
-    render json: {token: token}
+    render json: {token: Registry.new(user: current_user).token(params[:scope])}
   end
 end

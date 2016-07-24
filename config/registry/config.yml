@@ -29,7 +29,7 @@ notifications:
   endpoints:
       - name: shelter
         disabled: false
-        url: http://local.qinix.com/service/notifications
+        url: http://proxy/service/notifications
         timeout: 500ms
         threshold: 5
         backoff: 1s
