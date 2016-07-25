@@ -1,26 +1,35 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :login %><br />
-    <%= f.email_field :login, autofocus: true %>
+<div class="login-box">
+  <div class="login-logo">
+    Log in
   </div>
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <%= form_for resource, as: resource_name, url: session_path(resource_name) do |f| %>
+      <div class="form-group has-feedback">
+        <%= f.text_field :login, class: 'form-control', placeholder: 'Email/Username', autofocus: true %>
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <%= f.password_field :password, class: 'form-control', placeholder: 'Password', autocomplete: 'off' %>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <%= f.submit 'Sign In', class: 'btn btn-primary btn-block btn-flat' %>
+        </div>
+        <!-- /.col -->
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+
   </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end -%>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

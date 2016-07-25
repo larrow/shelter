@@ -7,6 +7,7 @@ GIT
 
 GEM
   remote: https://ruby.taobao.org/
+  remote: https://rails-assets.org/
   specs:
     actioncable (5.0.0)
       actionpack (= 5.0.0)
@@ -141,6 +142,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.0)
       sprockets-rails (>= 2.0.0)
+    rails-assets-iCheck (1.0.2)
+      rails-assets-jquery (>= 1.7)
+    rails-assets-jquery (3.1.0)
     rails-dom-testing (2.0.1)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6.0)
@@ -224,6 +228,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.0)
   rails (~> 5.0.0)
+  rails-assets-iCheck!
   sass-rails (~> 5.0)
   simple_form
   spring

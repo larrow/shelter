@@ -37,6 +37,7 @@ gem 'default_value_for'
 gem 'config'
 gem 'httparty'
 gem 'simple_form'
+gem 'rails-assets-iCheck', source: 'https://rails-assets.org'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
