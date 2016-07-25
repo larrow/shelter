@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :destroy] do
-    resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :show, :update, :destroy] do
+    resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :show, :create, :update, :destroy] do
       member do
         get 'settings', to: 'repositories#settings'
         get 'settings/collaborators', to: 'repositories#collaborators'

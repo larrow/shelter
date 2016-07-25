@@ -1,2 +1,62 @@
-<h1>Repositories#new</h1>
-<p>Find me in app/views/repositories/new.html.erb</p>
+<% content_for :content_title do %>
+  Create a new repository
+<% end %>
+
+
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">Description</h3>
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i></button>
+    </div>
+  </div>
+  <%= form_for @repository, url: namespace_repositories_path(@namespace.name) do |f| %>
+    <div class="box-body">
+      <div class="clearfix">
+        <div class="form-group pull-left">
+          <div class="repo-label">
+            Owner
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%= @namespace.name %> <span class="fa fa-caret-down"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="">TEst1</a></li>
+              <li><a href="">TEst1</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <span class="slash pull-left">/</span>
+
+        <div class="form-group pull-left">
+          <div class="repo-label">
+            Repository name
+          </div>
+          <%= f.text_field :name, class: 'form-control', size: 40 %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description, 'Description (optional)' %>
+        <%= f.text_field :description, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :is_public, 'Visibility Setting' %>
+        <div class="radio">
+          <%= f.radio_button(:is_public, 'public') %>
+          <%= f.label(:is_public_public, 'Public') %>
+        </div>
+
+        <div class="radio">
+          <%= f.radio_button(:is_public, 'private') %>
+          <%= f.label(:is_public_private, 'Private') %>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <%= f.submit 'Create repository', class: 'btn btn-success' %>
+    </div>
+  <% end %>
+</div>
