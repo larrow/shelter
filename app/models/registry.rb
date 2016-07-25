@@ -17,8 +17,18 @@ class Registry
   end
 
   def manifests(reference)
-    JSON.parse self.class.get("/v2/#{@repository_name}/manifests/#{reference}", headers: headers_for_scope("repository:#{@repository_name}:pull"))
+    resp = self.class.get("/v2/#{@repository_name}/manifests/#{reference}", headers: headers_for_scope("repository:#{@repository_name}:pull", {'Accept': 'application/vnd.docker.distribution.manifest.v2+json'}))
+    [resp.headers['docker-content-digest'], resp]
   end
+
+  def delete_manifests(reference)
+    self.class.delete("/v2/#{@repository_name}/manifests/#{reference}", headers: headers_for_scope("repository:#{@repository_name}:*"))
+  end
+
+  def delete_tag(tag)
+    digest = manifests(tag)[0]
+    delete_manifests digest
+    end
 
   def token(scope)
     rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
@@ -69,7 +79,7 @@ class Registry
 
   private
 
-  def headers_for_scope(scope)
-    { 'Authorization': 'Bearer ' + token(scope) }
+  def headers_for_scope(scope, other_headers = {})
+    { 'Authorization': 'Bearer ' + token(scope) }.merge(other_headers)
   end
 end
