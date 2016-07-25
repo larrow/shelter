@@ -81,7 +81,10 @@
         </div>
       </div>
       <div class="box-body">
-        <button type="button" class="btn btn-block btn-primary btn-lg">Make Private</button>
+        <%= form_tag toggle_publicity_namespace_repository_path(@namespace.name, @repository.name), method: :post do %>
+          <%= hidden_field_tag :is_public, @repository.is_public ? 'false' : 'true' %>
+          <%= submit_tag "Make #{@repository.is_public ? 'Private' : 'Public'}", class: 'btn btn-block btn-primary btn-lg' %>
+        <% end %>
       </div>
     </div>
   </div>

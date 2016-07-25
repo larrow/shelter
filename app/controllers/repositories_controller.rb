@@ -26,6 +26,11 @@ class RepositoriesController < ApplicationController
   def destroy
   end
 
+  def toggle_publicity
+    @repository.update_attribute(:is_public, params[:is_public] == 'true')
+    redirect_to namespace_repository_path(@namespace.name, @repository.name)
+  end
+
   private
 
   def process_params
