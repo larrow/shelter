@@ -1,19 +1,19 @@
-<div class="box box-widget repository-cell">
-  <div class="box-body">
-    <a href="<%= "#{repository.namespace.name}/#{repository.name}" %>">
-      <div class="row">
-        <div class="col-md-11">
-          <div class="repository-name">
-            <%= "#{repository.namespace.name}/#{repository.name}" %>
-          </div>
-          <div class="repository-publicity">
-            <%= repository.is_public ? 'public' : 'private' %>
-          </div>
-        </div>
-        <div class="col-md-1">
-          <%= repository.pull_count %>
-        </div>
-    </a>
+<a href="<%= "#{repository.namespace.name}/#{repository.name}" %>">
+  <div class="repo-box">
+    <span class="repo-box-icon bg-aqua">
+      <i class="fa fa-cube"></i>
+    </span>
+    <div class="repo-box-content">
+      <div class="repo-name">
+        <%= "#{repository.namespace.name}/#{repository.name}" %>
       </div>
+      <div class="repo-pull-count">
+        <div class="num"><%= repository.pull_count %></div>
+        <div class="text">PULLS</div>
+      </div>
+      <div class="repo-publicity">
+        <%= repository.is_public ? 'public' : 'private' %>
+      </div>
+    </div>
   </div>
-</div>
+</a>
