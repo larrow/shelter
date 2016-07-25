@@ -1,2 +1,88 @@
-<h1>Repositories#show</h1>
-<p>Find me in app/views/repositories/show.html.erb</p>
+<% content_for :content_title do %>
+  <%= link_to @namespace.name, namespace_path(@namespace.name) %> / <%= link_to @repository.name, namespace_repository_path(@namespace.name, @repository.name) %>
+<% end %>
+
+<% content_for :content_subtitle do %>
+  <%= @repository.is_public ? 'PUBLIC' : 'PRIVATE' %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="box box-solid box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Description</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <p class="repo-description">
+          <%= @repository.description || 'Description is empty for this repo.' %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="box box-solid box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Docker Pull command</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool"><i class="fa fa-clipboard"></i></button>
+        </div>
+      </div>
+      <div class="box-body">
+        <p class="docker-pull-command">
+          docker pull qinix/qinix
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="box box-solid box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Tags</h3>
+        <div class="box-tools pull-right">
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="table-responsive">
+          <table class="table no-margin">
+            <thead>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <% @repository.tags.first(5).each do |tag| %>
+                <tr>
+                  <td><%= tag[:name] %></td>
+                  <td><%= number_to_human_size tag[:size] %></td>
+                  <td><%= link_to namespace_repository_tag_path(@namespace.name, @repository.name, tag[:name]), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="box-footer clearfix">
+        <a class="btn btn-sm btn-default btn-flat pull-right" href="#">View All Tags</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="box box-solid box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Visibility Settings</h3>
+        <div class="box-tools pull-right">
+        </div>
+      </div>
+      <div class="box-body">
+        <button type="button" class="btn btn-block btn-primary btn-lg">Make Private</button>
+      </div>
+    </div>
+  </div>
+</div>

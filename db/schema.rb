@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724162455) do
+ActiveRecord::Schema.define(version: 20160725062848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "namespaces", force: :cascade do |t|
     t.string   "name"
-    t.integer  "type",       default: 0
+    t.integer  "type",              default: 0
     t.integer  "user_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "default_publicity", default: true
     t.index ["user_id"], name: "index_namespaces_on_user_id", using: :btree
   end
 
@@ -40,6 +41,8 @@ ActiveRecord::Schema.define(version: 20160724162455) do
     t.integer  "namespace_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "is_public"
+    t.text     "description"
     t.index ["namespace_id"], name: "index_repositories_on_namespace_id", using: :btree
   end
 

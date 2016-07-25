@@ -36,6 +36,7 @@ gem 'bootstrap-sass'
 gem 'default_value_for'
 gem 'config'
 gem 'httparty'
+gem 'simple_form'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

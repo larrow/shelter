@@ -1,6 +1,5 @@
 class RepositoriesController < ApplicationController
-  def tags
-  end
+  before_action :process_params
 
   def settings
   end
@@ -18,5 +17,12 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def process_params
+    @namespace = Namespace.find_by(name: params[:namespace_id])
+    @repository = @namespace&.repositories&.find_by(name: params[:id])
   end
 end

@@ -3,8 +3,10 @@ class ServiceController < ApplicationController
 
   def notifications
     events = JSON.parse(request.body.read)['events']
-    events.each do |event|
-      RegistryEvent.find_or_create_by(action: event['action'], repository: event['target']['repository'], original_id: event['id'], actor: event['actor']['name'], created_at: Time.parse(event['timestamp']))
+    RegistryEvent.transaction do
+      events.each do |event|
+        RegistryEvent.find_or_create_by(action: event['action'], repository: event['target']['repository'], original_id: event['id'], actor: event['actor']['name'], created_at: Time.parse(event['timestamp']))
+      end
     end
 
     render plain: ''

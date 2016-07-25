@@ -8,20 +8,21 @@ Rails.application.routes.draw do
   post 'service/notifications'
   get 'service/token'
 
-  resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :create, :destroy, :edit] do
+  resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :create, :edit] do
     member do
       get 'teams'
       get 'settings'
     end
   end
 
-  resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show] do
+  resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :destroy] do
     resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :show, :update, :destroy] do
       member do
-        get 'tags'
         get 'settings', to: 'repositories#settings'
         get 'settings/collaborators', to: 'repositories#collaborators'
       end
+
+      resources :tags, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :destroy]
     end
   end
 
