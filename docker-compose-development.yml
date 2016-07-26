@@ -31,7 +31,7 @@ services:
       REDIS_PROVIDER: REDIS_URL
       REDIS_URL: redis://redis/0
     volumes:
-      - .:/shelter
+      - .:/usr/src/app
     depends_on:
       - db
       - registry
@@ -47,7 +47,7 @@ services:
       REDIS_PROVIDER: REDIS_URL
       REDIS_URL: redis://redis/0
     volumes:
-      - .:/shelter
+      - .:/usr/src/app
     depends_on:
       - db
       - registry

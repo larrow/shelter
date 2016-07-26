@@ -57,7 +57,7 @@ services:
       REDIS_PROVIDER: REDIS_URL
       REDIS_URL: redis://redis/0
     volumes:
-      - .:/shelter
+      - .:/usr/src/app
     depends_on:
       - db
       - registry
@@ -77,7 +77,7 @@ services:
     environment:
       RAILS_ENV: production
     volumes:
-      - .:/shelter
+      - .:/usr/src/app
     depends_on:
       - log
       - db
