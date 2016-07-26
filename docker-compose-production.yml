@@ -37,10 +37,40 @@ services:
       options:
         syslog-address: "tcp://127.0.0.1:1514"
         tag: "db"
-  app:
+  redis:
+    image: redis
+    ports:
+      - 6380:6379
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "redis"
+  worker:
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile.worker
+    # sleep 3 seconds in order to wait db start up
+    command: bash -c 'sleep 3 && bundle install && bundle exec sidekiq'
+    environment:
+      RAILS_ENV: production
+      REDIS_PROVIDER: REDIS_URL
+      REDIS_URL: redis://redis/0
+    volumes:
+      - .:/shelter
+    depends_on:
+      - db
+      - registry
+      - redis
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://127.0.0.1:1514"
+        tag: "worker"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     restart: always
     # sleep 3 seconds first to wait db start up
     command: bash -c 'sleep 3 && bundle install && bundle exec rake db:create db:migrate && bundle exec rails s -p 3000 -b 0.0.0.0'
@@ -56,7 +86,7 @@ services:
       driver: "syslog"
       options:
         syslog-address: "tcp://127.0.0.1:1514"
-        tag: "app"
+        tag: "web"
   proxy:
     image: nginx:1.9
     restart: always
@@ -69,7 +99,7 @@ services:
       - log
       - db
       - registry
-      - app
+      - web
     logging:
       driver: "syslog"
       options:

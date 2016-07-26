@@ -36,8 +36,10 @@ gem 'bootstrap-sass'
 gem 'default_value_for'
 gem 'config'
 gem 'httparty'
-gem 'simple_form'
 gem 'rails-assets-iCheck', source: 'https://rails-assets.org'
+gem 'sidekiq'
+gem 'sinatra', require: false, github: 'sinatra' # https://github.com/mperham/sidekiq/issues/2839
+gem 'rack-protection', github: 'sinatra/rack-protection' # https://github.com/sinatra/sinatra/issues/1152
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

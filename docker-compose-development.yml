@@ -16,14 +16,36 @@ services:
     image: postgres
     ports:
       - 5433:5432
-  app:
+  redis:
+    image: redis
+    ports:
+      - 6380:6379
+  worker:
     build:
       context: .
-      dockerfile: Dockerfile.app
-    # sleep 3 seconds first to wait db start up
+      dockerfile: Dockerfile.worker
+    # sleep 3 seconds in order to wait db start up
+    command: bash -c 'sleep 3 && bundle install && bundle exec sidekiq'
+    environment:
+      RAILS_ENV: development
+      REDIS_PROVIDER: REDIS_URL
+      REDIS_URL: redis://redis/0
+    volumes:
+      - .:/shelter
+    depends_on:
+      - db
+      - registry
+      - redis
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    # sleep 3 seconds in order to wait db start up
     command: bash -c 'sleep 3 && bundle install && bundle exec rake db:create db:migrate && bundle exec rails s -p 3000 -b 0.0.0.0'
     environment:
       RAILS_ENV: development
+      REDIS_PROVIDER: REDIS_URL
+      REDIS_URL: redis://redis/0
     volumes:
       - .:/shelter
     depends_on:
@@ -40,4 +62,4 @@ services:
     depends_on:
       - db
       - registry
-      - app
+      - web
