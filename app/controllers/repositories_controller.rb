@@ -8,15 +8,6 @@ class RepositoriesController < ApplicationController
   def collaborators
   end
 
-  def new
-    @repository = @namespace.repositories.new
-  end
-
-  def create
-    @repository = @namespace.repositories.create(name: params[:repository][:name], description: params[:repository][:description].empty? ? nil : params[:repository][:description], is_public: params[:repository][:is_public] == 'public')
-    redirect_to namespace_repository_path(@namespace.name, @repository.name)
-  end
-
   def show
   end
 

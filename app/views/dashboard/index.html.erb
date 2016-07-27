@@ -6,14 +6,14 @@
     <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%= current_user.username %> <span class="fa fa-caret-down"></span></button>
       <ul class="dropdown-menu">
-        <li><a href="">TEst1</a></li>
-        <li><a href="">TEst1</a></li>
+        <li><a href="#"><%= current_user.username %></a></li>
+        <li class="divider"></li>
+        <li><a href="#">TEst1</a></li>
+        <li><a href="#">TEst1</a></li>
+        <li class="divider"></li>
+        <li><a href="#">New Organization</a></li>
       </ul>
     </div>
-  </div>
-
-  <div class="col-md-2">
-    <a href="<%= new_namespace_repository_path current_user.namespace.name %>" class="btn btn-primary"><span class="fa fa-plus"> New repository</span></a>
   </div>
 </div>
 

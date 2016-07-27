@@ -52,16 +52,6 @@
             <div class="navbar-custom-menu">
               <ul class="nav navbar-nav">
                 <% if user_signed_in? %>
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                      Create <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><%= link_to 'Create Repository', new_namespace_repository_path(current_user.username) %></li>
-                      <li><%= link_to 'Create Orgnization', new_namespace_path %></li>
-
-                    </ul>
-                  </li>
 
                   <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->
