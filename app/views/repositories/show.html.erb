@@ -32,7 +32,7 @@
       </div>
       <div class="box-body">
         <p class="docker-pull-command">
-          docker pull qinix/qinix
+          docker pull <%= request.host_with_port %>/<%= @namespace.name %>/<%= @repository.name %>
         </p>
       </div>
     </div>
@@ -69,7 +69,7 @@
       </div>
 
       <div class="box-footer clearfix">
-        <a class="btn btn-sm btn-default btn-flat pull-right" href="#">View All Tags</a>
+        <%= link_to 'View All Tags', namespace_repository_tags_path(@namespace.name, @repository.name), class: 'btn btn-sm btn-default btn-flat pull-right' %>
       </div>
     </div>
   </div>

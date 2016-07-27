@@ -1,2 +1,36 @@
-<h1>Tags#index</h1>
-<p>Find me in app/views/tags/index.html.erb</p>
+<% content_for :content_title do %>
+  <%= link_to @namespace.name, namespace_path(@namespace.name) %> / <%= link_to @repository.name, namespace_repository_path(@namespace.name, @repository.name) %>
+<% end %>
+
+<% content_for :content_subtitle do %>
+  Tags
+<% end %>
+
+<div class="box box-widget">
+  <div class="box-body">
+    <div class="table-responsive">
+      <table class="table no-margin">
+        <thead>
+          <th>Name</th>
+          <th>Size</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <% if @tags.length == 0 %>
+            <tr>
+              <td colspan="3">This repository has no tags.</td>
+            </tr>
+          <% end %>
+
+          <% @tags.each do |tag| %>
+            <tr>
+              <td><%= tag[:name] %></td>
+              <td><%= number_to_human_size tag[:size] %></td>
+              <td><%= link_to namespace_repository_tag_path(@namespace.name, @repository.name, tag[:name]), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

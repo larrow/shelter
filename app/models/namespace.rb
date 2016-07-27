@@ -3,4 +3,5 @@ class Namespace < ApplicationRecord
   belongs_to :user
   has_many :repositories
   enum type: { by_user: 0, by_group: 1 }
+  validates :name, presence: true, uniqueness: true
 end

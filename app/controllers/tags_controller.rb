@@ -2,6 +2,7 @@ class TagsController < ApplicationController
   before_action :process_params
 
   def index
+    @tags = @repository.tags
   end
 
   def destroy

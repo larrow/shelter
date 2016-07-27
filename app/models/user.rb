@@ -24,6 +24,7 @@ class User < ApplicationRecord
 
   after_create :find_or_create_namespace
   def find_or_create_namespace
-    self.namespace ||= Namespace.create(name: self.username, type: :by_user, user: self)
+    self.namespace ||= Namespace.where(name: self.username).first_or_create { |n| n.user = self }
+    self.save
   end
 end

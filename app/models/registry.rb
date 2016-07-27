@@ -17,7 +17,8 @@ class Registry
   end
 
   def manifests(reference)
-    resp = self.class.get("/v2/#{@repository_name}/manifests/#{reference}", headers: headers_for_scope("repository:#{@repository_name}:pull", {'Accept': 'application/vnd.docker.distribution.manifest.v2+json'}))
+    resp = self.class.get("/v2/#{@repository_name}/manifests/#{reference}",
+      headers: headers_for_scope("repository:#{@repository_name}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
     [resp.headers['docker-content-digest'], resp]
   end
 
