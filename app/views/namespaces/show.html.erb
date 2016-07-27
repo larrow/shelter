@@ -1,2 +1,5 @@
-<h1>Namespaces#show</h1>
-<p>Find me in app/views/namespaces/show.html.erb</p>
+<% content_for :content_title do %>
+  <%= @namespace.name %>
+<% end %>
+
+<%= render @repositories %>

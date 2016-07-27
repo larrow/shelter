@@ -27,4 +27,9 @@ class User < ApplicationRecord
     self.namespace ||= Namespace.where(name: self.username).first_or_create { |n| n.user = self }
     self.save
   end
+
+  def ability
+    @ability ||= Ability.new(self)
+  end
+  delegate :can?, :cannot?, to: :ability
 end

@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
   before_action :process_params
-  before_filter :authenticate_user!, only: [:new, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :update, :destroy]
 
   def settings
   end
