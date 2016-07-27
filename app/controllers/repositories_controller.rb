@@ -9,15 +9,19 @@ class RepositoriesController < ApplicationController
   end
 
   def show
+    authorize! :read, @repository
   end
 
   def update
+    authorize! :update, @repository
   end
 
   def destroy
+    authorize! :destroy, @repository
   end
 
   def toggle_publicity
+    authorize! :update, @repository
     @repository.update_attribute(:is_public, params[:is_public] == 'true')
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end

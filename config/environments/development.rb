@@ -57,4 +57,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { hosts: 'localhost', port: 3000}
 
+  BetterErrors::Middleware.allow_ip! '0.0.0.0/0'
+
 end

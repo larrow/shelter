@@ -20,6 +20,7 @@ class NamespacesController < ApplicationController
   end
 
   def show
+    authorize! :read, @namespace
     @repositories = @namespace.repositories
     @repositories = @repositories.where(is_public: true) unless user_signed_in? && @namespace.user == current_user
   end
