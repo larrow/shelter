@@ -44,3 +44,6 @@ en:
       size: Size
       action: Action
       no_tags: This repository has no tags.
+  search:
+    index:
+      title: Result for searching '%{query}'

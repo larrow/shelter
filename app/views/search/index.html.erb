@@ -1,0 +1,5 @@
+<% content_for :content_title do %>
+  <%= t '.title', query: params[:q] %>
+<% end %>
+
+<%= render @repositories %>

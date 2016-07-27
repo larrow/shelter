@@ -44,3 +44,6 @@ zh:
       size: 大小
       action: 操作
       no_tags: 无标签
+  search:
+    index:
+      title: 搜索 '%{query}'

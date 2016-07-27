@@ -42,11 +42,11 @@
                 <!-- </li> -->
               </ul>
 
-              <form class="navbar-form navbar-left" role="search">
+              <%= form_tag search_path, method: 'get', class: 'navbar-form navbar-left' do %>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="navbar-search-input" placeholder="<%=t '.search' %>"/>
+                  <%= text_field_tag :q, nil, class: 'form-control', id: 'navbar-search-input', placeholder: t('.search') %>
                 </div>
-              </form>
+              <% end %>
             </div>
 
             <div class="navbar-custom-menu">

@@ -2,6 +2,7 @@ require 'sidekiq/web'
 Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
 
 Rails.application.routes.draw do
+
   mount Sidekiq::Web => '/sidekiq'
 
   resources :dashboard, controller: 'dashboard', only: [:index]
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
 
   post 'service/notifications'
   get 'service/token'
+  get 'search', to: 'search#index'
 
   resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :create, :edit] do
     member do
