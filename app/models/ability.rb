@@ -5,10 +5,14 @@ class Ability
     user ||= User.new
 
     can :manage, :all if user.admin?
-    can [:read, :create, :update], Repository, namespace: { user: user }
+    can [:read, :create, :update], Repository do |repo|
+      repo.namespace.owner == user || repo.namespace&.users&.include?(user)
+    end
     can [:read], Repository, is_public: true
-    can [:read, :create, :update], Namespace, user: user
-    can [:read], Namespace
+    can [:read, :create, :update], Namespace, owner: user
+    can [:read, :create, :update], Group do |group| group.owners.include? user end
+    can :read, Namespace
+    can :read, Group
     can :manage, GroupMember do |group_member|
       group_member.group.owners.include? user
     end
