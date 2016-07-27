@@ -18,6 +18,8 @@ en:
       notice: Notice
       alert: Alert
       language: Language
+      copyright: Copyright
+      all_rights_reserved: All rights reserved.
   repositories:
     repository:
       public: Public

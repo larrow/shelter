@@ -18,6 +18,8 @@ zh:
       notice: 提示
       alert: 警告
       language: 语言
+      copyright: 版权所有
+      all_rights_reserved: 保留所有权利
   repositories:
     repository:
       public: 公开
