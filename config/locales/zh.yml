@@ -1,0 +1,46 @@
+zh:
+  locales:
+    en: English
+    zh: 中文
+  dashboard:
+    index:
+      repositories: 我的仓库
+      new_org: 新建组织
+  layouts:
+    application:
+      home: 首页
+      dashboard: 控制面板
+      search: 搜索
+      profile: 个人信息
+      sign_out: 退出登录
+      log_in: 登录
+      sign_up: 注册
+      notice: 提示
+      alert: 警告
+      language: 语言
+  repositories:
+    repository:
+      public: 公开
+      private: 私有
+    show:
+      public: 公开
+      private: 私有
+      description: 描述
+      desc_empty: 空描述
+      docker_pull_command: Docker Pull Command
+      tags: 标签
+      no_tags: 无标签
+      name: 名称
+      size: 大小
+      action: 操作
+      view_all_tags: 查看所有标签
+      visibility_settings: 可见性设置
+      make_private: 设为私有仓库
+      make_public: 设为公开仓库
+  tags:
+    index:
+      tags: 标签
+      name: 名称
+      size: 大小
+      action: 操作
+      no_tags: 无标签

@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :content_subtitle do %>
-  Tags
+  <%= t '.tags' %>
 <% end %>
 
 <div class="box box-widget">
@@ -11,14 +11,14 @@
     <div class="table-responsive">
       <table class="table no-margin">
         <thead>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Action</th>
+          <th><%= t '.name' %></th>
+          <th><%= t '.size' %></th>
+          <th><%= t '.action' %></th>
         </thead>
         <tbody>
           <% if @tags.length == 0 %>
             <tr>
-              <td colspan="3">This repository has no tags.</td>
+              <td colspan="3"><%= t 'no_tags' %></td>
             </tr>
           <% end %>
 

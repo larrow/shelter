@@ -14,5 +14,7 @@ module Shelter
     config.after_initialize do
       Repository.delay.sync_from_registry
     end
+
+    config.i18n.available_locales = %w(en zh)
   end
 end

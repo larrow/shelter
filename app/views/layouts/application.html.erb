@@ -25,8 +25,8 @@
 
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="<%= active_class(root_path) %>"><%= link_to 'Home', root_path %></li>
-                <li class="<%= active_class(dashboard_index_path) %>"><%= link_to 'Dashboard', dashboard_index_path %></li>
+                <li class="<%= active_class(root_path) %>"><%= link_to t('.home'), root_path %></li>
+                <li class="<%= active_class(dashboard_index_path) %>"><%= link_to t('.dashboard'), dashboard_index_path %></li>
                 <!-- <li><a href="#">Link</a></li> -->
                 <!-- <li class="dropdown"> -->
                 <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a> -->
@@ -44,13 +44,23 @@
 
               <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                  <input type="text" class="form-control" id="navbar-search-input" placeholder="Search"/>
+                  <input type="text" class="form-control" id="navbar-search-input" placeholder="<%=t '.search' %>"/>
                 </div>
               </form>
             </div>
 
             <div class="navbar-custom-menu">
               <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                    <%= t '.language' %>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <% I18n.available_locales.each do |locale| %>
+                      <li><%= link_to t("locales.#{locale}"), locale: locale %></li>
+                    <% end %>
+                  </ul>
+                </li>
                 <% if user_signed_in? %>
 
                   <li class="dropdown user user-menu">
@@ -63,15 +73,15 @@
                       <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <li><%= link_to 'Profile', edit_user_registration_path %></li>
+                      <li><%= link_to t('.profile'), edit_user_registration_path %></li>
                       <li class="divider"></li>
                       <li><a href="#">Settings</a></li>
-                      <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
+                      <li><%= link_to t('.sign_out'), destroy_user_session_path, method: :delete %></li>
                     </ul>
                   </li>
                 <% else %>
-                  <li><%= link_to 'Log in', new_user_session_path %></li>
-                  <li><%= link_to 'Sign up', new_user_registration_path %></li>
+                  <li><%= link_to t('.log_in'), new_user_session_path %></li>
+                  <li><%= link_to t('.sign_up'), new_user_registration_path %></li>
                 <% end %>
               </ul>
             </div>
@@ -105,7 +115,7 @@
           <section class="content">
             <% if notice %>
               <div class="callout callout-info">
-                <h4>Notice!</h4>
+                <h4><%= t '.notice' %>!</h4>
 
                 <p>
                   <%= notice %>
@@ -115,7 +125,7 @@
 
             <% if alert %>
               <div class="callout callout-danger">
-                <h4>Alert!</h4>
+                <h4><%= t '.alert' %>!</h4>
 
                 <p>
                   <%= alert %>

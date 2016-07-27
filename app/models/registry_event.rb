@@ -1,4 +1,5 @@
 class RegistryEvent < ApplicationRecord
+  validates :original_id, presence: true, uniqueness: true
   after_create :sync_event_to_entity
   def sync_event_to_entity
     case self.action

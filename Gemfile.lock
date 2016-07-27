@@ -103,6 +103,7 @@ GEM
       sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    http_accept_language (2.0.5)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -245,6 +246,7 @@ DEPENDENCIES
   devise
   font-awesome-sass
   font-ionicons-rails!
+  http_accept_language
   httparty
   jbuilder (~> 2.5)
   jquery-rails

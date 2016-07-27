@@ -3,21 +3,21 @@
 <% end %>
 
 <% content_for :content_subtitle do %>
-  <%= @repository.is_public ? 'PUBLIC' : 'PRIVATE' %>
+  <%= @repository.is_public ? t('.public') : t('.private') %>
 <% end %>
 
 <div class="row">
   <div class="col-md-8">
     <div class="box box-solid box-default">
       <div class="box-header with-border">
-        <h3 class="box-title">Description</h3>
+        <h3 class="box-title"><%= t '.description' %></h3>
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i></button>
         </div>
       </div>
       <div class="box-body">
         <p class="repo-description">
-          <%= @repository.description || 'Description is empty for this repo.' %>
+          <%= @repository.description || t('.desc_empty') %>
         </p>
       </div>
     </div>
@@ -25,7 +25,7 @@
   <div class="col-md-4">
     <div class="box box-solid box-default">
       <div class="box-header with-border">
-        <h3 class="box-title">Docker Pull command</h3>
+        <h3 class="box-title"><%= t '.docker_pull_command' %></h3>
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool"><i class="fa fa-clipboard"></i></button>
         </div>
@@ -43,7 +43,7 @@
   <div class="col-md-8">
     <div class="box box-solid box-default">
       <div class="box-header with-border">
-        <h3 class="box-title">Tags</h3>
+        <h3 class="box-title"><%= t '.tags' %></h3>
         <div class="box-tools pull-right">
         </div>
       </div>
@@ -51,11 +51,17 @@
         <div class="table-responsive">
           <table class="table no-margin">
             <thead>
-              <th>Name</th>
-              <th>Size</th>
-              <th>Action</th>
+              <th><%= t '.name' %></th>
+              <th><%= t '.size' %></th>
+              <th><%= t '.action' %></th>
             </thead>
             <tbody>
+              <% if @repository.tags.length == 0 %>
+                <tr>
+                  <td colspan="3"><%= t '.no_tags' %></td>
+                </tr>
+              <% end %>
+
               <% @repository.tags.first(5).each do |tag| %>
                 <tr>
                   <td><%= tag[:name] %></td>
@@ -69,21 +75,21 @@
       </div>
 
       <div class="box-footer clearfix">
-        <%= link_to 'View All Tags', namespace_repository_tags_path(@namespace.name, @repository.name), class: 'btn btn-sm btn-default btn-flat pull-right' %>
+        <%= link_to t('.view_all_tags'), namespace_repository_tags_path(@namespace.name, @repository.name), class: 'btn btn-sm btn-default btn-flat pull-right' %>
       </div>
     </div>
   </div>
   <div class="col-md-4">
     <div class="box box-solid box-default">
       <div class="box-header with-border">
-        <h3 class="box-title">Visibility Settings</h3>
+        <h3 class="box-title"><%= t '.visibility_settings' %></h3>
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
         <%= form_tag toggle_publicity_namespace_repository_path(@namespace.name, @repository.name), method: :post do %>
           <%= hidden_field_tag :is_public, @repository.is_public ? 'false' : 'true' %>
-          <%= submit_tag "Make #{@repository.is_public ? 'Private' : 'Public'}", class: 'btn btn-block btn-primary btn-lg' %>
+          <%= submit_tag @repository.is_public ? t('.make_private') : t('.make_public'), class: 'btn btn-block btn-primary btn-lg' %>
         <% end %>
       </div>
     </div>
