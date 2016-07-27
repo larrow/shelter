@@ -10,19 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727080856) do
+ActiveRecord::Schema.define(version: 20160727114842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "members", force: :cascade do |t|
+    t.integer  "source_id"
+    t.string   "source_type"
+    t.integer  "user_id"
+    t.string   "type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "access_level"
+    t.index ["user_id"], name: "index_members_on_user_id", using: :btree
+  end
+
   create_table "namespaces", force: :cascade do |t|
     t.string   "name"
-    t.string   "type",              default: "0"
-    t.integer  "user_id"
+    t.integer  "owner_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.boolean  "default_publicity", default: true
-    t.index ["user_id"], name: "index_namespaces_on_user_id", using: :btree
+    t.string   "type"
+    t.index ["name"], name: "index_namespaces_on_name", using: :btree
+    t.index ["owner_id"], name: "index_namespaces_on_owner_id", using: :btree
   end
 
   create_table "registry_events", force: :cascade do |t|
@@ -43,6 +55,7 @@ ActiveRecord::Schema.define(version: 20160727080856) do
     t.datetime "updated_at",   null: false
     t.boolean  "is_public"
     t.text     "description"
+    t.index ["name"], name: "index_repositories_on_name", using: :btree
     t.index ["namespace_id"], name: "index_repositories_on_namespace_id", using: :btree
   end
 
@@ -66,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160727080856) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_foreign_key "namespaces", "users"
+  add_foreign_key "members", "users"
+  add_foreign_key "namespaces", "users", column: "owner_id"
   add_foreign_key "repositories", "namespaces"
 end

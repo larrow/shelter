@@ -1,5 +1,12 @@
 class Repository < ApplicationRecord
   belongs_to :namespace
+  belongs_to :group, -> { where(type: 'Group') }, foreign_key: 'namespace_id'
+
+  has_many :repository_members, dependent: :destroy, as: :source, class_name: 'RepositoryMember'
+  alias_method :members, :repository_members
+  has_many :users, through: :repository_members
+
+  delegate :owner, to: :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true
@@ -20,13 +27,17 @@ class Repository < ApplicationRecord
     namespace.name + '/' + name
   end
 
+  def add_user(user, access_level , current_user = nil)
+    Member.add_user(self.repository_members, user, access_level, current_user)
+  end
+
   class << self
     def sync_from_registry
       Registry.new(is_system: true).repositories.each { |repo_name| find_or_create_by_repo_name(repo_name) }
     end
 
     def find_or_create_by_repo_name(repo_name)
-      namespace = Namespace.find_or_create_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
+      namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
       namespace.repositories.find_or_create_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[1] : repo_name)
     end
   end

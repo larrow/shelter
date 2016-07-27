@@ -9,5 +9,11 @@ class Ability
     can [:read], Repository, is_public: true
     can [:read, :create, :update], Namespace, user: user
     can [:read], Namespace
+    can :manage, GroupMember do |group_member|
+      group_member.group.owners.include? user
+    end
+    can :manage, RepositoryMember do |repository_member|
+      repository_member.repository.namespace.owner == user || (repository_member.repository.group && repository_member.repository.group.owners.include?(user))
+    end
   end
 end
