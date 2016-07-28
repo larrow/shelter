@@ -1,0 +1,29 @@
+<header class="subnav">
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <div class="btn-group namespace-chooser">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%= namespace&.name || current_user.username %> <span class="fa fa-caret-down"></span></button>
+          <ul class="dropdown-menu">
+            <li><%= link_to current_user.username, dashboard_index_path %></li>
+            <% if current_user.authorized_groups.count > 0 %>
+              <li class="divider"></li>
+            <% end %>
+            <% current_user.authorized_groups.each do |group| %>
+              <li><%= link_to group.name, namespace_path(group.name) %></li>
+            <% end %>
+            <li class="divider"></li>
+            <li><%= link_to t('.new_org'), new_namespace_path %></li>
+          </ul>
+        </div>
+      </div>
+
+      <nav class="pull-left">
+        <ul class="nav nav-tabs">
+          <li class="<%= active_class(namespace_path(namespace.name)) %>"><%= link_to 'Repositories', namespace_path(namespace.name) %></li>
+          <li class="<%= active_class(namespace_group_members_path(namespace.name)) %>"><%= link_to 'Collaborators', namespace_group_members_path(namespace.name) %></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+</header>

@@ -89,7 +89,9 @@
         </nav>
       </header>
 
-      <div class="content-wrapper">
+      <%= yield :subnav %>
+
+      <div class="content-wrapper <%= "has-subnav" if content_for? :subnav or true %>">
         <div class="container">
 
           <% if content_for? :content_title or content_for? :content_subtitle %>

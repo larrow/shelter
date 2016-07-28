@@ -15,17 +15,22 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index'
 
   resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :create, :edit] do
-    member do
-      get 'teams'
-      get 'settings'
+    resources :group_members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
+      member do
+        post 'toggle_access_level'
+      end
     end
   end
 
   resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :destroy] do
     resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update, :destroy] do
+      resources :repository_members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
+        member do
+          post 'toggle_access_level'
+        end
+      end
+
       member do
-        get 'settings'
-        get 'settings/collaborators', to: 'repositories#collaborators'
         post 'toggle_publicity'
       end
 

@@ -6,7 +6,7 @@ class RegistryEvent < ApplicationRecord
     when 'push'
       Repository.find_or_create_by_repo_name self.repository
     when 'pull'
-      Repository.find_or_create_by_repo_name(self.repository).increment! :pull_count
+      Repository.find_or_create_by_repo_name(self.repository).increment! :pull_count unless self.actor == 'system-service'
     end
   end
 end

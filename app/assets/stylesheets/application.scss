@@ -9,3 +9,46 @@
 @import 'dashboard';
 @import 'repositories';
 @import 'sessions';
+
+.subnav {
+  background-color: #fff;
+  padding-top: 5px;
+  margin-bottom: -1px;
+
+  .namespace-chooser {
+    float: left;
+    margin-right: 40px;
+
+    > button {
+      font-size: 16px;
+    }
+  }
+
+  .navbar {
+    min-height: 0;
+    margin-bottom: 0;
+    border: 0;
+  }
+  
+  .navbar-brand {
+    height: 42px;
+    line-height: 10px;
+  }
+
+  .nav-tabs {
+    border-bottom: 0;
+
+    > li.active > a {
+      background-color: #ecf0f5;
+    }
+
+    > li:not(.active) > a:hover {
+      border-color: transparent;
+      border-bottom-color: #ddd;
+    }
+  }
+}
+
+.content-wrapper.has-subnav {
+  border-top: 1px solid #ddd;
+}

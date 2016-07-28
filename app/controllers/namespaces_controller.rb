@@ -1,16 +1,17 @@
 class NamespacesController < ApplicationController
-  before_action :process_params
+  before_action :process_params, except: [:create, :new]
+  before_action :authenticate_user!, only: [:create, :new]
 
-  def teams
-  end
-
-  def settings
+  def collaborators
   end
 
   def create
+    @group = current_user.create_group(params[:group][:name])
+    redirect_to namespace_path(@group.name)
   end
 
   def new
+    @group = Group.new
   end
 
   def edit
@@ -22,7 +23,7 @@ class NamespacesController < ApplicationController
   def show
     authorize! :read, @namespace
     @repositories = @namespace.repositories
-    @repositories = @repositories.where(is_public: true) unless user_signed_in? && @namespace.user == current_user
+    @repositories = @repositories.where(is_public: true) unless user_signed_in? && can?(:update, @namespace)
   end
 
   private

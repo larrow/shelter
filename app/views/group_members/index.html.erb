@@ -1,0 +1,58 @@
+<% content_for :subnav do %>
+  <%= render 'namespaces/subnav', namespace: @group %>
+<% end %>
+
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Collaborators</h3>
+    <div class="box-tools pull-right">
+      <% if can? :update, @group %>
+        <%= link_to new_namespace_group_member_path(@group.name), class: 'btn btn-box-tools' do %>
+          Invite user <i class="fa fa-plus"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="">
+      <table class="table no-margin">
+        <thead>
+          <th>Name</th>
+          <th>Access Level</th>
+          <% if can? :update, @group %>
+            <th>Actions</th>
+          <% end %>
+        </thead>
+        <tbody>
+          <% if @members.length == 0 %>
+            <tr>
+              <td colspan="3">This group has no collaborators.</td>
+            </tr>
+          <% end %>
+
+          <% @members.each do |member| %>
+            <tr>
+              <td><%= member.user.username %></td>
+              <% if can? :update, @group %>
+                <td>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><%= member.access_level %> <span class="fa fa-caret-down"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to 'owner', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'owner'), method: :post %></li>
+                      <li><%= link_to 'member', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'member'), method: :post %></li>
+                    </ul>
+                  </div>
+                </td>
+              <% else %>
+                <td><%= member.access_level %></td>
+              <% end %>
+              <% if can? :update, @group %>
+                <td><%= link_to namespace_group_member_path(@group.name, member), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
