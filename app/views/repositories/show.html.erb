@@ -8,13 +8,13 @@
       <div class="box-header with-border">
         <h3 class="box-title"><%= t '.description' %></h3>
         <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i></button>
+          <%= button_to edit_description_namespace_repository_path(@namespace.name, @repository.name), class: 'btn btn-box-tool', remote: true, method: :get do %>
+            <i class="fa fa-edit"></i>
+          <% end %>
         </div>
       </div>
-      <div class="box-body">
-        <p class="repo-description">
-          <%= @repository.description || t('.desc_empty') %>
-        </p>
+      <div class="box-body markdown-body description-box">
+        <%= @repository.description_html ? raw(@repository.description_html) : t('.desc_empty') %>
       </div>
     </div>
   </div>

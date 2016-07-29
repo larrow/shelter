@@ -1,0 +1,2 @@
+$('.description-box').html("<%= escape_javascript(render 'edit_description', namespace: @namespace, repository: @repository) %>");
+$('.description-box').siblings('.box-header').find('.box-title').html('Description (Markdown is enabled)');

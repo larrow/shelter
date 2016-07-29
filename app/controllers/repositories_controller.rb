@@ -13,7 +13,9 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    authorize! :update, @repository
+    authorize! :push, @repository
+    @repository.update!(params.require(:repository).permit(:description))
+    redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end
 
   def destroy
@@ -24,6 +26,12 @@ class RepositoriesController < ApplicationController
     authorize! :update, @repository
     @repository.update_attribute(:is_public, params[:is_public] == 'true')
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
+  end
+
+  def edit_description
+    respond_to do |format|
+      format.js {}
+    end
   end
 
   private

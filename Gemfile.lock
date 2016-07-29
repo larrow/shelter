@@ -108,6 +108,7 @@ GEM
     ffi (1.9.14)
     font-awesome-sass (4.6.2)
       sass (>= 3.2)
+    github-markup (1.4.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     http_accept_language (2.0.5)
@@ -189,6 +190,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redcarpet (3.3.4)
     redis (3.3.1)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
@@ -253,6 +255,7 @@ DEPENDENCIES
   devise
   font-awesome-sass
   font-ionicons-rails!
+  github-markup
   http_accept_language
   httparty
   jquery-rails
@@ -265,6 +268,7 @@ DEPENDENCIES
   rack-protection!
   rails (~> 5.0.0)
   rails-assets-iCheck!
+  redcarpet
   sass-rails (~> 5.0)
   sidekiq
   sinatra!

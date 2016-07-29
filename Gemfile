@@ -29,6 +29,8 @@ gem 'kaminari'
 gem 'http_accept_language'
 gem 'cancancan'
 gem 'rack-mini-profiler'
+gem 'github-markup', require: 'github/markup'
+gem 'redcarpet'
 
 # gem 'capistrano-rails', group: :development
 

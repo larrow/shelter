@@ -1,0 +1,8 @@
+<%= form_for repository, url: namespace_repository_path(namespace.name, repository.name) do |f| %>
+  <div class="form-group">
+    <%= f.text_area :description, class: 'form-control', rows: 8, placeholder: 'Enter your description for this repository (markdown is enabled).' %>
+  </div>
+  <div class="form-group">
+    <%= f.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>

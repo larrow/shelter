@@ -13,6 +13,8 @@ class Repository < ApplicationRecord
   default_value_for :pull_count, 0
   default_value_for :is_public, -> { namespace.default_publicity }
 
+  before_save :update_description_html, if: :description_changed?
+
   def tags
     registry = Registry.new(is_system: true, repository: full_path)
     registry.tags&.map do |tag|
@@ -29,6 +31,10 @@ class Repository < ApplicationRecord
 
   def add_user(user, access_level , current_user = nil)
     Member.add_user(self.repository_members, user, access_level, current_user)
+  end
+
+  def update_description_html
+    self.description_html = GitHub::Markup.render('README.markdown', description)
   end
 
   class << self

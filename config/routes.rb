@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
       member do
         post 'toggle_publicity'
+        get 'edit_description'
       end
 
       resources :tags, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :destroy]
