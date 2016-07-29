@@ -18,7 +18,7 @@ class GroupMembersController < ApplicationController
 
   def destroy
     authorize! :update, @group
-    redirect_to namespace_group_members_path(@group.name), alert: 'The last collaborators can\'t be removed' and return if @group.members.length == 1
+    redirect_to namespace_group_members_path(@group.name), alert: 'The last owner can\'t be removed' and return if @group.owners.count == 1 && @group.members.find(params[:id]) == @group.owners.first
     @group.members.delete(@group.members.find(params[:id]))
     redirect_to namespace_group_members_path(@group.name), notice: 'The member has been removed.'
   end

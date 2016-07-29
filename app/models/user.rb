@@ -70,6 +70,7 @@ class User < ApplicationRecord
     Group.where("namespaces.id IN (#{union})")
   end
 
+
   def authorized_repositories
     Repository.where("repositories.id IN (#{repositories_union})")
   end
