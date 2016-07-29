@@ -2,9 +2,6 @@ class NamespacesController < ApplicationController
   before_action :process_params, except: [:create, :new]
   before_action :authenticate_user!, only: [:create, :new]
 
-  def collaborators
-  end
-
   def create
     @group = current_user.create_group(params[:group][:name])
     redirect_to namespace_path(@group.name)
@@ -12,12 +9,6 @@ class NamespacesController < ApplicationController
 
   def new
     @group = Group.new
-  end
-
-  def edit
-  end
-
-  def destroy
   end
 
   def show

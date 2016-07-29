@@ -2,12 +2,6 @@ class RepositoriesController < ApplicationController
   before_action :process_params
   before_action :authenticate_user!, only: [:new, :update, :destroy]
 
-  def settings
-  end
-
-  def collaborators
-  end
-
   def show
     authorize! :read, @repository
   end
@@ -16,10 +10,6 @@ class RepositoriesController < ApplicationController
     authorize! :push, @repository
     @repository.update!(params.require(:repository).permit(:description))
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
-  end
-
-  def destroy
-    authorize! :destroy, @repository
   end
 
   def toggle_publicity
