@@ -1,2 +1,50 @@
-<h1>RepositoryMembers#index</h1>
-<p>Find me in app/views/repository_members/index.html.erb</p>
+<% content_for :subnav do %>
+  <%= render 'repositories/subnav', namespace: @namespace, repository: @repository %>
+<% end %>
+
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Collaborators</h3>
+    <div class="box-tools pull-right">
+      <% if can? :update, @repository %>
+        <%= link_to new_namespace_repository_member_path(@namespace.name, @repository.name), class: 'btn btn-box-tools' do %>
+          Invite user <i class="fa fa-plus"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="">
+      <table class="table no-margin">
+        <thead>
+          <th>Name</th>
+          <th>Access Level</th>
+          <% if can? :update, @repository %>
+            <th>Actions</th>
+          <% end %>
+        </thead>
+        <tbody>
+          <% if @members.length == 0 %>
+            <tr>
+              <td colspan="3">This repository has no collaborators.</td>
+            </tr>
+          <% end %>
+
+          <% @members.each do |member| %>
+            <tr>
+              <td><%= member.user.username %></td>
+              <td><%= member.access_level %></td>
+              <% if can? :update, @repository %>
+                <td>
+                  <% if member.access_level != 'owner' %>
+                    <%= link_to namespace_repository_member_path(@namespace.name, @repository.name, member), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

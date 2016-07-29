@@ -1,12 +1,13 @@
-<% content_for :content_title do %>
-  <%= link_to @namespace.name, namespace_path(@namespace.name) %> / <%= link_to @repository.name, namespace_repository_path(@namespace.name, @repository.name) %>
+<% content_for :subnav do %>
+  <%= render 'repositories/subnav', namespace: @namespace, repository: @repository %>
 <% end %>
 
-<% content_for :content_subtitle do %>
-  <%= t '.tags' %>
-<% end %>
-
-<div class="box box-widget">
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Tags</h3>
+    <div class="box-tools pull-right">
+    </div>
+  </div>
   <div class="box-body">
     <div class="table-responsive">
       <table class="table no-margin">

@@ -5,10 +5,21 @@ class Ability
     user ||= User.new
 
     can :manage, :all if user.admin?
-    can [:read, :create, :update], Repository do |repo|
-      repo.namespace.owner == user || repo.namespace&.users&.include?(user)
+
+    # Repository:
+    #   read: can pull, get info from repository
+    #   create: can create repo in the namespace
+    #   push: can push & create repo in the namespace
+    #   update: can change repository's collaborators
+    can :read, Repository do |repo|
+      repo.is_public? || repo.namespace.owner == user || repo.namespace&.users&.include?(user) || repo.users.include?(user)
     end
-    can [:read], Repository, is_public: true
+    can [:create, :push], Repository do |repo|
+      repo.owner == user || repo.namespace&.users&.include?(user) || usres.include?(user)
+    end
+    can :update, Repository do |repo|
+      repo.owner == user || repo.group&.owners&.include?(user)
+    end
     can [:read, :create, :update], Namespace, owner: user
     can [:read, :create, :update], Group do |group| group.owners.include? user end
     can :read, Namespace

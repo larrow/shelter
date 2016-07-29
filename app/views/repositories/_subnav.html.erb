@@ -1,0 +1,20 @@
+<header class="subnav">
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <h1 class="subnav-header">
+          <%= link_to @namespace.name, namespace_path(@namespace.name) %> / <%= link_to @repository.name, namespace_repository_path(@namespace.name, @repository.name) %>
+          <small><%= @repository.is_public ? t('.public') : t('.private') %></small>
+        </h1>
+      </div>
+
+      <nav class="pull-left">
+        <ul class="nav nav-tabs">
+          <li class="<%= active_class(namespace_repository_path(namespace.name, repository.name)) %>"><%= link_to 'Repo Info', namespace_repository_path(namespace.name, repository.name) %></li>
+          <li class="<%= active_class(namespace_repository_tags_path(namespace.name, repository.name)) %>"><%= link_to 'Tags', namespace_repository_tags_path(namespace.name, repository.name) %></li>
+          <li class="<%= active_class(namespace_repository_members_path(namespace.name, repository.name)) %>"><%= link_to 'Collaborators', namespace_repository_members_path(namespace.name, repository.name) %></li>
+        </ul>
+      </nav>
+    </div>
+  </nav>
+</header>
