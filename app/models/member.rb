@@ -20,7 +20,7 @@ class Member < ApplicationRecord
     member = members.find_or_initialize_by(user: user)
 
     # There is no current user for some actions, in which case anything is allowed
-    if !current_user || current_user.can?(:update, member)
+    if !current_user || current_user.can?(:update, member.source)
       member.access_level = access_level
       member.save
     end
