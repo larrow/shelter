@@ -12,10 +12,10 @@ class Ability
     #   push: can push & create repo in the namespace
     #   update: can change repository's collaborators
     can :read, Repository do |repo|
-      repo.is_public? || repo.namespace.owner == user || repo.namespace&.users&.include?(user) || repo.users.include?(user)
+      repo.is_public? || repo.namespace.owner == user || repo.group&.users&.include?(user) || repo.users.include?(user)
     end
     can [:create, :push], Repository do |repo|
-      repo.owner == user || repo.namespace&.users&.include?(user) || usres.include?(user)
+      repo.owner == user || repo.group&.users&.include?(user) || repo.users.include?(user)
     end
     can :update, Repository do |repo|
       repo.owner == user || repo.group&.owners&.include?(user)

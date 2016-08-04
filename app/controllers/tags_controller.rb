@@ -3,7 +3,7 @@ class TagsController < ApplicationController
 
   def index
     authorize! :read, @repository
-    @tags = @repository.tags
+    @tags = @repository.tags.reverse
   end
 
   def destroy
