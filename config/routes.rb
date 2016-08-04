@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :dashboard, controller: 'dashboard', only: [:index]
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   root to: 'home#index'
 
   post 'service/notifications'

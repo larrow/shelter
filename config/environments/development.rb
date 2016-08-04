@@ -51,7 +51,7 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   #
-  # It can only be ActiveSupport::FileUpdateChecker there if using docker as
+  # It can only be ActiveSupport::FileUpdateChecker here if using docker as
   # development environment since docker's fsevent is buggy
   config.file_watcher = ActiveSupport::FileUpdateChecker
 

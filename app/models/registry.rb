@@ -1,6 +1,6 @@
 class Registry
   include HTTParty
-  base_uri Settings.registry_endpoint
+  base_uri Setting.registry_endpoint
 
   def initialize(params = {})
     @is_system = params[:is_system] || false

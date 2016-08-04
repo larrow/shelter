@@ -19,7 +19,6 @@ gem 'font-awesome-sass'
 gem 'font-ionicons-rails', git: 'https://github.com/ricardoemerson/font-ionicons-rails.git'
 gem 'bootstrap-sass'
 gem 'default_value_for'
-gem 'config'
 gem 'httparty'
 gem 'rails-assets-iCheck', source: 'https://rails-assets.org'
 gem 'sidekiq'
@@ -31,6 +30,7 @@ gem 'cancancan'
 gem 'rack-mini-profiler'
 gem 'github-markup', require: 'github/markup'
 gem 'redcarpet'
+gem 'rails-settings-cached'
 
 # gem 'capistrano-rails', group: :development
 
@@ -46,7 +46,6 @@ group :development do
   gem 'binding_of_caller'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
