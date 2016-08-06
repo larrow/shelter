@@ -1,7 +1,7 @@
 class Admin::UsersController < Admin::ApplicationController
   # GET /admin/users
   def index
-    @users = User.all
+    @users = User.order(:id).page params[:page]
   end
 
   def update

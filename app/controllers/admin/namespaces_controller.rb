@@ -1,5 +1,5 @@
 class Admin::NamespacesController < ApplicationController
   def index
-    @namespaces = Namespace.all
+    @namespaces = Namespace.order(:id).page params[:page]
   end
 end
