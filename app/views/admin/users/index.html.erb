@@ -1,0 +1,43 @@
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Users</h3>
+    <div class="box-tools pull-right">
+      <%= link_to new_admin_user_path, class: 'btn btn-box-tools' do %>
+        New user <i class="fa fa-plus"></i>
+      <% end %>
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="table-responsive">
+      <table class="table no-margin">
+        <thead>
+          <th><%= t '.username' %></th>
+          <th><%= t '.email' %></th>
+          <th><%= t '.last_sign_in_at' %></th>
+          <th><%= t '.admin' %></th>
+        </thead>
+        <tbody>
+          <% if @users.length == 0 %>
+            <tr>
+              <td colspan="4"><%= t 'no_users' %></td>
+            </tr>
+          <% end %>
+
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.username %></td>
+              <td><%= user.email %></td>
+              <td><%= l user.last_sign_in_at if user.last_sign_in_at %></td>
+              <td>
+                <%= form_for [:admin, user], class: 'form-inline' do |f| %>
+                  <%= f.check_box('admin', {class: 'submit-on-change'}) %>
+
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

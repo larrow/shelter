@@ -1,0 +1,21 @@
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">System Settings</h3>
+    <div class="box-tools pull-right">
+    </div>
+  </div>
+  <%= form_tag admin_settings_path, method: :post do %>
+    <div class="box-body">
+      <div class="form-group">
+        <%= hidden_field_tag :self_registration, '0' %>
+        <%= label_tag :self_registration do %>
+          <%= check_box_tag :self_registration, '1', Setting.self_registration %>
+          Self registration
+        <% end %>
+      </div>
+    </div>
+    <div class="box-footer">
+      <%= submit_tag 'Save', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,2 @@
+module Admin::NamespacesHelper
+end

@@ -26,20 +26,18 @@
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
                 <li class="<%= active_class(root_path) %>"><%= link_to t('.home'), root_path %></li>
-                <li class="<%= active_class(dashboard_index_path) %>"><%= link_to t('.dashboard'), dashboard_index_path %></li>
-                <!-- <li><a href="#">Link</a></li> -->
-                <!-- <li class="dropdown"> -->
-                <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a> -->
-                <!-- <ul class="dropdown-menu" role="menu"> -->
-                <!-- <li><a href="#">Action</a></li> -->
-                <!-- <li><a href="#">Another action</a></li> -->
-                <!-- <li><a href="#">Something else here</a></li> -->
-                <!-- <li class="divider"></li> -->
-                <!-- <li><a href="#">Separated link</a></li> -->
-                <!-- <li class="divider"></li> -->
-                <!-- <li><a href="#">One more separated link</a></li> -->
-                <!-- </ul> -->
-                <!-- </li> -->
+                <!-- <li class="<%= active_class(dashboard_index_path) %>"><%= link_to t('.dashboard'), dashboard_index_path %></li> -->
+                <% if user_signed_in? && current_user.admin? %>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><%= link_to 'Users', admin_users_path %></li>
+                      <li><%= link_to 'Namespaces', admin_namespaces_path %></li>
+                      <li><%= link_to 'Repositories', admin_repositories_path %></li>
+                      <li><%= link_to 'System Settings', admin_settings_path %></li>
+                    </ul>
+                  </li>
+                <% end %>
               </ul>
 
               <%= form_tag search_path, method: 'get', class: 'navbar-form navbar-left' do %>

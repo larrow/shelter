@@ -1,0 +1,31 @@
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Namespaces</h3>
+    <div class="box-tools pull-right">
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="table-responsive">
+      <table class="table no-margin">
+        <thead>
+          <th><%= t '.name' %></th>
+          <th><%= t '.type' %></th>
+        </thead>
+        <tbody>
+          <% if @namespaces.length == 0 %>
+            <tr>
+              <td colspan="4"><%= t 'no_namespaces' %></td>
+            </tr>
+          <% end %>
+
+          <% @namespaces.each do |namespace| %>
+            <tr>
+              <td><%= namespace.name %></td>
+              <td><%= namespace.type %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

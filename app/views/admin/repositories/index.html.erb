@@ -1,0 +1,33 @@
+<div class="box box-solid box-default">
+  <div class="box-header with-border">
+    <h3 class="box-title">Repositories</h3>
+    <div class="box-tools pull-right">
+    </div>
+  </div>
+  <div class="box-body">
+    <div class="table-responsive">
+      <table class="table no-margin">
+        <thead>
+          <th><%= t '.full_path' %></th>
+          <th><%= t '.pull_count' %></th>
+          <th><%= t '.is_public' %></th>
+        </thead>
+        <tbody>
+          <% if @repositories.length == 0 %>
+            <tr>
+              <td colspan="4"><%= t 'no_repositories' %></td>
+            </tr>
+          <% end %>
+
+          <% @repositories.each do |repository| %>
+            <tr>
+              <td><%= repository.full_path %></td>
+              <td><%= repository.pull_count %></td>
+              <td><%= repository.is_public %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

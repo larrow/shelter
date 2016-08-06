@@ -44,8 +44,8 @@ class Repository < ApplicationRecord
 
     def find_or_create_by_repo_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
-      repository = namespace&.repositories.find_or_create_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[1] : repo_name)
-      repository&.add_user(namespace.owner, :owner) if namespace.type.nil?
+      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[1] : repo_name)
+      repository&.add_user(namespace.owner, :owner) if namespace&.type.nil?
       repository
     end
   end

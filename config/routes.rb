@@ -3,6 +3,14 @@ Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
 
 Rails.application.routes.draw do
 
+  namespace :admin do
+    get 'settings', to: 'settings#index'
+    post 'settings', to: 'settings#update'
+    resources :users
+    resources :namespaces
+    resources :repositories
+  end
+
   mount Sidekiq::Web => '/sidekiq'
 
   resources :dashboard, controller: 'dashboard', only: [:index]
@@ -38,5 +46,6 @@ Rails.application.routes.draw do
       resources :tags, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :destroy]
     end
   end
+
 
 end
