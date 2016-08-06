@@ -3,7 +3,7 @@ class TagsController < ApplicationController
 
   def index
     authorize! :read, @repository
-    @tags = @repository.tags.reverse
+    @tags = Kaminari.paginate_array(@repository.tags.reverse).page(params[:page]).per(10)
   end
 
   def destroy
