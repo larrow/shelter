@@ -33,7 +33,7 @@
           <% @members.each do |member| %>
             <tr>
               <td><%= member.user.username %></td>
-              <% if can? :update, @group %>
+              <% if (can? :update, @group) && member.user != current_user %>
                 <td>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><%= member.access_level %> <span class="fa fa-caret-down"></span></button>
