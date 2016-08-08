@@ -10,6 +10,11 @@
 @import 'dashboard';
 @import 'repositories';
 @import 'sessions';
+@import 'home';
+
+.content {
+  min-height: 500px;
+}
 
 .subnav {
   background-color: #fff;
