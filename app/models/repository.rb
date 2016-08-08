@@ -39,13 +39,16 @@ class Repository < ApplicationRecord
 
   class << self
     def sync_from_registry
-      Registry.new(is_system: true).repositories.each { |repo_name| find_or_create_by_repo_name(repo_name) }
+      repositories = Registry.new(is_system: true).repositories
+      Repository.transaction do
+        repositories.each { |repo_name| find_or_create_by_repo_name(repo_name) }
+      end
     end
 
     def find_or_create_by_repo_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
-      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[1] : repo_name)
-      repository&.add_user(namespace.owner, :owner) if namespace&.type.nil?
+      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last)
+      repository&.add_user(namespace.owner, :owner) if namespace&.type.nil? && !repository&.users&.include?(namespace.owner)
       repository
     end
   end
