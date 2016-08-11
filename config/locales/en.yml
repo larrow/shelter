@@ -88,7 +88,7 @@ en:
     destroy:
       cant_remove_last_owner: The last owner can't be removed
       member_removed: The member has been removed.
-    toggle_access_level
+    toggle_access_level:
       changed: Access level changed successfully.
   namespaces:
     subnav:

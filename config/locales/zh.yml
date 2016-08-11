@@ -88,7 +88,7 @@ zh:
     destroy:
       cant_remove_last_owner: 最后一个owner无法被删除
       member_removed: 成员已被删除
-    toggle_access_level
+    toggle_access_level:
       changed: Access level 修改成功
   namespaces:
     subnav:
@@ -151,5 +151,3 @@ zh:
       new:
         register: 创建新用户
         sign_up: 注册
-
-      
