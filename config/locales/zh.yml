@@ -2,6 +2,13 @@ zh:
   locales:
     en: English
     zh: 中文
+  home:
+    index:
+      build_ship_run: Build, Ship, & Run
+      any_app_anywhere: Any App, Anywhere
+      sign_in: 登录
+      email_username: 邮箱／用户名
+      password: 密码
   dashboard:
     index:
       repositories: 我的仓库
@@ -10,6 +17,11 @@ zh:
     application:
       home: 首页
       dashboard: 控制面板
+      users: 用户
+      namespaces: 命名空间
+      repositories: 仓库
+      system_settings: 系统设置
+      admin: 管理员
       search: 搜索
       profile: 个人信息
       sign_out: 退出登录
@@ -21,9 +33,19 @@ zh:
       copyright: 版权所有
       all_rights_reserved: 保留所有权利
   repositories:
+    edit_description:
+      enter_description: 输入描述（可用markdown语法）
+      save: 保存
     repository:
       public: 公开
       private: 私有
+    subnav:
+      public: 公开
+      private: 私有
+      repo_info: 仓库信息
+      tags: 标签
+      collaborators: 协作者
+      description: 描述（可用markdown语法）
     show:
       public: 公开
       private: 私有
@@ -49,3 +71,85 @@ zh:
   search:
     index:
       title: 搜索 '%{query}'
+  group_members:
+    index:
+      collaborators: 协作者
+      invite_user: 邀请用户
+      name: 名称
+      access_level: Access Level
+      actions: 操作
+      no_collaborators: 当前组织没有协作者
+    new:
+      new_member: 新成员
+      username: 用户名
+      invite_member: 邀请新成员
+    create:
+      user_invited: 该用户已邀请
+    destroy:
+      cant_remove_last_owner: 最后一个owner无法被删除
+      member_removed: 成员已被删除
+    toggle_access_level
+      changed: Access level 修改成功
+  namespaces:
+    subnav:
+      new_org: 新建组织
+      repositories: 仓库
+      collaborators: 协作者
+    new:
+      new_org: 新建组织
+      name: 名称
+      create_org: 创建组织
+    show:
+      no_repository: 当前组织无仓库
+    create:
+      exists: 命名空间已存在
+  repository_members:
+    index:
+      collaborators: 协作者
+      invite_user: 邀请用户
+      name: 名称
+      access_level: Access Level
+      actions: 操作
+      no_collaborators: 当前仓库无协作者
+    new:
+      new_member: 新成员
+      username: 用户名
+      invite_member: 邀请成员
+    create:
+      user_invited: 该用户已邀请
+    destroy:
+      cant_remove_owner: 拥有着无法被删除
+      member_removed: 该成员已删除
+
+  admin:
+    namespaces:
+      index:
+        namespaces: 命名空间
+        name: 名称
+        type: 类型
+        no_namespaces: 当前没有命名空间
+    repositories:
+      index:
+        repositories: 仓库
+        full_path: 完整路径
+        pull_count: Pull count
+        is_public: 空开？
+        no_repositories: 当前没有仓库
+    settings:
+      index:
+        system_settings: 系统设置
+        self_registration: 用户自注册
+    users:
+      index:
+        users: 用户
+        new_user: 新用户
+        username: 用户名
+        email: 邮箱
+        last_sign_in_at: 最后登录时间
+        admin: 管理员?
+        no_users: 无用户
+      new:
+        register: 创建新用户
+        sign_up: 注册
+
+      

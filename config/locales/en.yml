@@ -108,7 +108,7 @@ en:
       collaborators: Collaborators
       invite_user: Invite user
       name: Name
-      access_level: Accell Level
+      access_level: Access Level
       actions: Actions
       no_collaborators: This repository has no collaborators.
     new:
