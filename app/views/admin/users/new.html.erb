@@ -1,6 +1,6 @@
 <div class="register-box">
   <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
+    <p class="login-box-msg"><%= t '.register' %></p>
 
     <%= form_for([:admin, @user]) do |f| %>
       <div class="form-group has-feedback">
@@ -24,7 +24,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <%= f.submit 'Sign up', class: 'btn btn-primary btn-block btn-flat' %>
+          <%= f.submit t('.sign_up'), class: 'btn btn-primary btn-block btn-flat' %>
         </div>
         <!-- /.col -->
       </div>

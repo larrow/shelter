@@ -3,7 +3,7 @@ class NamespacesController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new]
 
   def create
-    redirect_back fallback_location: root_path, alert: 'Namespace already exists!' and return if Namespace.find_by(name: params[:group][:name])
+    redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:group][:name])
     @group = current_user.create_group(params[:group][:name])
     redirect_to namespace_path(@group.name)
   end

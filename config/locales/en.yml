@@ -2,6 +2,13 @@ en:
   locales:
     en: English
     zh: 中文
+  home:
+    index:
+      build_ship_run: Build, Ship, & Run
+      any_app_anywhere: Any App, Anywhere
+      sign_in: Sign in
+      email_username: Email/Username
+      password: Password
   dashboard:
     index:
       repositories: Repositories
@@ -10,6 +17,11 @@ en:
     application:
       home: Home
       dashboard: Dashboard
+      users: Users
+      namespaces: Namespaces
+      repositories: Repositories
+      system_settings: System Settings
+      admin: Admin
       search: Search
       profile: Profile
       sign_out: Sign Out
@@ -21,9 +33,19 @@ en:
       copyright: Copyright
       all_rights_reserved: All rights reserved.
   repositories:
+    edit_description:
+      enter_description: Enter your description for this repository (markdown is enabled).
+      save: Save
     repository:
       public: Public
       private: Private
+    subnav:
+      public: PUBLIC
+      private: PRIVATE
+      repo_info: Repo Info
+      tags: Tags
+      collaborators: Collaborators
+      description: Description (Markdown is enabled)
     show:
       public: PUBLIC
       private: PRIVATE
@@ -49,3 +71,85 @@ en:
   search:
     index:
       title: Result for searching '%{query}'
+  group_members:
+    index:
+      collaborators: Collaborators
+      invite_user: Invite user
+      name: Name
+      access_level: Access Level
+      actions: Actions
+      no_collaborators: This group has no collaborators.
+    new:
+      new_member: New member
+      username: Username
+      invite_member: Invite member
+    create:
+      user_invited: The user has been invited.
+    destroy:
+      cant_remove_last_owner: The last owner can't be removed
+      member_removed: The member has been removed.
+    toggle_access_level
+      changed: Access level changed successfully.
+  namespaces:
+    subnav:
+      new_org: New organization
+      repositories: Repositories
+      collaborators: Collaborators
+    new:
+      new_org: New organization
+      name: Name
+      create_org: Create Organization
+    show:
+      no_repository: This organization has no repository.
+    create:
+      exists: Namespace already exists!
+  repository_members:
+    index:
+      collaborators: Collaborators
+      invite_user: Invite user
+      name: Name
+      access_level: Accell Level
+      actions: Actions
+      no_collaborators: This repository has no collaborators.
+    new:
+      new_member: New member
+      username: Username
+      invite_member: Invite member
+    create:
+      user_invited: The user has been invited.
+    destroy:
+      cant_remove_owner: The owner can't be removed.
+      member_removed: The member has been removed.
+
+  admin:
+    namespaces:
+      index:
+        namespaces: Namespaces
+        name: Name
+        type: Type
+        no_namespaces: There is no namespaces now.
+    repositories:
+      index:
+        repositories: Repositories
+        full_path: Full path
+        pull_count: Pull count
+        is_public: Is public?
+        no_repositories: There is no repositories now.
+    settings:
+      index:
+        system_settings: System Settings
+        self_registration: Self registration
+    users:
+      index:
+        users: Users
+        new_user: New user
+        username: Username
+        email: Email
+        last_sign_in_at: Last sign in at
+        admin: Admin?
+        no_users: No users
+      new:
+        register: Register a new membership
+        sign_up: Sign Up
+
+      

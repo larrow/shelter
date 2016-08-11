@@ -5,6 +5,6 @@
 <%= render @repositories %>
 <% if @repositories.count == 0 %>
   <p>
-    This organization has no repository.
+    <%= t '.no_repository' %>
   </p>
 <% end %>

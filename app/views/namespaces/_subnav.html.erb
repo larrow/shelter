@@ -20,8 +20,8 @@
 
       <nav class="pull-left">
         <ul class="nav nav-tabs">
-          <li class="<%= active_class(namespace_path(namespace.name)) %>"><%= link_to 'Repositories', namespace_path(namespace.name) %></li>
-          <li class="<%= active_class(namespace_group_members_path(namespace.name)) %>"><%= link_to 'Collaborators', namespace_group_members_path(namespace.name) %></li>
+          <li class="<%= active_class(namespace_path(namespace.name)) %>"><%= link_to t('.repositories'), namespace_path(namespace.name) %></li>
+          <li class="<%= active_class(namespace_group_members_path(namespace.name)) %>"><%= link_to t('.collaborators'), namespace_group_members_path(namespace.name) %></li>
         </ul>
       </nav>
     </div>

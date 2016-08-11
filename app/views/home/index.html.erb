@@ -1,22 +1,22 @@
 <div class="row">
   <div class="col-md-8">
     <div class="home-box">
-      <h1>Build, Ship, & Run</h1>
-      <h1>Any App, Anywhere</h1>
+      <h1><%= t '.build_ship_run' %></h1>
+      <h1><%= t '.any_app_anywhere' %></h1>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="home-box">
-      <p class="login-box-msg">Sign in</p>
+      <p class="login-box-msg"><%= t '.sign_in' %></p>
 
       <%= form_for @user, url: session_path(@user) do |f| %>
         <div class="form-group has-feedback">
-          <%= f.text_field :login, class: 'form-control', placeholder: 'Email/Username', autofocus: true %>
+          <%= f.text_field :login, class: 'form-control', placeholder: t('.email_username'), autofocus: true %>
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <%= f.password_field :password, class: 'form-control', placeholder: 'Password', autocomplete: 'off' %>
+          <%= f.password_field :password, class: 'form-control', placeholder: t('.Password'), autocomplete: 'off' %>
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div class="row">
@@ -28,7 +28,7 @@
           </div>
           <!-- /.col -->
           <div class="col-xs-4">
-            <%= f.submit 'Sign In', class: 'btn btn-primary btn-block btn-flat' %>
+            <%= f.submit t('.sign_in'), class: 'btn btn-primary btn-block btn-flat' %>
           </div>
           <!-- /.col -->
         </div>

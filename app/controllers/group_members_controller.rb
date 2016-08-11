@@ -13,21 +13,21 @@ class GroupMembersController < ApplicationController
   def create
     authorize! :update, @group
     @group.add_user(User.where(username: params[:username]).or(User.where(email: params[:username])).first, :member, current_user)
-    redirect_to namespace_group_members_path(@group.name), notice: 'The user has been invited.'
+    redirect_to namespace_group_members_path(@group.name), notice: t('.user_invited')
   end
 
   def destroy
     authorize! :update, @group
-    redirect_to namespace_group_members_path(@group.name), alert: 'The last owner can\'t be removed' and return if @group.owners.count == 1 && @group.members.find(params[:id]) == @group.owners.first
+    redirect_to namespace_group_members_path(@group.name), alert: t('.cant_remove_last_owner')
     @group.members.delete(@group.members.find(params[:id]))
-    redirect_to namespace_group_members_path(@group.name), notice: 'The member has been removed.'
+    redirect_to namespace_group_members_path(@group.name), notice: t('.member_removed')
   end
 
   def toggle_access_level
     authorize! :update, @group
     member = @group.members.find_by(id: params[:id]) || (redirect_to namespace_group_members_path(@group.name) and return)
     member.update_attribute(:access_level, params[:access_level])
-    redirect_to namespace_group_members_path(@group.name), notice: 'Access level changed successfully.'
+    redirect_to namespace_group_members_path(@group.name), notice: t('.changed')
   end
 
   private

@@ -4,11 +4,11 @@
 
 <div class="box box-solid box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">Collaborators</h3>
+    <h3 class="box-title"><%= t '.collaborators' %></h3>
     <div class="box-tools pull-right">
       <% if can? :update, @group %>
         <%= link_to new_namespace_group_member_path(@group.name), class: 'btn btn-box-tools' do %>
-          Invite user <i class="fa fa-plus"></i>
+          <%= t '.invite_user' %> <i class="fa fa-plus"></i>
         <% end %>
       <% end %>
     </div>
@@ -17,16 +17,16 @@
     <div class="">
       <table class="table no-margin">
         <thead>
-          <th>Name</th>
-          <th>Access Level</th>
+          <th><%= t '.name' %></th>
+          <th><%= t '.access_level' %></th>
           <% if can? :update, @group %>
-            <th>Actions</th>
+            <th><%= t '.actions' %></th>
           <% end %>
         </thead>
         <tbody>
           <% if @members.length == 0 %>
             <tr>
-              <td colspan="3">This group has no collaborators.</td>
+              <td colspan="3"><%= t '.no_collaborators' %></td>
             </tr>
           <% end %>
 

@@ -1,23 +1,19 @@
-<%# content_for :content_title do %>
-<!-- Create Organization -->
-<%# end %>
-
 <div class="box">
   <div class="box-header with-border">
     <div class="box-title">
-      New Organization
+      <%= t '.new_org' %>
     </div>
   </div>
   <%= form_for @group, url: namespaces_path do |f| %>
     <div class="box-body">
       <div class="form-group">
-        <%= f.label :name, 'Name' %>
+        <%= f.label :name, t('.name') %>
         <%= f.text_field :name, class: 'form-control' %>
       </div>
     </div>
 
     <div class="box-footer">
-      <%= f.submit 'Create Organization', class: 'btn btn-success' %>
+      <%= f.submit t('.create_org'), class: 'btn btn-success' %>
     </div>
   <% end %>
 </div>

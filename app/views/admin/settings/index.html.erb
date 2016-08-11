@@ -1,6 +1,6 @@
 <div class="box box-solid box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">System Settings</h3>
+    <h3 class="box-title"><%= t '.system_settings' %></h3>
     <div class="box-tools pull-right">
     </div>
   </div>
@@ -10,7 +10,7 @@
         <%= hidden_field_tag :self_registration, '0' %>
         <%= label_tag :self_registration do %>
           <%= check_box_tag :self_registration, '1', Setting.self_registration %>
-          Self registration
+          <%= t '.self_registration' %>
         <% end %>
       </div>
     </div>

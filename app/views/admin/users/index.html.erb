@@ -1,9 +1,9 @@
 <div class="box box-solid box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">Users</h3>
+    <h3 class="box-title"><%= t '.users' %></h3>
     <div class="box-tools pull-right">
       <%= link_to new_admin_user_path, class: 'btn btn-box-tools' do %>
-        New user <i class="fa fa-plus"></i>
+        <%= t '.new_user' %><i class="fa fa-plus"></i>
       <% end %>
     </div>
   </div>

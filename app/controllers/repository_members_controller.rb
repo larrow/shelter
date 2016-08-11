@@ -13,14 +13,14 @@ class RepositoryMembersController < ApplicationController
   def create
     authorize! :update, @repository
     @repository.add_user(User.where(username: params[:username]).or(User.where(email: params[:username])).first, :member, current_user)
-    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), notice: 'The user has been invited.'
+    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), notice: t('.user_invited')
   end
 
   def destroy
     authorize! :update, @repository
-    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), alert: 'The owner can\'t be removed' and return if @repository.members.find(params[:id]).access_level == 'owner'
+    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), alert: t('.cant_remove_owner') and return if @repository.members.find(params[:id]).access_level == 'owner'
     @repository.members.delete(@repository.members.find(params[:id]))
-    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), notice: 'The member has been removed.'
+    redirect_to namespace_repository_members_path(@namespace.name, @repository.name), notice: t('.member_removed')
   end
 
   private
