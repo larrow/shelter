@@ -15,6 +15,6 @@ module Shelter
       Repository.delay.sync_from_registry
     end
 
-    config.i18n.available_locales = %w(en zh)
+    config.i18n.available_locales = %w(en zh-CN)
   end
 end

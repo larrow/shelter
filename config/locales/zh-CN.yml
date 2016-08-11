@@ -1,7 +1,7 @@
-zh:
+zh-CN:
   locales:
     en: English
-    zh: 中文
+    zh-CN: 中文
   home:
     index:
       build_ship_run: Build, Ship, & Run

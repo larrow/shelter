@@ -31,6 +31,7 @@ gem 'rack-mini-profiler'
 gem 'github-markup', require: 'github/markup'
 gem 'redcarpet'
 gem 'rails-settings-cached'
+gem 'rails-i18n', '~> 5.0.0'
 
 # gem 'capistrano-rails', group: :development
 

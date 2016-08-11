@@ -178,6 +178,9 @@ GEM
       nokogiri (~> 1.6.0)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-i18n (5.0.0)
+      i18n (~> 0.7)
+      railties (~> 5.0)
     rails-settings-cached (0.6.4)
       rails (>= 4.2.0)
     railties (5.0.0)
@@ -261,6 +264,7 @@ DEPENDENCIES
   rack-protection!
   rails (~> 5.0.0)
   rails-assets-iCheck!
+  rails-i18n (~> 5.0.0)
   rails-settings-cached
   redcarpet
   sass-rails (~> 5.0)
