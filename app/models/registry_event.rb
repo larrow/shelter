@@ -4,7 +4,8 @@ class RegistryEvent < ApplicationRecord
   def sync_event_to_entity
     case self.action
     when 'push'
-      Repository.find_or_create_by_repo_name self.repository
+      repo = Repository.find_or_create_by_repo_name self.repository
+      RepositoryChannel.broadcast_to(repo, action: 'push') if repo
     when 'pull'
       Repository.find_or_create_by_repo_name(self.repository).increment! :pull_count unless self.actor == 'system-service'
     end

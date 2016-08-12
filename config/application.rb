@@ -16,5 +16,7 @@ module Shelter
     end
 
     config.i18n.available_locales = %w(en zh-CN)
+    config.action_cable.mount_path = '/cable'
+    config.action_cable.disable_request_forgery_protection = true
   end
 end

@@ -1,0 +1,7 @@
+<tr>
+  <td><%= tag[:name] %></td>
+  <td><%= number_to_human_size tag[:size] %></td>
+  <% if can? :push, @repository %>
+    <td><%= link_to namespace_repository_tag_path(@namespace.name, @repository.name, tag[:name]), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %></td>
+  <% end %>
+</tr>

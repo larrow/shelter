@@ -20,4 +20,6 @@
   </div>
 </div>
 
-<%= render @repositories %>
+<div data-auto-update-repositories="<%= current_user.namespace.name %>">
+  <%= render @repositories %>
+</div>

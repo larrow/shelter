@@ -267,6 +267,7 @@ DEPENDENCIES
   rails-i18n (~> 5.0.0)
   rails-settings-cached
   redcarpet
+  redis
   sass-rails (~> 5.0)
   sidekiq
   sinatra!

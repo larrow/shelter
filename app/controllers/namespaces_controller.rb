@@ -14,7 +14,7 @@ class NamespacesController < ApplicationController
 
   def show
     authorize! :read, @namespace
-    @repositories = @namespace.repositories
+    @repositories = @namespace.repositories.order(updated_at: :desc)
     @repositories = @repositories.where(is_public: true) unless user_signed_in? && can?(:update, @namespace)
   end
 

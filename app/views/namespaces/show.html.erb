@@ -2,9 +2,11 @@
   <%= render 'subnav', namespace: @namespace %>
 <% end %>
 
-<%= render @repositories %>
-<% if @repositories.count == 0 %>
-  <p>
-    <%= t '.no_repository' %>
-  </p>
-<% end %>
+<div <%= "data-auto-update-repositories=\"<%= @namespace.name %>\"" if can?(:update, @namespace)>
+  <%= render @repositories %>
+  <% if @repositories.count == 0 %>
+    <p class="no_repository">
+      <%= t '.no_repository' %>
+    </p>
+  <% end %>
+</div>
