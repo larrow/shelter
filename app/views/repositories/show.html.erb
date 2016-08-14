@@ -8,8 +8,10 @@
       <div class="box-header with-border">
         <h3 class="box-title"><%= t '.description' %></h3>
         <div class="box-tools pull-right">
-          <%= button_to edit_description_namespace_repository_path(@namespace.name, @repository.name), class: 'btn btn-box-tool', remote: true, method: :get do %>
-            <i class="fa fa-edit"></i>
+          <% if can? :update, @repository %>
+            <%= button_to edit_description_namespace_repository_path(@namespace.name, @repository.name), class: 'btn btn-box-tool', remote: true, method: :get do %>
+              <i class="fa fa-edit"></i>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -32,6 +34,7 @@
         </p>
       </div>
     </div>
+    <% if can? :update, @repository %>
       <div class="box box-solid box-default">
         <div class="box-header with-border">
           <h3 class="box-title"><%= t '.visibility_settings' %></h3>
@@ -45,5 +48,6 @@
           <% end %>
         </div>
       </div>
+    <% end %>
   </div>
 </div>

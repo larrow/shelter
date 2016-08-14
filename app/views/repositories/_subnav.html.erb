@@ -12,7 +12,9 @@
         <ul class="nav nav-tabs">
           <li class="<%= active_class(namespace_repository_path(namespace.name, repository.name)) %>"><%= link_to t('.repo_info'), namespace_repository_path(namespace.name, repository.name) %></li>
           <li class="<%= active_class(namespace_repository_tags_path(namespace.name, repository.name)) %>"><%= link_to t('.tags'), namespace_repository_tags_path(namespace.name, repository.name) %></li>
-          <li class="<%= active_class(namespace_repository_members_path(namespace.name, repository.name)) %>"><%= link_to t('.collaborators'), namespace_repository_members_path(namespace.name, repository.name) %></li>
+          <% if can? :update, repository %>
+            <li class="<%= active_class(namespace_repository_members_path(namespace.name, repository.name)) %>"><%= link_to t('.collaborators'), namespace_repository_members_path(namespace.name, repository.name) %></li>
+          <% end %>
         </ul>
       </nav>
     </div>

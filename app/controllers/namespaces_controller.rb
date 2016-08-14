@@ -1,6 +1,6 @@
 class NamespacesController < ApplicationController
   before_action :process_params, except: [:create, :new]
-  before_action :authenticate_user!, only: [:create, :new]
+  before_action :authenticate_user!, except: :show
 
   def create
     redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:group][:name])
