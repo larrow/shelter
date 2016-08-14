@@ -58,14 +58,14 @@ class Registry
       else
         case scope_type
         when 'repository'
-          scope_name = "library/#{scope_name}" unless scope_name.split('/').length == 2
-          namespace_name, repository_name = scope_name.split('/')
+          namespace_name = scope_name.split('/').length == 2 ? scope_name.split('/').first : 'library'
+          repository_name = scope_name.split('/').last
           namespace = Namespace.where(name: namespace_name).first_or_initialize
           repository = namespace&.repositories.where(name: repository_name).first_or_initialize
           authorized_actions = []
           authorized_actions << 'pull' if @user.can? :read, repository
-          authorized_actions << '*' if @user.can? :push, repository
-          authorized_actions << '*' if @user.can? :update, namespace
+          authorized_actions += ['*', 'push'] if @user.can? :push, repository
+          authorized_actions += ['*', 'push'] if @user.can? :update, namespace
           payload[:access] << {
             type: scope_type,
             name: scope_name,
