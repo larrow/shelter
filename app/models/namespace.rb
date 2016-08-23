@@ -7,6 +7,6 @@ class Namespace < ApplicationRecord
   protected
 
   def post_to_namespace_channel(repository)
-    NamespaceChannel.broadcast_to(self, action: 'new_repository', content: ApplicationController.render(repository))
+    NamespaceChannel.broadcast_to(self, action: 'new_repository', content: ApplicationController.render(repository)) if repository.id # ignore initialize
   end
 end
