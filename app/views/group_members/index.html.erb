@@ -47,7 +47,7 @@
                 <td><%= member.access_level %></td>
               <% end %>
               <% if can? :update, @group %>
-                <td><%= link_to namespace_group_member_path(@group.name, member), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %></td>
+                <td><% if member.user != current_user %><%= link_to namespace_group_member_path(@group.name, member), method: :delete do %><i class="fa fa-trash-o fa-lg"></i><% end %><% end %></td>
               <% end %>
             </tr>
           <% end %>
