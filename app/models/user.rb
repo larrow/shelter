@@ -75,10 +75,19 @@ class User < ApplicationRecord
     Repository.where("repositories.id IN (#{repositories_union})")
   end
 
+  def authorized_ungrouped_repositories
+    Repository.where("repositories.id IN (#{ungrouped_repositories_union})")
+  end
+
   private
 
   def repositories_union
     relations = [personal_repositories.select(:id), groups_repositories.select(:id), repositories.select(:id)]
+    union_to_sql(relations)
+  end
+
+  def ungrouped_repositories_union
+    relations = [personal_repositories.select(:id), repositories.select(:id)]
     union_to_sql(relations)
   end
 end
