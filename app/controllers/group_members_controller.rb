@@ -18,7 +18,6 @@ class GroupMembersController < ApplicationController
 
   def destroy
     authorize! :update, @group
-    binding.pry
     redirect_to namespace_group_members_path(@group.name), alert: t('.cant_remove_last_owner') and return if @group.owners.length == 1 && @group.members.find(params[:id]).access_level == 'owner'
     @group.members.delete(@group.members.find(params[:id]))
     redirect_to namespace_group_members_path(@group.name), notice: t('.member_removed')
