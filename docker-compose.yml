@@ -24,8 +24,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
-    # sleep 3 seconds in order to wait db start up
-    command: bash -c 'sleep 3 && bundle install && bundle exec sidekiq'
+    command: "backend"
     environment:
       RAILS_ENV: development
       REDIS_PROVIDER: REDIS_URL
@@ -40,8 +39,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
-    # sleep 3 seconds in order to wait db start up
-    command: bash -c 'sleep 3 && bundle install && bundle exec rake db:create db:migrate db:seed && bundle exec rails s -p 3000 -b 0.0.0.0'
     # useful for binding.pry and rails c
     tty: true
     stdin_open: true
