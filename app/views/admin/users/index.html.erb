@@ -30,8 +30,11 @@
               <td><%= l user.last_sign_in_at if user.last_sign_in_at %></td>
               <td>
                 <%= form_for [:admin, user], class: 'form-inline' do |f| %>
-                  <%= f.check_box('admin', {class: 'submit-on-change'}) %>
-
+                  <% if user == current_user %>
+                    <%= f.check_box('admin', {class: 'submit-on-change', disabled: 'disabled'}) %>
+                  <% else %>
+                    <%= f.check_box('admin', {class: 'submit-on-change'}) %>
+                  <% end %>
                 <% end %>
               </td>
             </tr>
