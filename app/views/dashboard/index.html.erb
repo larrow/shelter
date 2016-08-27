@@ -7,9 +7,6 @@
       <button type="button" class="btn btn-default dropdown-toggle namespace-selector" data-toggle="dropdown" aria-expanded="false"><%= current_user.username %> <span class="fa fa-caret-down"></span></button>
       <ul class="dropdown-menu">
         <li><a href="#"><%= current_user.username %></a></li>
-        <% if current_user.authorized_groups.count > 0 %>
-          <li class="divider"></li>
-        <% end %>
         <% current_user.authorized_groups.each do |group| %>
           <li><%= link_to group.name, namespace_path(group.name) %></li>
         <% end %>
