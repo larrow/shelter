@@ -16,13 +16,14 @@ zh-CN:
   layouts:
     application:
       home: 首页
-      dashboard: 控制面板
+      dashboard: 面板
       users: 用户
       namespaces: 命名空间
       repositories: 仓库
       system_settings: 系统设置
       admin: 管理员
       search: 搜索
+      new_org: 新建组织
       profile: 个人信息
       sign_out: 退出登录
       log_in: 登录
