@@ -122,7 +122,7 @@ zh-CN:
         repositories: repositories
         full_path: 完整路径
         pull_count: Pull count
-        is_public: 空开？
+        is_public: 是否公开
         no_repositories: 当前没有 repository
     settings:
       index:
