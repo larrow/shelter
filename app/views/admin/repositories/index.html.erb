@@ -23,7 +23,9 @@
             <tr>
               <td><%= repository.full_path %></td>
               <td><%= repository.pull_count %></td>
-              <td><%= repository.is_public %></td>
+              <td>
+                <i class="glyphicon glyphicon-<%= repository.is_public ? 'ok' : 'remove' %>" />
+              </td>
             </tr>
           <% end %>
         </tbody>

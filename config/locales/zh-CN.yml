@@ -134,7 +134,7 @@ zh-CN:
         repositories: 仓库
         full_path: 完整路径
         pull_count: Pull count
-        is_public: 空开？
+        is_public: 是否公开
         no_repositories: 当前没有仓库
     settings:
       index:
