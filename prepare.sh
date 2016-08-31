@@ -18,3 +18,7 @@ rm $private_key_pem $root_crt >/dev/null 2>&1
 
 openssl genrsa -out ${private_key_pem} 4096
 openssl req -new -x509 -key ${private_key_pem} -out ${root_crt} -days 3650
+
+secret_key=$(openssl rand -base64 42)
+echo "SECRET_KEY_BASE=${secret_key}" > .env
+echo "RAILS_SERVE_STATIC_FILES=1" >> .env
