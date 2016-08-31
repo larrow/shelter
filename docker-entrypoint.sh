@@ -3,9 +3,11 @@
 if [ "$1" = "backend" ]
 then
   sleep 5
+  bundle install
   exec bundle exec sidekiq
 else
   sleep 3
+  bundle install
 
   if [ "$RAILS_ENV" = "production" ]; then
     bundle exec rake assets:precompile

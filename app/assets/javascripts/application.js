@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require iCheck
+//= require icheck
 //= require AdminLTE
 //= require_tree .
 

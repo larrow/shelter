@@ -20,7 +20,7 @@ gem 'font-ionicons-rails', git: 'https://github.com/ricardoemerson/font-ionicons
 gem 'bootstrap-sass'
 gem 'default_value_for'
 gem 'httparty'
-gem 'rails-assets-iCheck', source: 'https://rails-assets.org'
+gem 'icheck-rails'
 gem 'sidekiq'
 gem 'sinatra', require: false, github: 'sinatra' # https://github.com/mperham/sidekiq/issues/2839
 gem 'rack-protection', github: 'sinatra/rack-protection' # https://github.com/sinatra/sinatra/issues/1152
@@ -33,6 +33,7 @@ gem 'redcarpet'
 gem 'rails-settings-cached'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'redis'
+gem 'paranoia', github: 'rubysherpas/paranoia', branch: 'rails5'
 
 # gem 'capistrano-rails', group: :development
 
