@@ -139,6 +139,7 @@ en:
       index:
         system_settings: System Settings
         self_registration: Self registration
+        allow_push: Allow push
     users:
       index:
         users: Users

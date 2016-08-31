@@ -13,6 +13,13 @@
           <%= t '.self_registration' %>
         <% end %>
       </div>
+      <div class="form-group">
+        <%= hidden_field_tag :allow_push, '0' %>
+        <%= label_tag :allow_push do %>
+          <%= check_box_tag :allow_push, '1', Setting.allow_push %>
+          <%= t '.allow_push' %>
+        <% end %>
+      </div>
     </div>
     <div class="box-footer">
       <%= submit_tag 'Save', class: 'btn btn-primary' %>

@@ -139,6 +139,7 @@ zh-CN:
       index:
         system_settings: 系统设置
         self_registration: 用户自注册
+        allow_push: 允许用户 push
     users:
       index:
         users: 用户

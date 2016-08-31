@@ -2,6 +2,7 @@
 defaults: &defaults
   registry_endpoint: http://proxy
   self_registration: true
+  allow_push: true
 
 development:
   <<: *defaults

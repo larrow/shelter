@@ -14,6 +14,7 @@ class ServiceController < ApplicationController
   end
 
   def token
+    head 401 and return unless Setting.allow_push
     authenticate_with_http_basic do |username, password|
       resource = User.find_by_username(username)
       sign_in :user, resource if resource&.valid_password? password
