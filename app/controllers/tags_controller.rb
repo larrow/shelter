@@ -9,6 +9,7 @@ class TagsController < ApplicationController
   def destroy
     authorize! :update, @repository
     Registry.new(is_system: true, repository: @repository.full_path).delete_tag(params[:id])
+    Repository.sync_from_registry
     redirect_back fallback_location: namespace_repository_path(@namespace.name, @repository.name)
   end
 
@@ -16,5 +17,7 @@ class TagsController < ApplicationController
   def process_params
     @namespace = Namespace.find_by(name: params[:namespace_id])
     @repository = @namespace&.repositories&.find_by(name: params[:repository_id])
+
+    redirect_to namespace_path(@namespace.name) unless @repository
   end
 end

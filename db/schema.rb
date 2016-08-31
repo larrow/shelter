@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804064258) do
+ActiveRecord::Schema.define(version: 20160831144237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20160804064258) do
     t.boolean  "is_public"
     t.text     "description"
     t.text     "description_html"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_repositories_on_deleted_at", using: :btree
     t.index ["name"], name: "index_repositories_on_name", using: :btree
     t.index ["namespace_id"], name: "index_repositories_on_namespace_id", using: :btree
   end

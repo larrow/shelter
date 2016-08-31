@@ -1,4 +1,5 @@
 class Repository < ApplicationRecord
+  acts_as_paranoid
   belongs_to :namespace
   belongs_to :group, -> { where(type: 'Group') }, foreign_key: 'namespace_id'
 
@@ -41,13 +42,21 @@ class Repository < ApplicationRecord
     def sync_from_registry
       repositories = Registry.new(is_system: true).repositories
       Repository.transaction do
-        repositories.each { |repo_name| find_or_create_by_repo_name(repo_name) }
+        repositories.each do |repo|
+          registry = Registry.new(is_system: true, repository: repo)
+          if registry.tags
+            find_or_create_by_repo_name repo
+          else
+            namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')
+            namespace&.repositories&.where(name: repo.split('/').last)&.each { |r| r.destroy }
+          end
+        end
       end
     end
 
     def find_or_create_by_repo_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
-      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last)
+      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
       repository&.add_user(namespace.owner, :owner) if namespace&.type.nil? && !repository&.users&.include?(namespace.owner)
       repository
     end

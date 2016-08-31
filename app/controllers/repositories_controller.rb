@@ -29,5 +29,7 @@ class RepositoriesController < ApplicationController
   def process_params
     @namespace = Namespace.find_by(name: params[:namespace_id])
     @repository = @namespace&.repositories&.find_by(name: params[:id])
+
+    redirect_to namespace_path(@namespace.name) unless @repository
   end
 end
