@@ -1,0 +1,5 @@
+<% content_for :subnav do %>
+  <%= render 'subnav', namespace: @namespace %>
+<% end %>
+
+<%= link_to t('.delete_namespace'), namespace_path(@namespace.name), class: 'btn btn-danger', method: :delete %>

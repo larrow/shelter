@@ -103,6 +103,11 @@ en:
       no_repository: This organization has no repository.
     create:
       exists: Namespace already exists!
+    destroy:
+      namespace_deleted: Namespace deleted successfully.
+      library_cannot_delete: Library namespace can not be deleted.
+    settings:
+      delete_namespace: Delete namespace
   repository_members:
     index:
       collaborators: Collaborators

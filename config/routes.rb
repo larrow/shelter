@@ -28,9 +28,14 @@ Rails.application.routes.draw do
         post 'toggle_access_level'
       end
     end
+
   end
 
-  resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show] do
+  resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :destroy] do
+    member do
+      get 'settings'
+    end
+
     resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update] do
       resources :repository_members, as: :members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
         member do

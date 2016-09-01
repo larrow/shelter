@@ -103,6 +103,11 @@ zh-CN:
       no_repository: 当前组织无仓库
     create:
       exists: 命名空间已存在
+    destroy:
+      namespace_deleted: 命名空间删除成功
+      library_cannot_delete: library 命名空间无法删除
+    settings:
+      delete_namespace: 删除命名空间
   repository_members:
     index:
       collaborators: 协作者
