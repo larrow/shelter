@@ -108,23 +108,6 @@ en:
       library_cannot_delete: Library namespace can not be deleted.
     settings:
       delete_namespace: Delete namespace
-  repository_members:
-    index:
-      collaborators: Collaborators
-      invite_user: Invite user
-      name: Name
-      access_level: Access Level
-      actions: Actions
-      no_collaborators: This repository has no collaborators.
-    new:
-      new_member: New member
-      username: Username
-      invite_member: Invite member
-    create:
-      user_invited: The user has been invited.
-    destroy:
-      cant_remove_owner: The owner can't be removed.
-      member_removed: The member has been removed.
 
   admin:
     namespaces:

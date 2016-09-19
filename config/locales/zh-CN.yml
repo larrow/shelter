@@ -11,7 +11,7 @@ zh-CN:
       password: 密码
   dashboard:
     index:
-      repositories: 我的仓库
+      repositories: 我的 repository
       new_org: 新建组织
   layouts:
     application:
@@ -19,7 +19,7 @@ zh-CN:
       dashboard: 控制面板
       users: 用户
       namespaces: 命名空间
-      repositories: 仓库
+      repositories: repositories
       system_settings: 系统设置
       admin: 管理员
       search: 搜索
@@ -42,7 +42,7 @@ zh-CN:
     subnav:
       public: 公开
       private: 私有
-      repo_info: 仓库信息
+      repo_info: repository 信息
       tags: 标签
       collaborators: 协作者
       description: 描述（可用markdown语法）
@@ -59,8 +59,8 @@ zh-CN:
       action: 操作
       view_all_tags: 查看所有标签
       visibility_settings: 可见性设置
-      make_private: 设为私有仓库
-      make_public: 设为公开仓库
+      make_private: 设为私有 repository
+      make_public: 设为公开 repository
   tags:
     index:
       tags: 标签
@@ -93,14 +93,14 @@ zh-CN:
   namespaces:
     subnav:
       new_org: 新建组织
-      repositories: 仓库
+      repositories: repositories
       collaborators: 协作者
     new:
       new_org: 新建组织
       name: 名称
       create_org: 创建组织
     show:
-      no_repository: 当前组织无仓库
+      no_repository: 当前组织无 repository
     create:
       exists: 命名空间已存在
     destroy:
@@ -108,23 +108,6 @@ zh-CN:
       library_cannot_delete: library 命名空间无法删除
     settings:
       delete_namespace: 删除命名空间
-  repository_members:
-    index:
-      collaborators: 协作者
-      invite_user: 邀请用户
-      name: 名称
-      access_level: Access Level
-      actions: 操作
-      no_collaborators: 当前仓库无协作者
-    new:
-      new_member: 新成员
-      username: 用户名
-      invite_member: 邀请成员
-    create:
-      user_invited: 该用户已邀请
-    destroy:
-      cant_remove_owner: 拥有着无法被删除
-      member_removed: 该成员已删除
 
   admin:
     namespaces:
@@ -135,11 +118,11 @@ zh-CN:
         no_namespaces: 当前没有命名空间
     repositories:
       index:
-        repositories: 仓库
+        repositories: repositories
         full_path: 完整路径
         pull_count: Pull count
         is_public: 空开？
-        no_repositories: 当前没有仓库
+        no_repositories: 当前没有 repository
     settings:
       index:
         system_settings: 系统设置
