@@ -22,6 +22,7 @@ gem 'default_value_for'
 gem 'httparty'
 gem 'icheck-rails'
 gem 'sidekiq'
+gem 'sidekiq-cron'
 gem 'sinatra', require: false, github: 'sinatra' # https://github.com/mperham/sidekiq/issues/2839
 gem 'rack-protection', github: 'sinatra/rack-protection' # https://github.com/sinatra/sinatra/issues/1152
 gem 'kaminari', github: 'amatsuda/kaminari', branch: '0-17-stable'

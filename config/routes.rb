@@ -1,4 +1,6 @@
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
 
 Rails.application.routes.draw do
