@@ -1,17 +1,25 @@
-class GroupMember < Member
-  SOURCE_TYPE = 'Namespace'
+class GroupMember < ApplicationRecord
 
-  belongs_to :group, class_name: 'Group', foreign_key: 'source_id'
+  belongs_to :group, class_name: 'Group'
+  belongs_to :user
 
-  default_value_for :source_type, SOURCE_TYPE
-  validates_format_of :source_type, with: /\ANamespace\z/
-  default_scope { where(source_type: SOURCE_TYPE) }
+  validates :user, presence: true
+  validates :user_id, uniqueness: { scope: [:group_id], message: 'already exists in group', allow_nil: true }
 
-  def group
-    source
+  delegate :name, :username, :email, to: :user, prefix: true
+
+  enum access_level: { owner: 0, developer: 1, viewer: 2 }
+  default_value_for :access_level, :developer
+
+  def self.add_user(members, user, access_level, current_user = nil)
+
+    member = members.find_or_initialize_by(user: user)
+
+    # There is no current user for some actions, in which case anything is allowed
+    if !current_user || current_user.can?(:update, member.group)
+      member.access_level = access_level
+      member.save
+    end
   end
 
-  def real_source_type
-    'Group'
-  end
 end

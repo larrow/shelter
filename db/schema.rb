@@ -10,20 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831144237) do
+ActiveRecord::Schema.define(version: 20160919053844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "members", force: :cascade do |t|
-    t.integer  "source_id"
-    t.string   "source_type"
+  create_table "group_members", force: :cascade do |t|
+    t.integer  "group_id"
     t.integer  "user_id"
-    t.string   "type"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "access_level"
-    t.index ["user_id"], name: "index_members_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
   end
 
   create_table "namespaces", force: :cascade do |t|
@@ -92,7 +90,7 @@ ActiveRecord::Schema.define(version: 20160831144237) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_foreign_key "members", "users"
+  add_foreign_key "group_members", "users"
   add_foreign_key "namespaces", "users", column: "owner_id"
   add_foreign_key "repositories", "namespaces"
 end

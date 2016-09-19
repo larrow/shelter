@@ -12,7 +12,7 @@ class GroupMembersController < ApplicationController
 
   def create
     authorize! :update, @group
-    @group.add_user(User.where(username: params[:username]).or(User.where(email: params[:username])).first, :member, current_user)
+    @group.add_user(User.where(username: params[:username]).or(User.where(email: params[:username])).first, :developer, current_user)
     redirect_to namespace_group_members_path(@group.name), notice: t('.user_invited')
   end
 

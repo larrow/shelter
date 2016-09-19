@@ -3,10 +3,6 @@ class Repository < ApplicationRecord
   belongs_to :namespace
   belongs_to :group, -> { where(type: 'Group') }, foreign_key: 'namespace_id'
 
-  has_many :repository_members, dependent: :destroy, as: :source, class_name: 'RepositoryMember'
-  alias_method :members, :repository_members
-  has_many :users, through: :repository_members
-
   delegate :owner, to: :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
@@ -28,10 +24,6 @@ class Repository < ApplicationRecord
 
   def full_path
     namespace.name + '/' + name
-  end
-
-  def add_user(user, access_level , current_user = nil)
-    Member.add_user(self.repository_members, user, access_level, current_user)
   end
 
   def update_description_html
@@ -57,7 +49,6 @@ class Repository < ApplicationRecord
     def find_or_create_by_repo_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
       repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
-      repository&.add_user(namespace.owner, :owner) if namespace&.type.nil? && !repository&.users&.include?(namespace.owner)
       repository
     end
   end

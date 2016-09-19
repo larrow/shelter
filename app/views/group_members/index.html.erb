@@ -39,7 +39,8 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><%= member.access_level %> <span class="fa fa-caret-down"></span></button>
                     <ul class="dropdown-menu">
                       <li><%= link_to 'owner', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'owner'), method: :post %></li>
-                      <li><%= link_to 'member', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'member'), method: :post %></li>
+                      <li><%= link_to 'developer', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'developer'), method: :post %></li>
+                      <li><%= link_to 'viewer', toggle_access_level_namespace_group_member_path(@group.name, member.id, access_level: 'viewer'), method: :post %></li>
                     </ul>
                   </div>
                 </td>

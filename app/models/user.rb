@@ -10,15 +10,12 @@ class User < ApplicationRecord
 
   has_one :namespace, -> { where type: nil }, foreign_key: :owner_id, class_name: 'Namespace'
 
-  has_many :members, dependent: :destroy
-  has_many :group_members, dependent: :destroy, source: 'GroupMember'
+  has_many :group_members, dependent: :destroy
   has_many :groups, through: :group_members
-  has_many :owned_groups, -> { where members: { access_level: Member.access_levels[:owner] }}, through: :group_members, source: :group
+  has_many :owned_groups, -> { where group_members: { access_level: Member.access_levels[:owner] }}, through: :group_members, source: :group
 
   has_many :groups_repositories, through: :groups, source: :repositories
   has_many :personal_repositories, through: :namespace, source: :repositories
-  has_many :repository_members, dependent: :destroy, class_name: 'RepositoryMember'
-  has_many :repositories, through: :repository_members
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -61,7 +58,6 @@ class User < ApplicationRecord
   def create_personal_repository(repo_name)
     ensure_namespace_correct
     repo = self.namespace.repositories.find_or_create_by(name: repo_name)
-    repo.add_user(self, :owner)
     repo
   end
 
@@ -75,19 +71,11 @@ class User < ApplicationRecord
     Repository.where("repositories.id IN (#{repositories_union})")
   end
 
-  def authorized_ungrouped_repositories
-    Repository.where("repositories.id IN (#{ungrouped_repositories_union})")
-  end
-
   private
 
   def repositories_union
-    relations = [personal_repositories.select(:id), groups_repositories.select(:id), repositories.select(:id)]
+    relations = [personal_repositories.select(:id), groups_repositories.select(:id)]
     union_to_sql(relations)
   end
 
-  def ungrouped_repositories_union
-    relations = [personal_repositories.select(:id), repositories.select(:id)]
-    union_to_sql(relations)
-  end
 end
