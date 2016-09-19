@@ -23,11 +23,17 @@ class UserTest < ActiveSupport::TestCase
     repo = group.repositories.new(name: 'testrepo')
     assert users(:user_1).can?(:push, repo)
   end
-  test 'can create organization repository if the user is a member of org' do
+  test 'can create organization repository if the user is a developer of org' do
     group = users(:user_1).create_group('testgroup')
     repo = group.repositories.new(name: 'testrepo')
-    group.add_user(users(:user_2), :member)
+    group.add_user(users(:user_2), :developer)
     assert users(:user_2).can?(:push, repo)
+  end
+  test 'can not create organization repository if the user is a viewer of org' do
+    group = users(:user_1).create_group('testgroup')
+    repo = group.repositories.new(name: 'testrepo')
+    group.add_user(users(:user_2), :viewer)
+    assert_not users(:user_2).can?(:push, repo)
   end
   test 'can not create organization repo if the user is not a collaborator' do
     group = users(:user_1).create_group('testgroup')
@@ -45,20 +51,7 @@ class UserTest < ActiveSupport::TestCase
     assert users(:user_2).can?(:read, repo2)
   end
 
-  test 'can pull & push any private repository when the user is a collaborator' do
-    repo1 = users(:user_1).create_personal_repository('testrepo')
-    repo1.update_attribute(:is_public, true)
-    assert users(:user_2).can?(:read, repo1)
-    assert_not users(:user_2).can?(:push, repo1)
-    repo1.update_attribute(:is_public, false)
-    assert_not users(:user_2).can?(:read, repo1)
-    assert_not users(:user_2).can?(:push, repo1)
-
-    repo1.add_user(users(:user_2), :member)
-
-    assert users(:user_2).can?(:read, repo1)
-    assert users(:user_2).can?(:push, repo1)
-
+  test 'can pull & push any private repository when the user is a developer of group' do
     group = users(:user_1).create_group('testgroup')
     repo2 = group.repositories.create(name: 'testrepo')
     repo2.update_attribute(:is_public, true)
@@ -68,23 +61,24 @@ class UserTest < ActiveSupport::TestCase
     assert_not users(:user_2).can?(:read, repo2)
     assert_not users(:user_2).can?(:push, repo2)
 
-    group.add_user(users(:user_2), :member)
+    group.add_user(users(:user_2), :developer)
     assert users(:user_2).can?(:read, repo2)
     assert users(:user_2).can?(:push, repo2)
   end
 
-  test 'can change repository\'s collaborators when the user is a owner' do
+  test 'can not push to repo when the user is a viewer of group' do
     group = users(:user_1).create_group('testgroup')
-    repo = group.repositories.create(name: 'testrepo')
-    assert users(:user_1).can?(:update, repo)
-  end
+    repo2 = group.repositories.create(name: 'testrepo')
+    repo2.update_attribute(:is_public, true)
+    assert users(:user_2).can?(:read, repo2)
+    assert_not users(:user_2).can?(:push, repo2)
+    repo2.update_attribute(:is_public, false)
+    assert_not users(:user_2).can?(:read, repo2)
+    assert_not users(:user_2).can?(:push, repo2)
 
-  test 'can not change collaborators when the user is not a owner' do
-    group = users(:user_1).create_group('testgroup')
-    repo = group.repositories.create(name: 'testrepo')
-    assert_not users(:user_2).can?(:update, repo)
-    repo.add_user(users(:user_2), :member)
-    assert_not users(:user_2).can?(:update, repo)
+    group.add_user(users(:user_2), :viewer)
+    assert users(:user_2).can?(:read, repo2)
+    assert_not users(:user_2).can?(:push, repo2)
   end
 
   test 'can not create repository if the user is not a member of namespace' do
