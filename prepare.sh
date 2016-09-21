@@ -10,8 +10,7 @@ if [[ -z "${host// }" ]]; then
     host="localhost"
 fi
 
-sed -i.bak "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml
-rm config/registry/config.yml.bak >/dev/null 2>&1
+sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template > config/registry/config.yml
 
 command -v openssl >/dev/null 2>&1 || { echo >&2 "Require openssl but it's not installed.  Aborting."; exit 1; }
 
@@ -25,4 +24,3 @@ openssl req -new -x509 -key ${private_key_pem} -out ${root_crt} -days 3650 -subj
 
 secret_key=$(openssl rand -base64 42)
 echo "SECRET_KEY_BASE=${secret_key}" > .env
-echo "RAILS_SERVE_STATIC_FILES=1" >> .env

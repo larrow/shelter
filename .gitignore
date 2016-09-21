@@ -25,3 +25,9 @@ Vagrantfile
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+# Ignore runtime configuration files
+config/registry/root.crt
+config/private_key.pem
+config/registry/config.yml
+.env
