@@ -4,7 +4,6 @@ services:
     image: library/registry:2.4.0
     restart: always
     volumes:
-      - /data/registry:/storage
       - ./config/registry/:/etc/registry/
     environment:
       - GODEBUG=netdns=cgo
