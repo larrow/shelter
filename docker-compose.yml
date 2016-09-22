@@ -23,8 +23,6 @@ services:
     command: "backend"
     environment:
       RAILS_ENV: production
-      REDIS_PROVIDER: REDIS_URL
-      REDIS_URL: redis://redis/0
     env_file: .env
     depends_on:
       - db
@@ -36,8 +34,6 @@ services:
       dockerfile: Dockerfile.web
     environment:
       RAILS_ENV: production
-      REDIS_PROVIDER: REDIS_URL
-      REDIS_URL: redis://redis/0
     env_file: .env
     depends_on:
       - db

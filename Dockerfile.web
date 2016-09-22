@@ -10,6 +10,7 @@ WORKDIR /usr/src/app
 RUN bundle install
 COPY . /usr/src/app
 ENV RAILS_SERVE_STATIC_FILES 1
+ENV REDIS_URL "redis://redis/0"
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
