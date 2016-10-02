@@ -23,9 +23,9 @@ gem 'httparty'
 gem 'icheck-rails'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'sinatra', require: false, github: 'sinatra' # https://github.com/mperham/sidekiq/issues/2839
-gem 'rack-protection', github: 'sinatra/rack-protection' # https://github.com/sinatra/sinatra/issues/1152
-gem 'kaminari', github: 'amatsuda/kaminari', branch: '0-17-stable'
+gem 'sinatra', require: false, git: 'https://github.com/sinatra/sinatra.git' # https://github.com/mperham/sidekiq/issues/2839
+gem 'rack-protection', git: 'https://github.com/sinatra/rack-protection.git' # https://github.com/sinatra/sinatra/issues/1152
+gem 'kaminari', git: 'https://github.com/amatsuda/kaminari.git', branch: '0-17-stable'
 gem 'http_accept_language'
 gem 'cancancan'
 gem 'rack-mini-profiler'
@@ -34,7 +34,7 @@ gem 'redcarpet'
 gem 'rails-settings-cached'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'redis'
-gem 'paranoia', github: 'rubysherpas/paranoia', branch: 'rails5'
+gem 'paranoia', git: 'https://github.com/rubysherpas/paranoia.git', branch: 'rails5'
 
 # gem 'capistrano-rails', group: :development
 
