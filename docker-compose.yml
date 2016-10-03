@@ -21,8 +21,6 @@ services:
       dockerfile: Dockerfile.web
     # sleep 3 seconds in order to wait db start up
     command: "backend"
-    environment:
-      RAILS_ENV: production
     env_file: .env
     depends_on:
       - db
@@ -32,8 +30,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
-    environment:
-      RAILS_ENV: production
     env_file: .env
     depends_on:
       - db
