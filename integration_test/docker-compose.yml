@@ -1,0 +1,54 @@
+version: "2"
+
+services:
+  registry:
+    image: library/registry:2.4.0
+    restart: always
+    volumes:
+      - ../config/registry/:/etc/registry/
+    environment:
+      - GODEBUG=netdns=cgo
+    command:
+      ["serve", "/etc/registry/config.yml"]
+  db:
+    image: postgres
+  redis:
+    image: redis
+  worker:
+    build:
+      context: ..
+      dockerfile: Dockerfile.web
+    # sleep 3 seconds in order to wait db start up
+    command: "backend"
+    environment:
+      RAILS_ENV: production
+    env_file: ../.env
+    depends_on:
+      - db
+      - registry
+      - redis
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile.web
+    environment:
+      RAILS_ENV: production
+    env_file: ../.env
+    depends_on:
+      - db
+      - registry
+      - redis
+  proxy:
+    image: nginx:1.9
+    restart: always
+    volumes:
+      - ../config/nginx:/etc/nginx
+    depends_on:
+      - db
+      - registry
+      - web
+  test:
+    build: .
+    depends_on:
+      - proxy
+      - web

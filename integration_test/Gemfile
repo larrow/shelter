@@ -1,0 +1,4 @@
+source "https://gems.ruby-china.org"
+
+gem 'rspec', '~> 3.0'
+gem 'mechanize'
