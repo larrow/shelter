@@ -12,7 +12,7 @@ module Shelter
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.after_initialize do
-      Repository.delay.sync_from_registry
+      Repository.delay.sync_from_registry if Rails.env.production?
     end
 
     config.i18n.available_locales = %w(en zh-CN)
