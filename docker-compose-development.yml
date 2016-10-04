@@ -21,9 +21,7 @@ services:
     ports:
       - 6380:6379
   worker:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
+    build: .
     command: "backend"
     environment:
       RAILS_ENV: development
@@ -36,9 +34,7 @@ services:
       - registry
       - redis
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
+    build: .
     # useful for binding.pry and rails c
     tty: true
     stdin_open: true

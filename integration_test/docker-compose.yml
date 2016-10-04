@@ -15,9 +15,7 @@ services:
   redis:
     image: redis
   worker:
-    build:
-      context: ..
-      dockerfile: Dockerfile.web
+    build: ..
     # sleep 3 seconds in order to wait db start up
     command: "backend"
     environment:
@@ -28,9 +26,7 @@ services:
       - registry
       - redis
   web:
-    build:
-      context: ..
-      dockerfile: Dockerfile.web
+    build: ..
     environment:
       RAILS_ENV: production
     env_file: ../.env
