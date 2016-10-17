@@ -11,4 +11,4 @@ COPY ["Gemfile", "Gemfile.lock", "/usr/src/app/"]
 RUN bundle install
 COPY . /usr/src/app
 
-CMD sleep 15 && rspec
+CMD ./check.rb && rspec
