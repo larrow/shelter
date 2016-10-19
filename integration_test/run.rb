@@ -19,7 +19,7 @@ end
 $stdout.sync = true
 
 10.times do
-  exit 0 if check_once
+  exec 'rspec' if check_once
 end
 
 exit 1
