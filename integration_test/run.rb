@@ -9,8 +9,8 @@ def check_once
       open('http://proxy/')
   end
 rescue OpenURI::HTTPError, Errno::ECONNREFUSED => e
-  puts "#{e}...wait and try again"
-  sleep 2
+  puts "."
+  sleep 1.5
   false
 rescue Timeout::Error
   false
@@ -18,7 +18,9 @@ end
 
 $stdout.sync = true
 
-10.times do
+puts 'wait for the service to be ready'
+
+30.times do
   exec 'rspec' if check_once
 end
 
