@@ -28,19 +28,41 @@ module UserSupport
     end.submit
   end
 
-  def log_in_admin(agent)
+  # The following helpers with params `agent` will use the agent passed in
+  # or create a new instance of Mechanize (to avoid double login within one session.
+  # Return the agent if the caller wants to use the same session.
+
+  def log_in_admin(agent = nil)
+    agent ||= Mechanize.new
+
     agent.get('http://proxy/').form_with(id: 'new_user') do |form|
       form['user[login]'] = admin_attrs[:login]
       form['user[password]'] = admin_attrs[:password]
     end.submit
+
+    agent
   end
 
-  def add_user_to_group(agent, user, group)
+  def create_group(group, agent = nil)
+    agent ||= Mechanize.new
+    agent = log_in_admin(agent)
+
+    agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
+      form['group[name]'] = group
+    end.submit
+
+    agent
+  end
+
+  def add_user_to_group(user, group, agent = nil)
+    agent ||= Mechanize.new
     log_in_admin(agent)
 
     form = agent.get("http://proxy/n/#{group}/members/new").forms.last
     form['username'] = user[:login]
     agent.submit(form)
+
+    agent
   end
 
   # user: expects :login and :password

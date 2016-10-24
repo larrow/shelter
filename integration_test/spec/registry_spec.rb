@@ -80,7 +80,7 @@ RSpec.describe "registry: push/pull an image" do
 
       before do
         sign_up(user_attrs)
-        add_user_to_group(agent, user_attrs, "testorg")
+        add_user_to_group(user_attrs, "testorg")
       end
 
       it 'can push to and pull from group' do
