@@ -41,11 +41,6 @@ RSpec.describe "push/pull a image" do
     end
 
     it "can push to library" do
-      @agent.get('http://proxy/').form_with(id: 'new_user') do |form|
-        form['user[login]'] = 'admin'
-        form['user[password]'] = 'shelter12345'
-      end.submit
-
       image = "library/test1"
 
       registry = Registry.new('http://admin:shelter12345@proxy/')
@@ -60,6 +55,7 @@ RSpec.describe "push/pull a image" do
 
     it "can pull from library" do
       image = 'library/test1'
+
       registry = Registry.new('http://admin:shelter12345@proxy/')
       blob1 = registry.pull_blob(image, ORIGINAL_DIGEST1)
       blob2 = registry.pull_blob(image, ORIGINAL_DIGEST2)
