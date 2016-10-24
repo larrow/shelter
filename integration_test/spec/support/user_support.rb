@@ -23,19 +23,23 @@ module UserSupport
     "group_#{id}"
   end
 
-  def sign_up(user)
-    agent = Mechanize.new
+
+  # The following helpers with params `agent` will use the agent passed in
+  # or create a new instance of Mechanize (to avoid double login within one session.
+  # Return the agent if the caller wants to use the same session.
+
+  def sign_up(user, agent = nil)
+    agent ||= Mechanize.new
+
     agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
       form['user[username]'] = user[:login]
       form['user[email]'] = user[:email]
       form['user[password]'] = user[:password]
       form['user[password_confirmation]'] = user[:password]
     end.submit
-  end
 
-  # The following helpers with params `agent` will use the agent passed in
-  # or create a new instance of Mechanize (to avoid double login within one session.
-  # Return the agent if the caller wants to use the same session.
+    agent
+  end
 
   def log_in_admin(agent = nil)
     agent ||= Mechanize.new
@@ -50,7 +54,7 @@ module UserSupport
 
   def create_group(group, agent = nil)
     agent ||= Mechanize.new
-    agent = log_in_admin(agent)
+    log_in_admin(agent)
 
     agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
       form['group[name]'] = group
