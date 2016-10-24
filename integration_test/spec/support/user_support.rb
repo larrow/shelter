@@ -18,6 +18,11 @@ module UserSupport
     "user_#{id}"
   end
 
+  def next_group
+    id = SecureRandom.hex(10)
+    "group_#{id}"
+  end
+
   def sign_up(user)
     agent = Mechanize.new
     agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
