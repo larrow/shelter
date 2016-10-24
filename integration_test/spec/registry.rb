@@ -58,6 +58,8 @@ class Registry
     res.body
   end
 
+  private
+
   def digest(content)
     "sha256:" + Digest::SHA256.hexdigest(content)
   end
