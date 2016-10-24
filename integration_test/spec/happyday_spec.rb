@@ -21,16 +21,19 @@ RSpec.describe "push/pull a image" do
   end
 
   context "with admin account" do
+    let(:registry) { Registry.new("http://#{admin_attrs[:login]}:#{admin_attrs[:password]}@proxy/") }
+
     it 'can see dashboard' do
       agent.get('http://proxy/').form_with(id: 'new_user') do |form|
         form['user[login]'] = admin_attrs[:login]
         form['user[password]'] = admin_attrs[:password]
       end.submit
+
       profile_link = agent.get('/')
         .links
         .select{|link| link.text == 'Profile'}
         .first
-      expect( profile_link ).to_not be_nil
+      expect(profile_link).to_not be_nil
     end
 
     it "has no image in a new org" do
@@ -38,9 +41,11 @@ RSpec.describe "push/pull a image" do
         form['user[login]'] = admin_attrs[:login]
         form['user[password]'] = admin_attrs[:password]
       end.submit
+
       agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
         form['group[name]'] = 'testorg'
       end.submit
+
       image_count = agent.get('http://proxy/testorg').search('.repo-box').length
       expect(image_count).to eq(0)
     end
@@ -48,7 +53,6 @@ RSpec.describe "push/pull a image" do
     it "can push to library" do
       image = "library/test1"
 
-      registry = Registry.new('http://admin:shelter12345@proxy/')
       digest1 = registry.push_blob(image, ORIGINAL_BLOB1)
       digest2 = registry.push_blob(image, ORIGINAL_BLOB2)
       res = registry.push_manifest(image, 'latest', ORIGINAL_MANIFEST_LIBRARY_TEST1)
@@ -61,7 +65,6 @@ RSpec.describe "push/pull a image" do
     it "can pull from library" do
       image = 'library/test1'
 
-      registry = Registry.new('http://admin:shelter12345@proxy/')
       blob1 = registry.pull_blob(image, ORIGINAL_DIGEST1)
       blob2 = registry.pull_blob(image, ORIGINAL_DIGEST2)
       manifest = registry.pull_manifest(image, 'latest')
@@ -81,6 +84,8 @@ RSpec.describe "push/pull a image" do
       }
     end
 
+    let(:registry) { Registry.new("http://#{user_attrs[:login]}:#{user_attrs[:password]}@proxy/") }
+
     it 'can sign up' do
       agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
         form['user[username]'] = user_attrs[:login]
@@ -88,13 +93,15 @@ RSpec.describe "push/pull a image" do
         form['user[password]'] = user_attrs[:password]
         form['user[password_confirmation]'] = user_attrs[:password]
       end.submit
+
       profile_link = agent.page.links.select{ |link| link.text == 'Profile' }.first
       expect(profile_link).to_not be_nil
     end
 
-    it 'cannot push and pull to testorg' do
-      registry = Registry.new('http://testuser:testpassword@proxy/')
-      expect{registry.push_blob('testorg/test1', ORIGINAL_BLOB1)}.to raise_error(RestClient::Unauthorized)
+    it 'cannot push to testorg' do
+      expect {
+        registry.push_blob('testorg/test1', ORIGINAL_BLOB1)
+      }.to raise_error(RestClient::Unauthorized)
     end
 
     it 'can be added to testorg' do
@@ -102,14 +109,15 @@ RSpec.describe "push/pull a image" do
         form['user[login]'] = admin_attrs[:login]
         form['user[password]'] = admin_attrs[:password]
       end.submit
+
       form = agent.get('http://proxy/n/testorg/members/new').forms.last
       form['username'] = user_attrs[:login]
       agent.submit(form)
-      expect(agent.get('http://proxy/n/testorg/members').body.include?('testuser')).to be(true)
+
+      expect(agent.get('http://proxy/n/testorg/members').body).to include('testuser')
     end
 
     it 'can push and pull to testorg' do
-      registry = Registry.new('http://testuser:testpassword@proxy/')
       image = 'testorg/test1'
 
       digest1 = registry.push_blob(image, ORIGINAL_BLOB1)
