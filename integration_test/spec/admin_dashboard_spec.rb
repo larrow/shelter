@@ -17,9 +17,10 @@ RSpec.describe "admin dashboard" do
     end
 
     it "has no image in a new org" do
-      create_group("testorg1")
+      group = next_group
+      create_group(group)
 
-      image_count = agent.get('http://proxy/testorg1').search('.repo-box').length
+      image_count = agent.get("http://proxy/#{group}").search('.repo-box').length
       expect(image_count).to eq(0)
     end
   end

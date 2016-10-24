@@ -76,16 +76,17 @@ RSpec.describe "registry: push/pull an image" do
         }
       end
 
+      let(:group) { next_group }
+      let(:image) { "#{group}/test1" }
       let(:registry) { registry_for(user_attrs) }
 
       before do
         sign_up(user_attrs)
-        add_user_to_group(user_attrs, "testorg")
+        create_group(group)
+        add_user_to_group(user_attrs, group)
       end
 
       it 'can push to and pull from group' do
-        image = 'testorg/test1'
-
         digest1 = registry.push_blob(image, ORIGINAL_BLOB1)
         digest2 = registry.push_blob(image, ORIGINAL_BLOB2)
         res = registry.push_manifest(image, 'latest', ORIGINAL_MANIFEST_TESTORG_TEST1)

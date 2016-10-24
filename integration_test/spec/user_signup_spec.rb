@@ -45,11 +45,14 @@ RSpec.describe "user signup" do
     }
     sign_up user
 
+    group = next_group
+    create_group(group)
+
     log_in_admin(agent)
-    form = agent.get('http://proxy/n/testorg/members/new').forms.last
+    form = agent.get("http://proxy/n/#{group}/members/new").forms.last
     form['username'] = user[:login]
     agent.submit(form)
 
-    expect(agent.get('http://proxy/n/testorg/members').body).to include(user[:login])
+    expect(agent.get("http://proxy/n/#{group}/members").body).to include(user[:login])
   end
 end
