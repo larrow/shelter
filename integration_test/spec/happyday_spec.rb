@@ -13,11 +13,18 @@ ORIGINAL_MANIFEST_TESTORG_TEST1 = File.read('spec/fixtures/manifest_testorg_test
 RSpec.describe "push/pull a image" do
   let(:agent) { Mechanize.new }
 
+  let(:admin_attrs) do
+    {
+      login: "admin",
+      password: "shelter12345"
+    }
+  end
+
   context "with admin account" do
     it 'can see dashboard' do
       agent.get('http://proxy/').form_with(id: 'new_user') do |form|
-        form['user[login]'] = 'admin'
-        form['user[password]'] = 'shelter12345'
+        form['user[login]'] = admin_attrs[:login]
+        form['user[password]'] = admin_attrs[:password]
       end.submit
       profile_link = agent.get('/')
         .links
@@ -28,8 +35,8 @@ RSpec.describe "push/pull a image" do
 
     it "has no image in a new org" do
       agent.get('http://proxy/').form_with(id: 'new_user') do |form|
-        form['user[login]'] = 'admin'
-        form['user[password]'] = 'shelter12345'
+        form['user[login]'] = admin_attrs[:login]
+        form['user[password]'] = admin_attrs[:password]
       end.submit
       agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
         form['group[name]'] = 'testorg'
@@ -66,13 +73,20 @@ RSpec.describe "push/pull a image" do
   end
 
   context 'with new account' do
+    let(:user_attrs) do
+      {
+        login: "testuser",
+        email: "example@example.com",
+        password: "testpassword"
+      }
+    end
 
     it 'can sign up' do
       agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
-        form['user[username]'] = 'testuser'
-        form['user[email]'] = 'example@example.com'
-        form['user[password]'] = 'testpassword'
-        form['user[password_confirmation]'] = 'testpassword'
+        form['user[username]'] = user_attrs[:login]
+        form['user[email]'] = user_attrs[:email]
+        form['user[password]'] = user_attrs[:password]
+        form['user[password_confirmation]'] = user_attrs[:password]
       end.submit
       profile_link = agent.page.links.select{ |link| link.text == 'Profile' }.first
       expect(profile_link).to_not be_nil
@@ -85,11 +99,11 @@ RSpec.describe "push/pull a image" do
 
     it 'can be added to testorg' do
       agent.get('http://proxy/').form_with(id: 'new_user') do |form|
-        form['user[login]'] = 'admin'
-        form['user[password]'] = 'shelter12345'
+        form['user[login]'] = admin_attrs[:login]
+        form['user[password]'] = admin_attrs[:password]
       end.submit
       form = agent.get('http://proxy/n/testorg/members/new').forms.last
-      form['username'] = 'testuser'
+      form['username'] = user_attrs[:login]
       agent.submit(form)
       expect(agent.get('http://proxy/n/testorg/members').body.include?('testuser')).to be(true)
     end
