@@ -20,6 +20,23 @@ RSpec.describe "user signup" do
     expect(profile_link).to_not be_nil
   end
 
+  it 'can sign in' do
+    user = {
+      login: next_username,
+      email: next_email,
+      password: "testpassword"
+    }
+    sign_up user
+
+    agent.get('http://proxy/users/sign_in').form_with(id: 'new_user') do |form|
+      form['user[login]'] = user[:login]
+      form['user[password]'] = user[:password]
+    end.submit
+
+    profile_link = agent.page.links.select{ |link| link.text == 'Profile' }.first
+    expect(profile_link).to_not be_nil
+  end
+
   it 'can be added to group' do
     user = {
       login: next_username,
