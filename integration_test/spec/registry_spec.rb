@@ -9,8 +9,6 @@ ORIGINAL_MANIFEST_LIBRARY_TEST1 = File.read('spec/fixtures/manifest_library_test
 ORIGINAL_MANIFEST_TESTORG_TEST1 = File.read('spec/fixtures/manifest_testorg_test1')
 
 RSpec.describe "registry: push/pull an image" do
-  let(:agent) { Mechanize.new }
-
   context "with admin account" do
     let(:registry) { registry_for(admin_attrs) }
 
@@ -81,9 +79,10 @@ RSpec.describe "registry: push/pull an image" do
       let(:registry) { registry_for(user_attrs) }
 
       before do
-        sign_up(user_attrs)
-        create_group(group)
-        add_user_to_group(user_attrs, group)
+        admin_agent = Mechanize.new
+        sign_up(user_attrs, admin_agent)
+        create_group(group, admin_agent)
+        add_user_to_group(user_attrs, group, admin_agent)
       end
 
       it 'can push to and pull from group' do

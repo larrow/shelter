@@ -26,14 +26,16 @@ RSpec.describe "user signup" do
       email: next_email,
       password: "testpassword"
     }
-    sign_up user
+    signup_agent = Mechanize.new
+    sign_up(user, signup_agent)
 
-    agent.get('http://proxy/users/sign_in').form_with(id: 'new_user') do |form|
+    signin_agent = Mechanize.new
+    signin_agent.get('http://proxy/users/sign_in').form_with(id: 'new_user') do |form|
       form['user[login]'] = user[:login]
       form['user[password]'] = user[:password]
     end.submit
 
-    profile_link = agent.page.links.select{ |link| link.text == 'Profile' }.first
+    profile_link = signin_agent.page.links.select{ |link| link.text == 'Profile' }.first
     expect(profile_link).to_not be_nil
   end
 
@@ -43,16 +45,17 @@ RSpec.describe "user signup" do
       email: next_email,
       password: "testpassword"
     }
-    sign_up user
+    sign_up(user, agent)
 
+    admin_agent = Mechanize.new
+    log_in_admin(admin_agent)
     group = next_group
-    create_group(group)
+    create_group(group, admin_agent)
 
-    log_in_admin(agent)
-    form = agent.get("http://proxy/n/#{group}/members/new").forms.last
+    form = admin_agent.get("http://proxy/n/#{group}/members/new").forms.last
     form['username'] = user[:login]
-    agent.submit(form)
+    admin_agent.submit(form)
 
-    expect(agent.get("http://proxy/n/#{group}/members").body).to include(user[:login])
+    expect(admin_agent.get("http://proxy/n/#{group}/members").body).to include(user[:login])
   end
 end
