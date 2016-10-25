@@ -1,8 +1,4 @@
-if ENV['USE_OFFICIAL_GEM_SOURCE']
-  source 'https://rubygems.org'
-else
-  source 'https://ruby.taobao.org'
-end
+source 'https://rubygems.org'
 
 gem 'rails', '~> 5.0.0'
 gem 'puma', '~> 3.0'
