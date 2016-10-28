@@ -26,7 +26,7 @@ class Ability
     end
     can :read, Namespace
     can :read, Group do |group|
-      group.users.include user
+      group.users.include? user
     end
     can :manage, GroupMember do |group_member|
       group_member.group.owners.include? user

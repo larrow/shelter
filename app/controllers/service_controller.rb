@@ -1,6 +1,9 @@
 class ServiceController < ApplicationController
   protect_from_forgery with: :null_session
 
+  # ignore csrf params for registry callback
+  skip_before_filter :verify_authenticity_token, :only => [:notifications]
+
   def notifications
     events = JSON.parse(request.body.read)['events']
     puts events

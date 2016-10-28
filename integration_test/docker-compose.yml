@@ -1,14 +1,13 @@
-version: '2'
+version: "2"
+
 services:
   registry:
     image: library/registry:2.4.0
     restart: always
     volumes:
-      - ./config/registry/:/etc/registry/
+      - ../config/registry/:/etc/registry/
     environment:
       - GODEBUG=netdns=cgo
-    ports:
-      - 5001:5001
     command:
       ["serve", "/etc/registry/config.yml"]
   db:
@@ -16,17 +15,21 @@ services:
   redis:
     image: redis
   worker:
-    build: .
+    build: ..
     # sleep 3 seconds in order to wait db start up
     command: "backend"
-    env_file: .env
+    environment:
+      RAILS_ENV: production
+    env_file: ../.env
     depends_on:
       - db
       - registry
       - redis
   web:
-    build: .
-    env_file: .env
+    build: ..
+    environment:
+      RAILS_ENV: production
+    env_file: ../.env
     depends_on:
       - db
       - registry
@@ -35,11 +38,13 @@ services:
     image: nginx:1.9
     restart: always
     volumes:
-      - ./config/nginx:/etc/nginx
-    ports:
-      - 80:80
-      - 443:443
+      - ../config/nginx:/etc/nginx
     depends_on:
       - db
       - registry
+      - web
+  test:
+    build: .
+    depends_on:
+      - proxy
       - web

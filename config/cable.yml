@@ -1,11 +1,12 @@
-development:
+default: &default
   adapter: redis
   url: <%= ENV['REDIS_URL'] %>
+
+development:
+  <<: *default
 
 test:
-  adapter: redis
-  url: <%= ENV['REDIS_URL'] %>
+  <<: *default
 
 production:
-  adapter: redis
-  url: <%= ENV['REDIS_URL'] %>
+  <<: *default

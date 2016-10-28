@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/amatsuda/kaminari.git
+  remote: https://github.com/amatsuda/kaminari.git
   revision: abbf93d557208ee1d0b612c612cd079f86ed54f4
   branch: 0-17-stable
   specs:
@@ -8,7 +8,14 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
-  remote: git://github.com/rubysherpas/paranoia.git
+  remote: https://github.com/ricardoemerson/font-ionicons-rails.git
+  revision: 172d7e3a8113969119f1016c68e055b46668956a
+  specs:
+    font-ionicons-rails (2.0.1.5)
+      railties (>= 3.2, < 6.0)
+
+GIT
+  remote: https://github.com/rubysherpas/paranoia.git
   revision: 70f6e37b7b32cf4f70c5b852a38597699f476c62
   branch: rails5
   specs:
@@ -16,14 +23,14 @@ GIT
       activerecord (>= 4.0, < 5.1)
 
 GIT
-  remote: git://github.com/sinatra/rack-protection.git
+  remote: https://github.com/sinatra/rack-protection.git
   revision: cc19dafb0c6266c2927e629688464c9992efedf8
   specs:
     rack-protection (2.0.0)
       rack
 
 GIT
-  remote: git://github.com/sinatra/sinatra.git
+  remote: https://github.com/sinatra/sinatra.git
   revision: bd1a9dc8c9c0a75b50bacb18cbf9ec1923764edb
   specs:
     sinatra (2.0.0.pre.alpha)
@@ -32,15 +39,8 @@ GIT
       rack-protection (~> 2.0)
       tilt (~> 2.0)
 
-GIT
-  remote: https://github.com/ricardoemerson/font-ionicons-rails.git
-  revision: 172d7e3a8113969119f1016c68e055b46668956a
-  specs:
-    font-ionicons-rails (2.0.1.5)
-      railties (>= 3.2, < 6.0)
-
 GEM
-  remote: https://ruby.taobao.org/
+  remote: https://rubygems.org/
   specs:
     actioncable (5.0.0)
       actionpack (= 5.0.0)
@@ -295,4 +295,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   1.12.5
+   1.13.3
