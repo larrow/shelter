@@ -6,6 +6,13 @@ module UserSupport
     }
   end
 
+  def next_user
+    {
+      login: next_username,
+      email: next_email,
+      password: "testpassword"
+    }
+  end
   # Note: next_email/next_username don't generate unique strings,
   # but in practice when running tests it's unlikely to generate duplicated string.
   def next_email
