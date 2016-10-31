@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'registry'
 
 ORIGINAL_BLOB1 = File.read('spec/fixtures/blob1')
 ORIGINAL_BLOB2 = File.read('spec/fixtures/blob2')
@@ -26,12 +25,12 @@ RSpec.describe "registry: push/pull an image" do
       end
     end
 
-    describe "pullf rom library" do
+    describe "pull from library" do
       let(:image) { "library/testpull" }
       before do
-        digest1 = registry.push_blob(image, ORIGINAL_BLOB1)
-        digest2 = registry.push_blob(image, ORIGINAL_BLOB2)
-        res = registry.push_manifest(image, 'latest', ORIGINAL_MANIFEST_LIBRARY_TEST1)
+        registry.push_blob(image, ORIGINAL_BLOB1)
+        registry.push_blob(image, ORIGINAL_BLOB2)
+        registry.push_manifest(image, 'latest', ORIGINAL_MANIFEST_LIBRARY_TEST1)
       end
 
       it "can pull" do
@@ -66,16 +65,19 @@ RSpec.describe "registry: push/pull an image" do
     end
 
     describe 'signed up' do
+      let(:username) { next_username }
+      let(:group) { next_group }
+
       let(:user_attrs) do
         {
-          login: next_username,
+          login: username,
           email: next_email,
           password: "testpassword"
         }
       end
 
-      let(:group) { next_group }
-      let(:image) { "#{group}/test1" }
+      let(:image) { "#{username}/test1" }
+      let(:image_on_group) { "#{group}/test1" }
       let(:registry) { registry_for(user_attrs) }
 
       before do
@@ -85,7 +87,7 @@ RSpec.describe "registry: push/pull an image" do
         add_user_to_group(user_attrs, group, admin_agent)
       end
 
-      it 'can push to and pull from group' do
+      it 'can push to and pull a image' do
         digest1 = registry.push_blob(image, ORIGINAL_BLOB1)
         digest2 = registry.push_blob(image, ORIGINAL_BLOB2)
         res = registry.push_manifest(image, 'latest', ORIGINAL_MANIFEST_TESTORG_TEST1)
@@ -97,6 +99,24 @@ RSpec.describe "registry: push/pull an image" do
         blob1 = registry.pull_blob(image, ORIGINAL_DIGEST1)
         blob2 = registry.pull_blob(image, ORIGINAL_DIGEST2)
         mani = registry.pull_manifest(image, 'latest')
+
+        expect(blob1.bytes).to eq(ORIGINAL_BLOB1.bytes)
+        expect(blob2.bytes).to eq(ORIGINAL_BLOB2.bytes)
+        expect(mani).to eq(ORIGINAL_MANIFEST_TESTORG_TEST1)
+      end
+
+      it 'can push to and pull on group' do
+        digest1 = registry.push_blob(image_on_group, ORIGINAL_BLOB1)
+        digest2 = registry.push_blob(image_on_group, ORIGINAL_BLOB2)
+        res = registry.push_manifest(image_on_group, 'latest', ORIGINAL_MANIFEST_TESTORG_TEST1)
+
+        expect(digest1).to eq(ORIGINAL_DIGEST1)
+        expect(digest2).to eq(ORIGINAL_DIGEST2)
+        expect(res).not_to be_nil
+
+        blob1 = registry.pull_blob(image_on_group, ORIGINAL_DIGEST1)
+        blob2 = registry.pull_blob(image_on_group, ORIGINAL_DIGEST2)
+        mani = registry.pull_manifest(image_on_group, 'latest')
 
         expect(blob1.bytes).to eq(ORIGINAL_BLOB1.bytes)
         expect(blob2.bytes).to eq(ORIGINAL_BLOB2.bytes)
