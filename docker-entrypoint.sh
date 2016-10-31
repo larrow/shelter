@@ -2,7 +2,6 @@
 
 if [ "$1" = "backend" ]
 then
-  sleep 5
   exec bundle exec sidekiq
 else
   sleep 3

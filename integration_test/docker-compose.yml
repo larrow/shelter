@@ -16,7 +16,6 @@ services:
     image: redis
   worker:
     build: ..
-    # sleep 3 seconds in order to wait db start up
     command: "backend"
     environment:
       RAILS_ENV: production
