@@ -46,4 +46,3 @@ services:
     build: .
     depends_on:
       - proxy
-      - web
