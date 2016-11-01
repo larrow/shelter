@@ -1,4 +1,6 @@
 module UserSupport
+  include WebSupport
+
   def admin_attrs
     {
       login: "admin",
@@ -30,12 +32,9 @@ module UserSupport
     "group_#{id}"
   end
 
-
-  # The following helpers need params `agent`, which is a Mechanize instance.
-
   def sign_up(u)
     user = next_user
-    agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
+    visit('/users/sign_up').form_with(id: 'new_user') do |form|
       form['user[username]'] = user[:login]
       form['user[email]'] = user[:email]
       form['user[password]'] = user[:password]
@@ -47,8 +46,8 @@ module UserSupport
 
   # a login operation will dismiss old session
   def login_as user
-    @agent = Mechanize.new
-    agent.get('http://proxy/').form_with(id: 'new_user') do |form|
+    new_session!
+    visit('/').form_with(id: 'new_user') do |form|
       form['user[login]'] = user[:login]
       form['user[password]'] = user[:password]
     end.submit
@@ -59,7 +58,7 @@ module UserSupport
 
   def create_group(g)
     group = next_group
-    agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
+    visit('/n/new').form_with(id: 'new_group') do |form|
       form['group[name]'] = group
     end.submit
     groups[g] = group
@@ -69,21 +68,18 @@ module UserSupport
 
   def add_user_to_group(user, group)
     as_admin do
-      form = agent.get("http://proxy/n/#{group}/members/new").forms.last
-      form['username'] = user[:login]
-      agent.submit(form)
+      visit("/n/#{group}/members/new")
+      fill_in 'new_group' do |f|
+        f['username'] = user[:login]
+      end
     end
   end
 
   def as_admin
-    current_agent = @agent
-    login_as admin_attrs
-    yield
-    @agent = current_agent
-  end
-
-  def agent
-    @agent ||= Mechanize.new
+    new_session do
+      login_as admin_attrs
+      yield
+    end
   end
 
   def users
@@ -94,10 +90,6 @@ module UserSupport
     @groups ||= {}
   end
 
-  def page
-    @page
-  end
-
   def current_user
     @current_user
   end
@@ -106,7 +98,4 @@ module UserSupport
     @namespaces ||= {'admin' => 'admin', 'library' => 'library'}
   end
 
-  def visit url
-    @page = agent.get url
-  end
 end
