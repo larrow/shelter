@@ -33,33 +33,38 @@ module UserSupport
 
   # The following helpers need params `agent`, which is a Mechanize instance.
 
-  def sign_up(user, agent)
+  def sign_up(u)
+    user = next_user
     agent.get('http://proxy/users/sign_up').form_with(id: 'new_user') do |form|
       form['user[username]'] = user[:login]
       form['user[email]'] = user[:email]
       form['user[password]'] = user[:password]
       form['user[password_confirmation]'] = user[:password]
     end.submit
+    namespaces[u] = user[:login]
+    users[u] = user
   end
 
-  def login_as user_type
-    user = if user_type == :admin
-             admin_attrs
-           else
-             next_user
-           end
+  # a login operation will dismiss old session
+  def login_as user
+    @agent = Mechanize.new
     agent.get('http://proxy/').form_with(id: 'new_user') do |form|
       form['user[login]'] = user[:login]
       form['user[password]'] = user[:password]
     end.submit
+    @current_user = user
   rescue
     # Omit login error, happens when admin already logs in.
   end
 
-  def create_group(group)
+  def create_group(g)
+    group = next_group
     agent.get('http://proxy/n/new').form_with(id: 'new_group') do |form|
       form['group[name]'] = group
     end.submit
+    groups[g] = group
+    namespaces[g] = group
+    group
   end
 
   def add_user_to_group(user, group)
@@ -72,8 +77,7 @@ module UserSupport
 
   def as_admin
     current_agent = @agent
-    @agent = Mechanize.new
-    login_as :admin
+    login_as admin_attrs
     yield
     @agent = current_agent
   end
@@ -82,8 +86,24 @@ module UserSupport
     @agent ||= Mechanize.new
   end
 
+  def users
+    @users ||= {'管理员' => admin_attrs}
+  end
+
+  def groups
+    @groups ||= {}
+  end
+
   def page
     @page
+  end
+
+  def current_user
+    @current_user
+  end
+
+  def namespaces
+    @namespaces ||= {'admin' => 'admin', 'library' => 'library'}
   end
 
   def visit url
