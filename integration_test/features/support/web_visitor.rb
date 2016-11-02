@@ -1,4 +1,4 @@
-module WebSupport
+module WebVisitor
   def agent
     @agent ||= Mechanize.new.tap{|a| a.get 'http://proxy/'}
   end

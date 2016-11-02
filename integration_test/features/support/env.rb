@@ -1,10 +1,11 @@
+$: << File.dirname(__FILE__)
+
 require 'bundler'
 Bundler.require :default
 
-require_relative 'registry'
-require_relative 'web_support'
-require_relative 'user_support'
-require_relative 'registry_support'
+require 'user_support'
+require 'registry_support'
+
 include UserSupport
 include RegistrySupport
 

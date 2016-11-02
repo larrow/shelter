@@ -1,36 +1,9 @@
+require 'web_visitor'
+require 'global_vars'
+
 module UserSupport
-  include WebSupport
-
-  def admin_attrs
-    {
-      login: "admin",
-      password: "shelter12345"
-    }
-  end
-
-  def next_user
-    {
-      login: next_username,
-      email: next_email,
-      password: "testpassword"
-    }
-  end
-  # Note: next_email/next_username don't generate unique strings,
-  # but in practice when running tests it's unlikely to generate duplicated string.
-  def next_email
-    id = SecureRandom.hex(10)
-    "#{id}@example.com"
-  end
-
-  def next_username
-    id = SecureRandom.hex(10)
-    "user_#{id}"
-  end
-
-  def next_group
-    id = SecureRandom.hex(10)
-    "group_#{id}"
-  end
+  include WebVisitor
+  include GlobalVars
 
   def sign_up(u)
     user = next_user
@@ -77,25 +50,9 @@ module UserSupport
 
   def as_admin
     new_session do
-      login_as admin_attrs
+      login_as users['管理员']
       yield
     end
-  end
-
-  def users
-    @users ||= {'管理员' => admin_attrs}
-  end
-
-  def groups
-    @groups ||= {}
-  end
-
-  def current_user
-    @current_user
-  end
-
-  def namespaces
-    @namespaces ||= {'admin' => 'admin', 'library' => 'library'}
   end
 
 end
