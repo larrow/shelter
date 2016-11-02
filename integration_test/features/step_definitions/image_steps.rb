@@ -19,4 +19,7 @@
   expect(mani).to eq(ORIGINAL_MANIFEST_TESTORG_TEST1)
 end
 
-
+那么(/^可以删除(.*)中的镜像$/) do |label|
+  _image = "#{namespaces[label]}/test1"
+  pending
+end
