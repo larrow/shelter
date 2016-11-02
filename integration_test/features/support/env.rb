@@ -15,8 +15,3 @@ ORIGINAL_DIGEST2 = File.read('features/fixtures/digest2')
 ORIGINAL_MANIFEST_LIBRARY_TEST1 = File.read('features/fixtures/manifest_library_test1')
 ORIGINAL_MANIFEST_TESTORG_TEST1 = File.read('features/fixtures/manifest_testorg_test1')
 
-RSpec.configure do |config|
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-end
