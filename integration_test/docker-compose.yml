@@ -17,8 +17,6 @@ services:
   worker:
     build: ..
     command: "backend"
-    environment:
-      RAILS_ENV: production
     env_file: ../.env
     depends_on:
       - db
@@ -26,8 +24,6 @@ services:
       - redis
   web:
     build: ..
-    environment:
-      RAILS_ENV: production
     env_file: ../.env
     depends_on:
       - db
