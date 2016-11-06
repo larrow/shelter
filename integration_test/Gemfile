@@ -7,4 +7,4 @@ gem 'cucumber'
 gem 'rest-client'
 gem 'pry'
 gem 'pry-nav'
-
+gem 'docker-api'

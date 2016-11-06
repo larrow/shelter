@@ -15,11 +15,16 @@ GEM
       gherkin (~> 4.0)
     cucumber-wire (0.0.1)
     diff-lcs (1.2.5)
+    docker-api (1.32.1)
+      excon (>= 0.38.0)
+      json
     domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
+    excon (0.54.0)
     gherkin (4.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    json (2.0.2)
     mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -69,6 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
+  docker-api
   mechanize
   pry
   pry-nav

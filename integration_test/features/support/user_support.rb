@@ -1,5 +1,6 @@
 require 'web_visitor'
 require 'global_vars'
+require 'registry'
 
 module UserSupport
   include WebVisitor
@@ -20,10 +21,13 @@ module UserSupport
   # a login operation will dismiss old session
   def login_as user
     new_session!
+    # web login
     visit('/').form_with(id: 'new_user') do |form|
       form['user[login]'] = user[:login]
       form['user[password]'] = user[:password]
     end.submit
+    # registry login
+    Registry.login_as user
     @current_user = user
   rescue
     # Omit login error, happens when admin already logs in.

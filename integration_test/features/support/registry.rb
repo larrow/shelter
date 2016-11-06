@@ -1,66 +1,53 @@
-require 'json'
-require 'rest-client'
-require 'pry'
+require 'docker-api'
+require 'socket'
 
-class Registry
-  # example: https://myuser:mypass@my.registy.corp.com
-  def initialize(url)
-    uri = URI.parse url
-    parts = URI.split url
-    @full_url = url
-    @registry = "%s://%s:%s" % [parts[0], parts[2], parts[3]]
-    @user = uri.user
-    @password = uri.password
-    # RestClient.proxy = "http://localhost:8888/"
+module Registry
+  def init
+    return if @images
+
+    %w{v1 v2 v3}.each do |tag|
+      File.open("features/fixtures/hello-world_#{tag}.tar",'rb') do |f|
+        Docker::Image.load(f)
+      end
+    end
+
+    @images = {}
+    # use proxy directly will get wrong ipaddress
+    @addr = IPSocket::getaddress 'proxy'
+
+    Docker::Image.all.each do |img|
+      tag = img.info['RepoTags'].first
+      if tag =~ /hello-world:(v.)/
+        @images.update $1 => img
+      end
+    end
+    @images
   end
 
-  def token(scope)
-    uri = URI.parse @full_url
-    uri.path = "/service/token"
-    response = RestClient.get uri.to_s, {params: {service: 'token-service', scope: scope}}
-    JSON.parse(response.body)['token']
+  def login_as user
+    addr = IPSocket::getaddress 'proxy' # use proxy directly will get wrong ipaddress
+    Docker.authenticate!(username: user[:login],
+                         password: user[:password],
+                         serveraddress: addr)
   end
 
-  def push_manifest(image, reference, content)
-    uri = URI.parse @registry
-    uri.path = "/v2/#{image}/manifests/#{reference}"
-    push_token = token("repository:#{image}:pull,push")
-    response = RestClient.put uri.to_s, content, {Authorization: "Bearer #{push_token}", content_type: 'application/vnd.docker.distribution.manifest.v1+json'}
+  def push(image, tag)
+    img = @images[tag.to_s]
+    id = img.id
+
+    # docker tag <old_tag> <addr+image+tag>
+    img.tag repo: "#{@addr}/#{image}", tag: tag
+    # docker push <add+image+tag>
+    img.push nil, repo_tag: "#{@addr}/#{image}:#{tag}"
+    # docker rmi <add+image+tag>
+    img.remove name: "#{@addr}/#{image}:#{tag}"
+    # reload image object
+    @images[tag.to_s] = Docker::Image.get id
   end
 
-  # return: blob location
-  def push_blob(image, content)
-    uri = URI.parse @registry
-    uri.path = "/v2/#{image}/blobs/uploads/"
-    push_token = token("repository:#{image}:pull,push")
-    response = RestClient.post uri.to_s, nil, {Authorization: "Bearer #{push_token}"}
-    location = response.headers[:location]
-    uri = URI.parse location
-    uri.query += "&digest=#{digest(content).sub(':', '%3A')}"
-    push_token = token("repository:#{image}:pull,push")
-    response = RestClient.put uri.to_s, content, {Authorization: "Bearer #{push_token}", content_type: 'application/octet-stream'}
-    response.headers[:docker_content_digest] if response.code == 201
-  end
-
-  def pull_manifest(image, reference)
-    uri = URI.parse @registry
-    uri.path = "/v2/#{image}/manifests/#{reference}"
-    pull_token = token("repository:#{image}:pull")
-    res = RestClient.get uri.to_s, {Authorization: "Bearer #{pull_token}", accept: 'application/vnd.docker.distribution.manifest.v1+json'}
-    res.body
-  end
-
-  def pull_blob(image, digest)
-    uri = URI.parse @registry
-    uri.path = "/v2/#{image}/blobs/#{digest}"
-    pull_token = token("repository:#{image}:pull")
-    res = RestClient.get uri.to_s, {Authorization: "Bearer #{pull_token}"}
-    res.body
-  end
-
-  private
-
-  def digest(content)
-    "sha256:" + Digest::SHA256.hexdigest(content)
-  end
+  def images; @images end
+  module_function :init, :login_as, :push, :images
 end
+
+Registry.init
+
