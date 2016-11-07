@@ -38,9 +38,19 @@ services:
       - db
       - registry
       - web
+
+  dind:
+    image: docker:dind
+    privileged: true
+    command: "--insecure-registry proxy"
+    volumes:
+      - /var/run
+    depends_on:
+      - proxy
   test:
     build: .
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    volumes_from:
+      - dind
     depends_on:
+      - dind
       - proxy
