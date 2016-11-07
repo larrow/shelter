@@ -9,6 +9,12 @@ COPY Gemfile.lock /usr/src/app
 WORKDIR /usr/src/app
 RUN bundle install
 COPY . /usr/src/app
+RUN bundle exec rake assets:precompile
+
+ENV RAILS_ENV production
+ENV RAILS_SERVE_STATIC_FILES 1
+ENV REDIS_URL "redis://redis/0"
+ENV RAILS_LOG_TO_STDOUT true
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

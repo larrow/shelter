@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/.idea
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -25,3 +26,10 @@ Vagrantfile
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+# Ignore runtime configuration files
+config/registry/root.crt
+config/private_key.pem
+config/registry/config.yml
+config/nginx/cert/*
+.env

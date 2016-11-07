@@ -39,11 +39,6 @@ Rails.application.routes.draw do
     end
 
     resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update] do
-      resources :repository_members, as: :members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
-        member do
-          post 'toggle_access_level'
-        end
-      end
 
       member do
         post 'toggle_publicity'
