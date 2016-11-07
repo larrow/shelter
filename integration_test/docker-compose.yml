@@ -17,8 +17,6 @@ services:
   worker:
     build: ..
     command: "backend"
-    environment:
-      RAILS_ENV: production
     env_file: ../.env
     depends_on:
       - db
@@ -26,8 +24,6 @@ services:
       - redis
   web:
     build: ..
-    environment:
-      RAILS_ENV: production
     env_file: ../.env
     depends_on:
       - db
@@ -42,7 +38,19 @@ services:
       - db
       - registry
       - web
+
+  dind:
+    image: docker:dind
+    privileged: true
+    command: "--insecure-registry proxy"
+    volumes:
+      - /var/run
+    depends_on:
+      - proxy
   test:
     build: .
+    volumes_from:
+      - dind
     depends_on:
+      - dind
       - proxy

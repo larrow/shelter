@@ -21,7 +21,7 @@ $stdout.sync = true
 puts 'wait for the service to be ready'
 
 30.times do
-  exec 'rspec' if check_once
+  exec 'cucumber' if check_once
 end
 
 exit 1
