@@ -30,5 +30,4 @@ module AccountGenerator
     "group_#{id}"
   end
 
-
 end

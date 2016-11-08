@@ -3,7 +3,7 @@ require 'socket'
 
 module Registry
   def init
-    return if @images
+    return if @local_imgs
 
     %w{v1 v2 v3}.each do |tag|
       File.open("features/fixtures/hello-world_#{tag}.tar",'rb') do |f|
@@ -11,17 +11,17 @@ module Registry
       end
     end
 
-    @images = {}
+    @local_imgs = {}
     # use proxy directly will get wrong ipaddress
     @addr = IPSocket::getaddress 'proxy'
 
     Docker::Image.all.each do |img|
       tag = img.info['RepoTags'].first
       if tag =~ /hello-world:(v.)/
-        @images.update $1 => img
+        @local_imgs.update $1 => img
       end
     end
-    @images
+    @local_imgs
   end
 
   def login_as user
@@ -32,7 +32,7 @@ module Registry
   end
 
   def push(image, tag)
-    img = @images[tag.to_s]
+    img = @local_imgs[tag.to_s]
     id = img.id
 
     # docker tag <old_tag> <addr+image+tag>
@@ -42,11 +42,11 @@ module Registry
     # docker rmi <add+image+tag>
     img.remove name: "#{@addr}/#{image}:#{tag}"
     # reload image object
-    @images[tag.to_s] = Docker::Image.get id
+    @local_imgs[tag.to_s] = Docker::Image.get id
   end
 
-  def images; @images end
-  module_function :init, :login_as, :push, :images
+  def local_imgs; @local_imgs end
+  module_function :init, :login_as, :push, :local_imgs
 end
 
 Registry.init
