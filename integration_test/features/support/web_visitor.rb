@@ -24,6 +24,20 @@ module WebVisitor
       .first
   end
 
+  def web_delete url
+    _inner_post(
+      url,
+      {'_method' => 'delete'},
+      {'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'}
+    )
+  end
+
+  def _inner_post url, params, options
+    csrf_key = page.at('meta[name="csrf-param"]')[:content]
+    csrf_token = page.at('meta[name="csrf-token"]')[:content]
+    agent.post(url, params.update(csrf_key => csrf_token), options)
+  end
+
   def new_session
     old_agent = @agent
     @agent = nil
