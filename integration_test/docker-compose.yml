@@ -50,6 +50,8 @@ services:
     build: .
     volumes_from:
       - dind
+    environment:
+      remote_registry: 'proxy.local'
     depends_on:
       - dind
       - proxy
