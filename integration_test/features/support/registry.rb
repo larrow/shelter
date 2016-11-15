@@ -13,7 +13,7 @@ module Registry
 
     @local_imgs = {}
     # use proxy directly will get wrong ipaddress
-    @addr = IPSocket::getaddress 'proxy'
+    @addr = 'proxy.local'
 
     Docker::Image.all.each do |img|
       tag = img.info['RepoTags'].first
@@ -25,10 +25,9 @@ module Registry
   end
 
   def login_as user
-    addr = IPSocket::getaddress 'proxy' # use proxy directly will get wrong ipaddress
     Docker.authenticate!(username: user[:login],
                          password: user[:password],
-                         serveraddress: addr)
+                         serveraddress: @addr)
   end
 
   def push(image, tag)

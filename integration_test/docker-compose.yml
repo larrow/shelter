@@ -41,11 +41,11 @@ services:
   dind:
     image: docker:dind
     privileged: true
-    command: "--insecure-registry proxy"
+    command: "--insecure-registry proxy.local"
     volumes:
       - /var/run
-    depends_on:
-      - proxy
+    links:
+      - proxy:proxy.local
   test:
     build: .
     volumes_from:
