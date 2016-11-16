@@ -3,9 +3,8 @@ version: "2"
 services:
   registry:
     image: library/registry:2.4.0
-    restart: always
     volumes:
-      - ../config/registry/:/etc/registry/
+      - ./config/registry/:/etc/registry/
     environment:
       - GODEBUG=netdns=cgo
     command:
