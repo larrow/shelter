@@ -23,6 +23,8 @@ services:
       - redis
   web:
     build: .
+    volumes:
+        - ./config/private_key.pem:/usr/src/app/config/private_key.pem
     env_file: config/env_file
     depends_on:
       - db
