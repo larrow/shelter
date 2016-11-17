@@ -16,6 +16,7 @@ module Registry
     @addr = ENV['remote_registry'] || 'localhost'
 
     Docker::Image.all.each do |img|
+      next if img.info['RepoTags'].nil?
       tag = img.info['RepoTags'].first
       if tag =~ /hello-world:(v.)/
         @local_imgs.update $1 => img
