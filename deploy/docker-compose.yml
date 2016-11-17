@@ -3,7 +3,6 @@ services:
   registry:
     image: library/registry:2.4.0
     volumes:
-      - /data/registry:/storage
       - ./config/registry/:/etc/registry/
     environment:
       - GODEBUG=netdns=cgo
@@ -13,39 +12,26 @@ services:
       ["serve", "/etc/registry/config.yml"]
   db:
     image: postgres
-    ports:
-      - 5433:5432
   redis:
     image: redis
-    ports:
-      - 6380:6379
   worker:
-    build: .
+    image: larrow/shelter
     command: "backend"
-    environment:
-      RAILS_ENV: development
-    volumes:
-      - .:/usr/src/app
     depends_on:
       - db
       - registry
       - redis
   web:
-    build: .
-    # useful for binding.pry and rails c
-    tty: true
-    stdin_open: true
-    environment:
-      RAILS_ENV: development
+    image: larrow/shelter
     volumes:
-      - .:/usr/src/app
+      - ./config/private_key.pem:/usr/src/app/config/private_key.pem
+    env_file: config/env_file
     depends_on:
       - db
       - registry
       - redis
   proxy:
     image: nginx:1.9
-    restart: always
     volumes:
       - ./config/nginx:/etc/nginx
     ports:

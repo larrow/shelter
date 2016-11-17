@@ -2,7 +2,6 @@ version: '2'
 services:
   registry:
     image: library/registry:2.4.0
-    restart: always
     volumes:
       - ./config/registry/:/etc/registry/
     environment:
@@ -18,14 +17,15 @@ services:
   worker:
     build: .
     command: "backend"
-    env_file: .env
     depends_on:
       - db
       - registry
       - redis
   web:
     build: .
-    env_file: .env
+    volumes:
+        - ./config/private_key.pem:/usr/src/app/config/private_key.pem
+    env_file: config/env_file
     depends_on:
       - db
       - registry

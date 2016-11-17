@@ -4,7 +4,8 @@ services:
   registry:
     image: library/registry:2.4.0
     volumes:
-      - ./config/registry/:/etc/registry/
+      - ../config/registry/root.crt:/etc/registry/root.crt
+      - ./config/registry/config.yml:/etc/registry/config.yml
     environment:
       - GODEBUG=netdns=cgo
     command:
@@ -16,14 +17,15 @@ services:
   worker:
     build: ..
     command: "backend"
-    env_file: ../.env
     depends_on:
       - db
       - registry
       - redis
   web:
     build: ..
-    env_file: ../.env
+    volumes:
+      - ../config/private_key.pem:/usr/src/app/config/private_key.pem
+    env_file: ../config/env_file
     depends_on:
       - db
       - registry
