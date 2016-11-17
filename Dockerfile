@@ -16,5 +16,8 @@ ENV RAILS_SERVE_STATIC_FILES 1
 ENV REDIS_URL "redis://redis/0"
 ENV RAILS_LOG_TO_STDOUT true
 
-COPY docker-entrypoint.sh /entrypoint.sh
+RUN mv docker-entrypoint.sh /entrypoint.sh && \
+    mv prepare.sh /prepare.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
+

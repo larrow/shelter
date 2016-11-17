@@ -32,4 +32,5 @@ config/registry/root.crt
 config/private_key.pem
 config/registry/config.yml
 config/nginx/cert/*
+env_file
 .env
