@@ -17,14 +17,14 @@ services:
   worker:
     build: .
     command: "backend"
-    env_file: env_file
+    env_file: config/env_file
     depends_on:
       - db
       - registry
       - redis
   web:
     build: .
-    env_file: env_file
+    env_file: config/env_file
     depends_on:
       - db
       - registry
