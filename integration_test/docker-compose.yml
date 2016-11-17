@@ -4,7 +4,8 @@ services:
   registry:
     image: library/registry:2.4.0
     volumes:
-      - ./config/registry/:/etc/registry/
+      - ../config/registry/root.crt:/etc/registry/root.crt
+      - ./config/registry/config.yml:/etc/registry/config.yml
     environment:
       - GODEBUG=netdns=cgo
     command:
