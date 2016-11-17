@@ -17,7 +17,6 @@ services:
   worker:
     build: .
     command: "backend"
-    env_file: config/env_file
     depends_on:
       - db
       - registry
