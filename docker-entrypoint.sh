@@ -2,7 +2,7 @@
 
 case "$1" in
   config )
-    if [ -f ".env" ]
+    if [ -f "env_file" ]
     then
       echo 'prepared.'
     else

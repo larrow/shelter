@@ -15,7 +15,7 @@ services:
   redis:
     image: redis
   worker:
-    image: shelter
+    image: larrow/shelter
     command: "backend"
     env_file: env_file
     depends_on:
@@ -23,7 +23,7 @@ services:
       - registry
       - redis
   web:
-    image: shelter
+    image: larrow/shelter
     env_file: env_file
     depends_on:
       - db
