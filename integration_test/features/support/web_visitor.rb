@@ -1,18 +1,26 @@
+# this module is designed for delegation of http client
 module WebVisitor
-  def agent
-    @agent ||= Mechanize.new.tap{|a| a.get 'http://proxy/'}
+  def new_session
+    old_agent = @agent
+    @agent = nil
+    yield
+  ensure
+    @agent = old_agent
   end
 
-  def page
-    @page
+  def new_session!
+    @agent = nil
   end
 
   def visit url
-    @page = agent.get url
+    agent.get url
   end
 
-  def fill_in id
-    form = page.forms.select{|f| f.id == id}
+  # example:
+  #    submit_form( action: action ){|f| f['field1'] = value1}
+  #    submit_form( id: id ) {|f| f['field2'] = value2 }
+  def submit_form args
+    form = page.form_with args
     yield form
     agent.submit form
   end
@@ -24,14 +32,26 @@ module WebVisitor
       .first
   end
 
-  def new_session
-    old_agent = @agent
-    @agent = nil
-    yield
-    @agent = old_agent
+  def web_delete url
+    _inner_post(
+      url,
+      {'_method' => 'delete'},
+      {'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'}
+    )
   end
 
-  def new_session!
-    @agent = nil
+  def page
+    agent.page
   end
+
+  def agent
+    @agent ||= Mechanize.new.tap{|a| a.get 'http://proxy/'}
+  end
+
+  def _inner_post url, params, options
+    csrf_key = page.at('meta[name="csrf-param"]')[:content]
+    csrf_token = page.at('meta[name="csrf-token"]')[:content]
+    agent.post(url, params.update(csrf_key => csrf_token), options)
+  end
+
 end

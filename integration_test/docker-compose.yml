@@ -3,9 +3,9 @@ version: "2"
 services:
   registry:
     image: library/registry:2.4.0
-    restart: always
     volumes:
-      - ../config/registry/:/etc/registry/
+      - ../config/registry/root.crt:/etc/registry/root.crt
+      - ./config/registry/config.yml:/etc/registry/config.yml
     environment:
       - GODEBUG=netdns=cgo
     command:
@@ -17,21 +17,21 @@ services:
   worker:
     build: ..
     command: "backend"
-    env_file: ../.env
     depends_on:
       - db
       - registry
       - redis
   web:
     build: ..
-    env_file: ../.env
+    volumes:
+      - ../config/private_key.pem:/usr/src/app/config/private_key.pem
+    env_file: ../config/env_file
     depends_on:
       - db
       - registry
       - redis
   proxy:
     image: nginx:1.9
-    restart: always
     volumes:
       - ../config/nginx:/etc/nginx
     depends_on:
@@ -42,15 +42,17 @@ services:
   dind:
     image: docker:dind
     privileged: true
-    command: "--insecure-registry proxy"
+    command: "--insecure-registry proxy.local"
     volumes:
       - /var/run
-    depends_on:
-      - proxy
+    links:
+      - proxy:proxy.local
   test:
     build: .
     volumes_from:
       - dind
+    environment:
+      remote_registry: 'proxy.local'
     depends_on:
       - dind
       - proxy

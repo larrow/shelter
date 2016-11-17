@@ -18,11 +18,22 @@ end
 end
 
 假定(/^创建用户(.*)$/) do |u|
-  sign_up(u)
+  u.split(',').each do |user|
+    sign_up(user.strip)
+  end
 end
 
-假定(/^添加一个用户组(.*)$/) do |g|
-  create_group g
+假定(/用户(.*)创建一个用户组(.*)/) do |u,g|
+  user = users[u]
+  login_as user do
+    create_group g
+  end
+end
+
+假定(/用户(.*)加入用户组(.*)/) do |u,g|
+  user = users[u]
+  group = groups[g]
+  add_user_to_group user,group
 end
 
 那么(/^显示用户组(.*)$/) do |g|
