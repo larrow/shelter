@@ -45,7 +45,6 @@ services:
       - redis
   proxy:
     image: nginx:1.9
-    restart: always
     volumes:
       - ./config/nginx:/etc/nginx
     ports:

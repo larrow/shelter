@@ -1,10 +1,10 @@
-/log
-/tmp
-/integration_test
-/deploy
+log
+tmp
+integration_test
+deploy
 config/registry/root.crt
 config/private_key.pem
 config/registry/config.yml
 config/nginx/cert/*
-env_file
+config/env_file
 
