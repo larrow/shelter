@@ -29,7 +29,7 @@ class Registry
   def delete_tag(tag)
     digest = manifests(tag)[0]
     delete_manifests digest
-    end
+  end
 
   def token(scope)
     rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
