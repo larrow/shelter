@@ -6,8 +6,7 @@ Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
 Rails.application.routes.draw do
 
   namespace :admin do
-    get 'settings', to: 'settings#index'
-    post 'settings', to: 'settings#update'
+    resources :settings, only: [:index, :update]
     resources :users
     resources :namespaces
     resources :repositories
@@ -24,22 +23,18 @@ Rails.application.routes.draw do
   get 'service/token'
   get 'search', to: 'search#index'
 
-  resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:new, :create] do
+  resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :create, :new, :destroy] do
     resources :group_members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
       member do
         post 'toggle_access_level'
       end
     end
 
-  end
-
-  resources :namespaces, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :destroy] do
     member do
       get 'settings'
     end
 
-    resources :repositories, path: '/', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update] do
-
+    resources :repositories, path: '/r', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update] do
       member do
         post 'toggle_publicity'
         get 'edit_description'
@@ -48,6 +43,5 @@ Rails.application.routes.draw do
       resources :tags, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :destroy]
     end
   end
-
 
 end
