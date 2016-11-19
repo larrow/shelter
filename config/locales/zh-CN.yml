@@ -11,17 +11,17 @@ zh-CN:
       password: 密码
   dashboard:
     index:
-      repositories: 我的 repository
+      repositories: 我的镜像
       new_org: 新建组织
   layouts:
     application:
       home: 首页
       dashboard: 面板
+      admin: 管理员入口
       users: 用户
       namespaces: 命名空间
-      repositories: repositories
+      repositories: 镜像
       system_settings: 系统设置
-      admin: 管理员
       search: 搜索
       new_org: 新建组织
       profile: 个人信息
