@@ -32,7 +32,7 @@ shelter 本身使用 docker 相关技术进行交付，因此您可以直接使�
 * 准备
 
 ```
-# wget https://github.com/larrow/shelter/blob/feature/deployable/deploy/init.sh
+# wget https://raw.githubusercontent.com/larrow/shelter/master/deploy/init.sh
 # chmod +x init.sh
 # sh init.sh 192.168.0.10
 ```
