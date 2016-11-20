@@ -29,7 +29,7 @@
                 <li class="<%= active_class(dashboard_index_path) %>"><%= link_to t('.dashboard'), dashboard_index_path %></li>
                 <li class="<%= active_class(namespace_path(current_user.username)) %>"><%= link_to t('.repositories'), namespace_path(current_user.username)  %></li>
                 <% if user_signed_in? && current_user.admin? %>
-                  <li class="dropdown">
+                  <li class="dropdown <%= active_class "/admin/#{controller_name}" %>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t '.admin' %> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><%= link_to t('.users'), admin_users_path %></li>
