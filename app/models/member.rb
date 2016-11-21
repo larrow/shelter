@@ -1,6 +1,6 @@
-class GroupMember < ApplicationRecord
+class Member < ApplicationRecord
 
-  belongs_to :group, class_name: 'Group'
+  belongs_to :namespace
   belongs_to :user
 
   validates :user, presence: true

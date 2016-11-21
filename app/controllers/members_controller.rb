@@ -1,4 +1,4 @@
-class GroupMembersController < ApplicationController
+class MembersController < ApplicationController
   before_action :process_params
   before_action :authenticate_user!
 
