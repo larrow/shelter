@@ -6,7 +6,6 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :trackable, :validatable,
     :authentication_keys => [:login]
   validates :username, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 2..30 }, uniqueness: { case_sensitive: false }
-  validate :namespace_uniq, if: ->(user) { user.username_changed? }
 
   has_one :namespace, -> { where type: nil }, foreign_key: :owner_id, class_name: 'Namespace'
 
@@ -41,13 +40,6 @@ class User < ApplicationRecord
     @ability ||= Ability.new(self)
   end
   delegate :can?, :cannot?, to: :ability
-
-  def namespace_uniq
-    return if self.errors.key?(:username) && self.errors[:username].include?('has already been taken')
-
-    existing_namespace = Namespace.find_by(name: self.username)
-    self.errors.add(:username, 'has already been token') if existing_namespace && existing_namespace != self.namespace
-  end
 
   def create_group(group_name)
     group = Group.create(name: group_name)
