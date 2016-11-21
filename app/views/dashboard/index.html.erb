@@ -1,6 +1,6 @@
 <div class="row" style="margin-bottom: 10px;">
   <div class="col-md-12">
-    <% current_user.authorized_groups.each do |group| %>
+    <% @authorized_groups.each do |group| %>
       <fieldset>
         <legend>
           <%= link_to group.name, namespace_path(group.name) %>

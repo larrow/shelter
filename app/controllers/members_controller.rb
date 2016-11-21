@@ -12,7 +12,8 @@ class MembersController < ApplicationController
 
   def create
     authorize! :update, @group
-    @group.add_user(User.where(username: params[:username]).or(User.where(email: params[:username])).first, :developer, current_user)
+    user = User.where(username: params[:username]).or(User.where(email: params[:username])).first
+    @group.developers << user
     redirect_to namespace_group_members_path(@group.name), notice: t('.user_invited')
   end
 
@@ -33,6 +34,6 @@ class MembersController < ApplicationController
   private
 
   def process_params
-    @group = Group.find_by!(name: params[:namespace_id])
+    @group = Namespace.find_by!(name: params[:namespace_id])
   end
 end

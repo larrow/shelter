@@ -1,9 +1,6 @@
 class Repository < ApplicationRecord
   acts_as_paranoid
   belongs_to :namespace
-  belongs_to :group, -> { where(type: 'Group') }, foreign_key: 'namespace_id'
-
-  delegate :owner, to: :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true

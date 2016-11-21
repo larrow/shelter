@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   def index
-    @repositories = current_user.personal_repositories.order(updated_at: :desc).page(params[:page])
+    @authorized_groups = current_user.namespaces
   end
 end

@@ -23,6 +23,7 @@ module UserSupport
 
   # login operation, and old session will be dismissed.
   # if you want to save current session, you may use block
+
   def login_as user
     block = -> do
       # web login
