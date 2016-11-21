@@ -19,7 +19,7 @@ class Ability
     end
 
     can [:read, :create, :update], Namespace do |ns|
-      ns.owners.includes?(user)
+      ns.owners.include?(user)
     end
     can :read, Namespace do |ns|
       ns.users.include? user
