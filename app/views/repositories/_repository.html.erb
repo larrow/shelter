@@ -1,4 +1,4 @@
-<a href="<%= "#{repository.namespace.name}/#{repository.name}" %>">
+<%=link_to namespace_repository_url(repository.namespace.name, repository.name) do %>
   <div class="repo-box">
     <span class="repo-box-icon bg-aqua">
       <i class="fa fa-cube"></i>
@@ -16,4 +16,4 @@
       </div>
     </div>
   </div>
-</a>
+<% end %>

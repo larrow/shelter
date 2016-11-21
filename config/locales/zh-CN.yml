@@ -11,18 +11,19 @@ zh-CN:
       password: 密码
   dashboard:
     index:
-      repositories: 我的 repository
+      repositories: 我的镜像
       new_org: 新建组织
   layouts:
     application:
       home: 首页
-      dashboard: 控制面板
+      dashboard: 面板
+      admin: 管理员入口
       users: 用户
       namespaces: 命名空间
-      repositories: repositories
+      repositories: 镜像
       system_settings: 系统设置
-      admin: 管理员
       search: 搜索
+      new_org: 新建组织
       profile: 个人信息
       sign_out: 退出登录
       log_in: 登录
@@ -121,7 +122,7 @@ zh-CN:
         repositories: repositories
         full_path: 完整路径
         pull_count: Pull count
-        is_public: 空开？
+        is_public: 是否公开
         no_repositories: 当前没有 repository
     settings:
       index:
