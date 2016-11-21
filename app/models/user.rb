@@ -6,16 +6,12 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :trackable, :validatable,
     :authentication_keys => [:login]
   validates :username, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 2..30 }, uniqueness: { case_sensitive: false }
-  validate :namespace_uniq, if: ->(user) { user.username_changed? }
 
-  has_one :namespace, -> { where type: nil }, foreign_key: :owner_id, class_name: 'Namespace'
+  has_many :members, dependent: :destroy
+  has_many :namespaces, through: :members
+  has_many :owned_namespaces, -> { where members: { access_level: :owner }}, through: :members, source: :namespace
 
-  has_many :group_members, dependent: :destroy
-  has_many :groups, through: :group_members
-  has_many :owned_groups, -> { where group_members: { access_level: Member.access_levels[:owner] }}, through: :group_members, source: :group
-
-  has_many :groups_repositories, through: :groups, source: :repositories
-  has_many :personal_repositories, through: :namespace, source: :repositories
+  has_many :repositories, through: :namespaces
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -30,11 +26,9 @@ class User < ApplicationRecord
     end
   end
 
-  after_save :ensure_namespace_correct
+  after_create :ensure_namespace_correct
   def ensure_namespace_correct
-    self.create_namespace!(name: self.username) unless self.namespace
-
-    self.namespace.update_attributes(name: self.username) if self.username_changed?
+    namespaces.create(name: self.username)
   end
 
   def ability
@@ -42,40 +36,15 @@ class User < ApplicationRecord
   end
   delegate :can?, :cannot?, to: :ability
 
-  def namespace_uniq
-    return if self.errors.key?(:username) && self.errors[:username].include?('has already been taken')
-
-    existing_namespace = Namespace.find_by(name: self.username)
-    self.errors.add(:username, 'has already been token') if existing_namespace && existing_namespace != self.namespace
+  def personal_namespace
+    namespaces.find_by name: username
   end
 
-  def create_group(group_name)
-    group = Group.create(name: group_name)
-    group.add_user(self, :owner)
-    group
+  def personal_repositories
+    personal_namespace.repositories
   end
 
-  def create_personal_repository(repo_name)
-    ensure_namespace_correct
-    repo = self.namespace.repositories.find_or_create_by(name: repo_name)
-    repo
+  def create_namespace name
+    owned_namespaces.create(name:name)
   end
-
-  def authorized_groups
-    union = union_to_sql([groups.select(:id), authorized_repositories.select(:namespace_id)])
-    Group.where("namespaces.id IN (#{union})")
-  end
-
-
-  def authorized_repositories
-    Repository.where("repositories.id IN (#{repositories_union})")
-  end
-
-  private
-
-  def repositories_union
-    relations = [personal_repositories.select(:id), groups_repositories.select(:id)]
-    union_to_sql(relations)
-  end
-
 end

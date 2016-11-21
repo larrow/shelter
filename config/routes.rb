@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index'
 
   resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :create, :new, :destroy] do
-    resources :group_members, path: '/members', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
+    resources :members, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do
       member do
         post 'toggle_access_level'
       end

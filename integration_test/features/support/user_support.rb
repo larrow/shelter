@@ -23,6 +23,7 @@ module UserSupport
 
   # login operation, and old session will be dismissed.
   # if you want to save current session, you may use block
+
   def login_as user
     block = -> do
       # web login
@@ -55,8 +56,8 @@ module UserSupport
   def create_group(g)
     group = next_group
     visit('/n/new')
-    submit_form(id: 'new_group') do |form|
-      form['group[name]'] = group
+    submit_form(id: 'new_namespace') do |form|
+      form['namespace[name]'] = group
     end
     groups[g] = group
     namespaces[g] = group

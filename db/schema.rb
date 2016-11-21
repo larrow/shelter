@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919053844) do
+ActiveRecord::Schema.define(version: 20161120163324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "group_members", force: :cascade do |t|
-    t.integer  "group_id"
+  create_table "members", force: :cascade do |t|
+    t.integer  "namespace_id"
     t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "access_level"
-    t.index ["user_id"], name: "index_group_members_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_members_on_user_id", using: :btree
   end
 
   create_table "namespaces", force: :cascade do |t|
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 20160919053844) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.boolean  "default_publicity", default: true
-    t.string   "type"
     t.index ["name"], name: "index_namespaces_on_name", using: :btree
     t.index ["owner_id"], name: "index_namespaces_on_owner_id", using: :btree
   end
@@ -90,7 +89,7 @@ ActiveRecord::Schema.define(version: 20160919053844) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_foreign_key "group_members", "users"
+  add_foreign_key "members", "users"
   add_foreign_key "namespaces", "users", column: "owner_id"
   add_foreign_key "repositories", "namespaces"
 end

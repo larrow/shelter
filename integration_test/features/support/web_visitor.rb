@@ -20,9 +20,10 @@ module WebVisitor
   #    submit_form( action: action ){|f| f['field1'] = value1}
   #    submit_form( id: id ) {|f| f['field2'] = value2 }
   def submit_form args
-    form = page.form_with args
-    yield form
-    agent.submit form
+    page.form_with(args).tap do |form|
+      expect(form).should_not be_nil
+      yield form
+    end.submit
   end
 
   def find_link label
