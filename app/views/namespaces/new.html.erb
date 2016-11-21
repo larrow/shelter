@@ -4,7 +4,7 @@
       <%= t '.new_org' %>
     </div>
   </div>
-  <%= form_for @group, url: namespaces_path do |f| %>
+  <%= form_for @namespace, url: namespaces_path do |f| %>
     <div class="box-body">
       <div class="form-group">
         <%= f.label :name, t('.name') %>

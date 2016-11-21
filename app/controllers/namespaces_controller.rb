@@ -3,13 +3,13 @@ class NamespacesController < ApplicationController
   before_action :authenticate_user!, except: :show
 
   def create
-    redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:group][:name])
-    @namespace = current_user.create_namespace(params[:group][:name])
+    redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:namespace][:name])
+    @namespace = current_user.create_namespace(params[:namespace][:name])
     redirect_to namespace_path(@namespace.name)
   end
 
   def new
-    @group = Group.new
+    @namespace = current_user.owned_namespaces.new
   end
 
   def show
