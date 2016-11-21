@@ -40,9 +40,8 @@ class User < ApplicationRecord
     namespaces.find_by name: username
   end
 
-  def create_personal_repository(repo_name)
-    ensure_namespace_correct
-    personal_namespace.repositories.find_or_create_by(name: repo_name)
+  def personal_repositories
+    personal_namespace.repositories
   end
 
   def create_namespace name

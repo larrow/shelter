@@ -36,9 +36,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'can pull any public repository' do
-    repo1 = users(:user_1).create_personal_repository('testrepo')
-    repo1.update_attribute(:is_public, true)
-    assert users(:user_2).can?(:read, repo1)
     group = users(:user_1).create_namespace('testgroup')
     repo2 = group.repositories.create(name: 'testrepo')
     repo2.update_attribute(:is_public, true)
