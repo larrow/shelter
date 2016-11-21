@@ -14,21 +14,21 @@ class MembersController < ApplicationController
     authorize! :update, @group
     user = User.where(username: params[:username]).or(User.where(email: params[:username])).first
     @group.developers << user
-    redirect_to namespace_group_members_path(@group.name), notice: t('.user_invited')
+    redirect_to namespace_members_path(@group.name), notice: t('.user_invited')
   end
 
   def destroy
     authorize! :update, @group
-    redirect_to namespace_group_members_path(@group.name), alert: t('.cant_remove_last_owner') and return if @group.owners.length == 1 && @group.members.find(params[:id]).access_level == 'owner'
+    redirect_to namespace_members_path(@group.name), alert: t('.cant_remove_last_owner') and return if @group.owners.length == 1 && @group.members.find(params[:id]).access_level == 'owner'
     @group.members.delete(@group.members.find(params[:id]))
-    redirect_to namespace_group_members_path(@group.name), notice: t('.member_removed')
+    redirect_to namespace_members_path(@group.name), notice: t('.member_removed')
   end
 
   def toggle_access_level
     authorize! :update, @group
-    member = @group.members.find_by(id: params[:id]) || (redirect_to namespace_group_members_path(@group.name) and return)
+    member = @group.members.find_by(id: params[:id]) || (redirect_to namespace_members_path(@group.name) and return)
     member.update_attribute(:access_level, params[:access_level])
-    redirect_to namespace_group_members_path(@group.name), notice: t('.changed')
+    redirect_to namespace_members_path(@group.name), notice: t('.changed')
   end
 
   private

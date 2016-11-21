@@ -71,7 +71,7 @@ en:
   search:
     index:
       title: Result for searching '%{query}'
-  group_members:
+  members:
     index:
       collaborators: Collaborators
       invite_user: Invite user

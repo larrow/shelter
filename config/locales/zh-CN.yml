@@ -72,7 +72,7 @@ zh-CN:
   search:
     index:
       title: 搜索 '%{query}'
-  group_members:
+  members:
     index:
       collaborators: 协作者
       invite_user: 邀请用户
@@ -115,7 +115,8 @@ zh-CN:
       index:
         namespaces: 命名空间
         name: 名称
-        type: 类型
+        user_count: 用户数
+        repo_count: 镜像数
         no_namespaces: 当前没有命名空间
     repositories:
       index:
