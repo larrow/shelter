@@ -10,6 +10,10 @@ class Namespace < ApplicationRecord
   has_many :developers, -> { where(members: { access_level: :developer })}, through: :members, source: :user
   has_many :viewers,    -> { where(members: { access_level: :viewer    })}, through: :members, source: :user
 
+  # 提供user参数是为了避免不必要的数据库查询，因为user一般都是已经获得的
+  def personal? user
+    name == user.username
+  end
   protected
 
   def post_to_namespace_channel(repository)
