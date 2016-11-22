@@ -9,6 +9,7 @@
       <table class="table no-margin">
         <thead>
           <th><%= t '.full_path' %></th>
+          <th><%= t '.tag' %></th>
           <th><%= t '.pull_count' %></th>
           <th><%= t '.is_public' %></th>
         </thead>
@@ -22,6 +23,10 @@
           <% @repositories.each do |repository| %>
             <tr>
               <td><%= repository.full_path %></td>
+              <td>
+                <% #性能消耗，应避免频繁访问# %>
+                <%= repository.tags.map{|t| t[:name]}.join(',') %>
+              </td>
               <td><%= repository.pull_count %></td>
               <td>
                 <i class="glyphicon glyphicon-<%= repository.is_public ? 'ok' : 'remove' %>" />

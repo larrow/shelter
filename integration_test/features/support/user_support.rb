@@ -84,9 +84,11 @@ module UserSupport
 
       urls.map do |url|
         visit(url).css('table tr').map do |row|
-          row.element_children.first.text
+          image_full_path = row.element_children.first.text
+          tags = row.element_children[1].text.gsub(/[\n ]/, '').split(',')
+          [image_full_path, tags]
         end
-      end.flatten.uniq
+      end.reduce(&:+).uniq.each.to_h
     end
   end
 

@@ -2,13 +2,13 @@
 
   image = "#{namespaces[label]}/test"
   Registry.push image, tag
-  expect(all_images).to include(image)
+  expect(all_images[image]).to include(tag)
 end
 
 那么(/^不可以在(.*)中添加镜像$/) do |g|
   image = "#{groups[g]}/test"
   Registry.push image, 'v1'
-  expect(all_images).not_to include(image)
+  expect(all_images[image]).to be_nil
 end
 
 那么(/^(.*)可以删除(.*)中前述镜像的(.*)版本$/) do |u, label, tag|
