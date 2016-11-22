@@ -40,6 +40,10 @@ class User < ApplicationRecord
     namespaces.find_by name: username
   end
 
+  def groups
+    namespaces.where.not name: username
+  end
+
   def personal_repositories
     personal_namespace.repositories
   end
