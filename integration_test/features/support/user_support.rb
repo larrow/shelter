@@ -34,15 +34,15 @@ module UserSupport
       end
       # registry login
       Registry.login_as user
-      @current_user = user
+      store_current_user user
     end
 
     if block_given?
       new_session do
-        old_user = @current_user
+        old_user = current_user
         block.call
         v = yield
-        @current_user = old_user
+        store_current_user old_user
         v
       end
     else
