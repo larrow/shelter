@@ -35,10 +35,12 @@ end
 end
 
 当(/^用户(.*)在界面上删除(.*)中镜像的版本(.*)$/) do |u, g, tag|
+  image = "#{namespaces[g]}/test"
+  tags_url = "/n/#{namespaces[g]}/r/test/tags"
+
   login_as users[u] do
-    image = "#{namespaces[g]}/test"
-    visit "#{image}/tags"
-    expect{web_delete "/#{image}/tags/#{tag}"}.not_to raise_error
+    visit tags_url
+    expect{web_delete "#{tags_url}/#{tag}"}.not_to raise_error
     expect(all_images[image]).not_to include(tag)
   end
 end
