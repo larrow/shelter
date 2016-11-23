@@ -10,7 +10,6 @@ class Ability
     #   read: can pull, get info from repository
     #   create: can create repo in the namespace
     #   push: can push & create repo in the namespace
-    #   update: can change repository's collaborators
     can :read, Repository do |repo|
       repo.is_public? || repo.namespace&.users&.include?(user)
     end
