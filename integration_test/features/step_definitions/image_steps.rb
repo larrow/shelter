@@ -20,6 +20,7 @@ end
     image = "#{namespaces[g]}/test"
     tags_url = "/n/#{namespaces[g]}/r/test/tags"
 
+    expect(all_images[image]).to include(tag)
     visit tags_url
     expect{web_delete "#{tags_url}/#{tag}"}.not_to raise_error
     # 如果是最后一个标签，删除标签后镜像也将不存在
