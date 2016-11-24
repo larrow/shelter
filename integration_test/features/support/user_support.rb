@@ -21,9 +21,21 @@ module UserSupport
     users[u] = user
   end
 
+  # execute block as somebody
+  # if u_str is nil, execute as current user
+  def do_as u_str
+    user = users[u_str.gsub(/用户/, '')]
+    if user
+      login_as user do
+        yield
+      end
+    else
+      yield
+    end
+  end
+
   # login operation, and old session will be dismissed.
   # if you want to save current session, you may use block
-
   def login_as user
     block = -> do
       # web login
