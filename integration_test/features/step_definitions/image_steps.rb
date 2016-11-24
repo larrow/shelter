@@ -31,18 +31,32 @@ end
 end
 
 当(/^(.*)在界面上删除(.*)中的镜像，成功$/) do |u,g|
-  pending # Write code here that turns the phrase above into concrete actions
+  pending
+#  do_as u do
+#    image = "#{namespaces[g]}/test"
+#    image_url = "/n/#{namespaces[g]}/r/test"
+#
+#    expect(all_images[image]).not_to be_empty
+#    expect{web_delete image_url}.not_to raise_error
+#    expect(all_images[image]).to be_empty
+#  end
+end
+
+那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
+  image = "#{namespaces[g]}/test"
+  expect(all_images[image]).to include(tag)
 end
 
 那么(/^系统不能获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  pending # Write code here that turns the phrase above into concrete actions
+  image = "#{namespaces[g]}/test"
+  if all_images[image]
+    expect(all_images[image]).not_to include(tag)
+  end
 end
 
 那么(/^系统不能获取(.*)中的镜像$/) do |g|
-  pending # Write code here that turns the phrase above into concrete actions
+  image = "#{namespaces[g]}/test"
+  expect(all_images[image]).to be_nil
 end
 
-那么(/^用户(.*)能够获取(.*)中镜像的(.*)版本$/) do |u,g,tag|
-  pending # Write code here that turns the phrase above into concrete actions
-end
 
