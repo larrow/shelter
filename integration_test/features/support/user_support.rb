@@ -61,8 +61,6 @@ module UserSupport
       new_session!
       block.call
     end
-  rescue
-    # Omit login error, happens when admin already logs in.
   end
 
   def create_group(g)
@@ -94,13 +92,16 @@ module UserSupport
         map(&:href)
       urls << '/admin/repositories'
 
-      urls.map do |url|
+      urls.reduce({}) do |sum, url|
         visit(url).css('table tr').map do |row|
-          image_full_path = row.element_children.first.text
-          tags = row.element_children[1].text.gsub(/[\n ]/, '').split(',')
-          [image_full_path, tags]
+          if row.element_children.size >= 2
+            image_full_path = row.element_children[0].text.gsub(/[\n ]/, '')
+            tags            = row.element_children[1].text.gsub(/[\n ]/, '').split(',')
+            sum.update image_full_path => tags
+          end
         end
-      end.reduce(&:+).uniq.each.to_h
+        sum
+      end
     end
   end
 
