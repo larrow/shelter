@@ -59,4 +59,19 @@ end
   expect(all_images[image]).to be_nil
 end
 
+那么(/^(.*)不能删除分组(.*)$/) do |u, g|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+当(/^系统执行镜像清理任务$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+那么(/^系统释放资源$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+那么(/^(.*)删除分组(.*)，成功$/) do |u, g|
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
