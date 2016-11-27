@@ -101,12 +101,13 @@ zh-CN:
       name: 名称
       create_org: 创建组织
     show:
-      no_repository: 当前组织无 repository
+      no_repository: 镜像列表为空
     create:
       exists: 命名空间已存在
     destroy:
       namespace_deleted: 命名空间删除成功
-      library_cannot_delete: library 命名空间无法删除
+      library_cannot_delete: 禁止删除library
+      personal_cannot_delete: 禁止删除用户个人空间
     settings:
       delete_namespace: 删除命名空间
 
