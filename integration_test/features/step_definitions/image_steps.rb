@@ -60,7 +60,11 @@ end
 end
 
 那么(/^(.*)不能删除分组(.*)$/) do |u, g|
-  pending # Write code here that turns the phrase above into concrete actions
+  do_as u do
+    group_url = "/n/#{namespaces[g]}"
+    web_delete group_url
+    expect(find_link namespaces[g]).not_to be_nil
+  end
 end
 
 当(/^系统执行镜像清理任务$/) do
@@ -72,6 +76,11 @@ end
 end
 
 那么(/^(.*)删除分组(.*)，成功$/) do |u, g|
-  pending # Write code here that turns the phrase above into concrete actions
+  do_as u do
+    group_url = "/n/#{namespaces[g]}"
+    expect(find_link namespaces[g]).not_to be_nil
+    web_delete group_url
+    expect(find_link namespaces[g]).to be_nil
+  end
 end
 
