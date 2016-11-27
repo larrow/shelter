@@ -1,5 +1,4 @@
 class Repository < ApplicationRecord
-  acts_as_paranoid
   belongs_to :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
