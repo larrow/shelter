@@ -108,6 +108,7 @@ zh-CN:
       namespace_deleted: 命名空间删除成功
       library_cannot_delete: 禁止删除library
       personal_cannot_delete: 禁止删除用户个人空间
+      repositories_should_be_empty: 镜像尚未清空，不能删除
     settings:
       delete_namespace: 删除命名空间
 

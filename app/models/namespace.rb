@@ -14,8 +14,14 @@ class Namespace < ApplicationRecord
   def personal?
     name == creator.username
   end
-  protected
 
+  def check_destroy
+    return '.library_cannot_delete'  if name == 'library'
+    return '.personal_cannot_delete' if personal?
+    return '.repositories_should_be_empty' if repositories.size > 0
+  end
+
+  protected
   def post_to_namespace_channel(repository)
     NamespaceChannel.broadcast_to(self, action: 'new_repository', content: ApplicationController.render(repository)) if repository.id # ignore initialize
   end
