@@ -21,7 +21,7 @@ class NamespacesController < ApplicationController
   def destroy
     authorize! :update, @namespace
     redirect_back fallback_location: dashboard_index_path, alert: t('.library_cannot_delete') and return if @namespace.name == 'library'
-    @namespace.destroy unless @namespace.type.nil?
+    @namespace.destroy unless @namespace.personal?
     redirect_to dashboard_index_path, notice: t('.namespace_deleted')
   end
 

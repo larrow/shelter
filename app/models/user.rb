@@ -7,6 +7,7 @@ class User < ApplicationRecord
     :authentication_keys => [:login]
   validates :username, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 2..30 }, uniqueness: { case_sensitive: false }
 
+  has_one :personal_namespace, class_name: 'Namespace', foreign_key: :creator_id
   has_many :members, dependent: :destroy
   has_many :namespaces, through: :members
   has_many :owned_namespaces, -> { where members: { access_level: :owner }}, through: :members, source: :namespace
@@ -28,17 +29,13 @@ class User < ApplicationRecord
 
   after_create :ensure_namespace_correct
   def ensure_namespace_correct
-    owned_namespaces.create(name: self.username)
+    owned_namespaces << create_personal_namespace(name: username)
   end
 
   def ability
     @ability ||= Ability.new(self)
   end
   delegate :can?, :cannot?, to: :ability
-
-  def personal_namespace
-    namespaces.find_by name: username
-  end
 
   def groups
     namespaces.where.not name: username
@@ -49,6 +46,6 @@ class User < ApplicationRecord
   end
 
   def create_namespace name
-    owned_namespaces.create(name:name)
+    owned_namespaces.create(name:name, creator: self)
   end
 end

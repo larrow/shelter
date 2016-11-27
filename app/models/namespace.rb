@@ -6,13 +6,13 @@ class Namespace < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :users, through: :members
 
+  belongs_to :creator, class_name: 'User'
   has_many :owners,     -> { where(members: { access_level: :owner     })}, through: :members, source: :user
   has_many :developers, -> { where(members: { access_level: :developer })}, through: :members, source: :user
   has_many :viewers,    -> { where(members: { access_level: :viewer    })}, through: :members, source: :user
 
-  # 提供user参数是为了避免不必要的数据库查询，因为user一般都是已经获得的
-  def personal? user
-    name == user.username
+  def personal?
+    name == creator.username
   end
   protected
 

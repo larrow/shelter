@@ -24,7 +24,7 @@
         <ul class="nav nav-tabs">
           <li class="<%= active_class(namespace_path(namespace.name)) %>"><%= link_to t('.repositories'), namespace_path(namespace.name) %></li>
           <% if can?(:update, namespace) %>
-            <% if namespace.personal? current_user %>
+            <% if namespace.personal? %>
               <li class="<%= active_class(namespace_members_path(namespace.name)) %>"><%= link_to t('.collaborators'), namespace_members_path(namespace.name) %></li>
             <% end %>
             <li class="<%= active_class(settings_namespace_path(namespace.name)) %>"><%= link_to t('.settings'), settings_namespace_path(namespace.name) %></li>
