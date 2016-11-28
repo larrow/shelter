@@ -83,4 +83,19 @@ end
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+当(/^(.*)将镜像设定为私有$/) do |u|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+那么(/^(.*)不能使用docker命令取得镜像$/) do |u|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+当(/^(.*)将镜像设定为公有$/) do |u|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+那么(/^(.*)能够使用docker命令取得镜像$/) do |u|
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
