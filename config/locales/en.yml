@@ -58,7 +58,6 @@ en:
       size: Size
       action: Action
       view_all_tags: View All Tags
-      visibility_settings: Visibility Settings
       make_private: Make Private
       make_public: Make Public
   tags:

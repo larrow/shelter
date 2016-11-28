@@ -59,7 +59,6 @@ zh-CN:
       size: 大小
       action: 操作
       view_all_tags: 查看所有标签
-      visibility_settings: 可见性设置
       make_private: 设为私有 repository
       make_public: 设为公开 repository
   tags:
