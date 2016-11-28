@@ -23,7 +23,7 @@ end
   end
 end
 
-假定(/(.*)创建一个用户组(.*)/) do |u,g|
+假定(/(.*)创建用户组(.*)/) do |u,g|
   do_as u do
     create_group g
   end
