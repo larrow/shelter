@@ -31,15 +31,14 @@ end
 end
 
 当(/^(.*)在界面上删除(.*)中的镜像，成功$/) do |u,g|
-  pending
-#  do_as u do
-#    image = "#{namespaces[g]}/test"
-#    image_url = "/n/#{namespaces[g]}/r/test"
-#
-#    expect(all_images[image]).not_to be_empty
-#    expect{web_delete image_url}.not_to raise_error
-#    expect(all_images[image]).to be_empty
-#  end
+  do_as u do
+    image = "#{namespaces[g]}/test"
+    image_url = "/n/#{namespaces[g]}/r/test"
+
+    expect(all_images[image]).not_to be_empty
+    web_delete image_url
+    expect(all_images[image]).to be_nil
+  end
 end
 
 那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
@@ -67,14 +66,6 @@ end
   end
 end
 
-当(/^系统执行镜像清理任务$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-那么(/^系统释放资源$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
 那么(/^(.*)删除分组(.*)，成功$/) do |u, g|
   do_as u do
     group_url = "/n/#{namespaces[g]}"
@@ -83,4 +74,13 @@ end
     expect(find_link namespaces[g]).to be_nil
   end
 end
+
+当(/^系统执行镜像清理任务$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+那么(/^系统释放资源$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 
