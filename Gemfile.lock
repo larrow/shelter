@@ -15,14 +15,6 @@ GIT
       railties (>= 3.2, < 6.0)
 
 GIT
-  remote: https://github.com/rubysherpas/paranoia.git
-  revision: 70f6e37b7b32cf4f70c5b852a38597699f476c62
-  branch: rails5
-  specs:
-    paranoia (2.2.0.pre)
-      activerecord (>= 4.0, < 5.1)
-
-GIT
   remote: https://github.com/sinatra/rack-protection.git
   revision: cc19dafb0c6266c2927e629688464c9992efedf8
   specs:
@@ -273,7 +265,6 @@ DEPENDENCIES
   jquery-rails
   jwt
   kaminari!
-  paranoia!
   pg
   pry-rails
   puma (~> 3.0)
