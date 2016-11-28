@@ -47,6 +47,12 @@
             <%= submit_tag @repository.is_public ? t('.make_private') : t('.make_public'), class: 'btn btn-block btn-primary btn-lg' %>
           <% end %>
         </div>
+        <div class="box-body">
+          <%= link_to t('.delete'), namespace_repository_path(@namespace.name, @repository.name),
+            data: {confirm: t('.delete_confirmation')},
+            method: :delete,
+            class: 'btn btn-block btn-danger btn-lg' %>
+        </div>
       </div>
     <% end %>
   </div>

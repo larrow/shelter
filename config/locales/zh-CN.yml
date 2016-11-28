@@ -52,6 +52,7 @@ zh-CN:
       private: 私有
       description: 描述
       desc_empty: 空描述
+      delete: 删除
       docker_pull_command: Docker Pull Command
       tags: 标签
       no_tags: 无标签
@@ -61,6 +62,9 @@ zh-CN:
       view_all_tags: 查看所有标签
       make_private: 设为私有 repository
       make_public: 设为公开 repository
+      delete_confirmation: 确实要删除这个 repository 吗？（本操作将同时清除 repository 下的所有 tag）
+    destroy:
+      repository_deleted: 镜像删除成功
   tags:
     index:
       tags: 标签
