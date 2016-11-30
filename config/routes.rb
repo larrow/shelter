@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       get 'settings'
     end
 
-    resources :repositories, path: '/r', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update] do
+    resources :repositories, path: '/r', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :update, :destroy] do
       member do
         post 'toggle_publicity'
         get 'edit_description'

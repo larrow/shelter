@@ -37,7 +37,7 @@
     <% if can? :update, @repository %>
       <div class="box box-solid box-default">
         <div class="box-header with-border">
-          <h3 class="box-title"><%= t '.visibility_settings' %></h3>
+          <h3 class="box-title"><%= t '.action' %></h3>
           <div class="box-tools pull-right">
           </div>
         </div>
@@ -46,6 +46,12 @@
             <%= hidden_field_tag :is_public, @repository.is_public ? 'false' : 'true' %>
             <%= submit_tag @repository.is_public ? t('.make_private') : t('.make_public'), class: 'btn btn-block btn-primary btn-lg' %>
           <% end %>
+        </div>
+        <div class="box-body">
+          <%= link_to t('.delete'), namespace_repository_path(@namespace.name, @repository.name),
+            data: {confirm: t('.delete_confirmation')},
+            method: :delete,
+            class: 'btn btn-block btn-danger btn-lg' %>
         </div>
       </div>
     <% end %>

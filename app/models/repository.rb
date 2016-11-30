@@ -1,5 +1,4 @@
 class Repository < ApplicationRecord
-  acts_as_paranoid
   belongs_to :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
@@ -8,15 +7,21 @@ class Repository < ApplicationRecord
   default_value_for :is_public, -> { namespace.default_publicity }
 
   before_save :update_description_html, if: :description_changed?
+  before_destroy :clear_tags
 
   def tags
-    registry = Registry.new(is_system: true, repository: full_path)
     registry.tags&.map do |tag|
       {
         name: tag,
         size: JSON.parse(registry.manifests(tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
       }
     end || []
+  end
+
+  def clear_tags
+    registry.tags&.map do |tag|
+      registry.delete_tag(tag)
+    end
   end
 
   def full_path
@@ -48,5 +53,10 @@ class Repository < ApplicationRecord
       repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
       repository
     end
+  end
+
+  # 无状态的对象可以反复使用
+  def registry
+    @registry ||= Registry.new(is_system: true, repository: full_path)
   end
 end

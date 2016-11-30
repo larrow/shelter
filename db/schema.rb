@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120163324) do
+ActiveRecord::Schema.define(version: 20161127073217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(version: 20161120163324) do
 
   create_table "namespaces", force: :cascade do |t|
     t.string   "name"
-    t.integer  "owner_id"
+    t.integer  "creator_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.boolean  "default_publicity", default: true
+    t.index ["creator_id"], name: "index_namespaces_on_creator_id", using: :btree
     t.index ["name"], name: "index_namespaces_on_name", using: :btree
-    t.index ["owner_id"], name: "index_namespaces_on_owner_id", using: :btree
   end
 
   create_table "registry_events", force: :cascade do |t|
@@ -90,6 +90,6 @@ ActiveRecord::Schema.define(version: 20161120163324) do
   end
 
   add_foreign_key "members", "users"
-  add_foreign_key "namespaces", "users", column: "owner_id"
+  add_foreign_key "namespaces", "users", column: "creator_id"
   add_foreign_key "repositories", "namespaces"
 end

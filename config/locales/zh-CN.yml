@@ -52,6 +52,7 @@ zh-CN:
       private: 私有
       description: 描述
       desc_empty: 空描述
+      delete: 删除
       docker_pull_command: Docker Pull Command
       tags: 标签
       no_tags: 无标签
@@ -59,9 +60,11 @@ zh-CN:
       size: 大小
       action: 操作
       view_all_tags: 查看所有标签
-      visibility_settings: 可见性设置
       make_private: 设为私有 repository
       make_public: 设为公开 repository
+      delete_confirmation: 确实要删除这个 repository 吗？（本操作将同时清除 repository 下的所有 tag）
+    destroy:
+      repository_deleted: 镜像删除成功
   tags:
     index:
       tags: 标签
@@ -101,12 +104,14 @@ zh-CN:
       name: 名称
       create_org: 创建组织
     show:
-      no_repository: 当前组织无 repository
+      no_repository: 镜像列表为空
     create:
       exists: 命名空间已存在
     destroy:
       namespace_deleted: 命名空间删除成功
-      library_cannot_delete: library 命名空间无法删除
+      library_cannot_delete: 禁止删除library
+      personal_cannot_delete: 禁止删除用户个人空间
+      repositories_should_be_empty: 镜像尚未清空，不能删除
     settings:
       delete_namespace: 删除命名空间
 

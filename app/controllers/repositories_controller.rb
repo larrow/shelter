@@ -12,6 +12,12 @@ class RepositoriesController < ApplicationController
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end
 
+  def destroy
+    authorize! :delete, @repository
+    @repository.destroy
+    redirect_to namespace_path(@repository.namespace.name), notice: t('.repository_deleted')
+  end
+
   def toggle_publicity
     authorize! :update, @repository
     @repository.update_attribute(:is_public, params[:is_public] == 'true')

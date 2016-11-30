@@ -34,7 +34,6 @@ gem 'redcarpet'
 gem 'rails-settings-cached'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'redis'
-gem 'paranoia', git: 'https://github.com/rubysherpas/paranoia.git', branch: 'rails5'
 
 # gem 'capistrano-rails', group: :development
 
