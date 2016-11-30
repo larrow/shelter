@@ -6,10 +6,12 @@ class Ability
 
     can :manage, :all if user.admin?
 
-    can :pull, Repository do |repo|
+    # read: show repository on web site
+    # update: change attribute of repository
+    can [:pull, :read], Repository do |repo|
       repo.is_public? || repo.namespace&.users&.include?(user)
     end
-    can [:push, :delete], Repository do |repo|
+    can [:push, :update, :delete], Repository do |repo|
       repo.namespace&.owners&.include?(user) || repo.namespace&.developers&.include?(user)
     end
 

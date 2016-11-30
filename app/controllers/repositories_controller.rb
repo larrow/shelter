@@ -7,7 +7,7 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    authorize! :push, @repository
+    authorize! :update, @repository
     @repository.update!(params.require(:repository).permit(:description))
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end
