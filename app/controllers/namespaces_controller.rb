@@ -19,7 +19,7 @@ class NamespacesController < ApplicationController
   end
 
   def destroy
-    authorize! :update, @namespace
+    authorize! :write, @namespace
     status = @namespace.check_destroy
 
     if status
