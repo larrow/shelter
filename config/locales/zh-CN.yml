@@ -102,6 +102,7 @@ zh-CN:
     new:
       new_org: 新建组织
       name: 名称
+      publicity: 是否公开？
       create_org: 创建组织
     show:
       no_repository: 镜像列表为空
