@@ -45,7 +45,7 @@ class User < ApplicationRecord
     personal_namespace.repositories
   end
 
-  def create_namespace name
-    owned_namespaces.create(name:name, creator: self)
+  def create_namespace name, default_publicity
+    owned_namespaces.create(name: name, default_publicity: default_publicity, creator: self)
   end
 end

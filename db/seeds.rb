@@ -3,6 +3,6 @@ admin = User.find_by(user_param.slice :email, :username)
 
 if admin.nil?
   admin = User.create user_param
-  admin.create_namespace 'library'
+  admin.create_namespace 'library', true
 end
 
