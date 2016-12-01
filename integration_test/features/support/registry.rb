@@ -31,7 +31,7 @@ module Registry
                          serveraddress: @addr)
   end
 
-  def push(image, tag)
+  def push image, tag
     img = @local_imgs[tag.to_s]
     id = img.id
 
@@ -45,8 +45,12 @@ module Registry
     @local_imgs[tag.to_s] = Docker::Image.get id
   end
 
+  def pull image, tag
+    Docker::Image.create('fromImage' => "#{@addr}/#{image}:#{tag}")
+  end
+
   def local_imgs; @local_imgs end
-  module_function :init, :login_as, :push, :local_imgs
+  module_function :init, :login_as, :push, :pull, :local_imgs
 end
 
 Registry.init
