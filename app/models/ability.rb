@@ -6,22 +6,21 @@ class Ability
 
     can :manage, :all if user.admin?
 
-    # Repository:
-    #   read: can pull, get info from repository
-    #   create: can create repo in the namespace
-    #   push: can push & create repo in the namespace
-    can :read, Repository do |repo|
-      repo.is_public? || repo.namespace&.users&.include?(user)
+    # read: view repository
+    # write: update/delete repository
+    # pull/push: for private registry
+    can [:pull,:read], Repository do |repo|
+      repo.is_public? || repo.namespace.users.include?(user)
     end
-    can [:create, :push, :delete], Repository do |repo|
-      repo.namespace&.owners&.include?(user) || repo.namespace&.developers&.include?(user)
+    can [:push,:write], Repository do |repo|
+      repo.namespace.owners.include?(user) || repo.namespace.developers.include?(user)
     end
 
-    can [:read, :create, :update], Namespace do |ns|
-      ns.owners.include?(user)
-    end
     can :read, Namespace do |ns|
       ns.users.include? user
+    end
+    can :write, Namespace do |ns|
+      ns.owners.include?(user)
     end
   end
 end

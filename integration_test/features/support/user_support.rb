@@ -63,11 +63,12 @@ module UserSupport
     end
   end
 
-  def create_group(g)
+  def create_group(g, publicity=true)
     group = next_group
     visit('/n/new')
     submit_form(id: 'new_namespace') do |form|
       form['namespace[name]'] = group
+      form['namespace[default_publicity]'] = publicity ? '1' : '0'
     end
     groups[g] = group
     namespaces[g] = group

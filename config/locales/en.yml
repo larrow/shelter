@@ -101,6 +101,7 @@ en:
     new:
       new_org: New organization
       name: Name
+      publicity: Public group?
       create_org: Create Organization
     show:
       no_repository: This organization has no repository.

@@ -4,7 +4,9 @@ class Repository < ApplicationRecord
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true
   default_value_for :pull_count, 0
-  default_value_for :is_public, -> { namespace.default_publicity }
+  default_value_for :is_public do |repo|
+    repo.namespace.default_publicity
+  end
 
   before_save :update_description_html, if: :description_changed?
   before_destroy :clear_tags
