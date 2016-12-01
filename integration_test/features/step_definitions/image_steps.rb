@@ -83,19 +83,27 @@ end
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-当(/^(.*)将镜像设定为私有$/) do |u|
-  pending # Write code here that turns the phrase above into concrete actions
+当(/^(.*)访问(.*)中的镜像，变更是否私有的设定$/) do |u, g|
+  do_as u do
+    repo_url = "/n/#{namespaces[g]}/r/test"
+    visit repo_url
+    submit_form action: "#{repo_url}/toggle_publicity"
+  end
 end
 
-那么(/^(.*)不能使用docker命令取得镜像$/) do |u|
-  pending # Write code here that turns the phrase above into concrete actions
+那么(/^(.*)不能使用docker命令取得(.*)的镜像$/) do |u, g|
+  do_as u do
+    expect do
+      Registry.pull "#{namespaces[g]}/test", 'v1'
+    end.to(
+      raise_error(Docker::Error::NotFoundError)
+    )
+  end
 end
 
-当(/^(.*)将镜像设定为公有$/) do |u|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-那么(/^(.*)能够使用docker命令取得镜像$/) do |u|
-  pending # Write code here that turns the phrase above into concrete actions
+那么(/^(.*)能够使用docker命令取得(.*)的镜像$/) do |u, g|
+  do_as u do
+    Registry.pull "#{namespaces[g]}/test", 'v1'
+  end
 end
 
