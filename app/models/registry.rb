@@ -60,13 +60,11 @@ class Registry
         when 'repository'
           namespace_name = scope_name.split('/').length == 2 ? scope_name.split('/').first : 'library'
           repository_name = scope_name.split('/').last
-          namespace = Namespace.where(name: namespace_name).first_or_initialize
+          namespace = Namespace.find_by(name: namespace_name)
           repository = namespace&.repositories.where(name: repository_name).first_or_initialize
           authorized_actions = []
-          authorized_actions << 'pull' if @user.can? :read, repository
-          authorized_actions << 'pull' if @user.can? :read, namespace
+          authorized_actions << 'pull' if @user.can? :pull, repository
           authorized_actions += ['*', 'push'] if @user.can? :push, repository
-          authorized_actions += ['*', 'push'] if @user.can? :update, namespace
           authorized_actions.uniq!
           payload[:access] << {
             type: scope_type,

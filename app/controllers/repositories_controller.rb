@@ -7,19 +7,19 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    authorize! :push, @repository
+    authorize! :write, @repository
     @repository.update!(params.require(:repository).permit(:description))
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end
 
   def destroy
-    authorize! :delete, @repository
+    authorize! :write, @repository
     @repository.destroy
     redirect_to namespace_path(@repository.namespace.name), notice: t('.repository_deleted')
   end
 
   def toggle_publicity
-    authorize! :update, @repository
+    authorize! :write, @repository
     @repository.update_attribute(:is_public, params[:is_public] == 'true')
     redirect_to namespace_repository_path(@namespace.name, @repository.name)
   end
