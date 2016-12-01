@@ -22,7 +22,7 @@ module WebVisitor
   def submit_form args
     page.form_with(args).tap do |form|
       expect(form).should_not be_nil
-      yield form
+      yield form if block_given?
     end.submit
   end
 
