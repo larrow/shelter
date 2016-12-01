@@ -1,6 +1,7 @@
 require 'docker-api'
 require 'socket'
 
+# registry内置三个版本的镜像数据用于测试，分别用v1,v2,v3作为key存放在@local_imgs里面
 module Registry
   def init
     return if @local_imgs
