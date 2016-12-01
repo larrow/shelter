@@ -34,8 +34,9 @@ class RepositoriesController < ApplicationController
 
   def process_params
     @namespace = Namespace.find_by(name: params[:namespace_id])
-    @repository = @namespace&.repositories&.find_by(name: params[:id])
+    head 404 and return if @namespace.nil?
 
-    redirect_to namespace_path(@namespace.name) unless @repository
+    @repository = @namespace.repositories.find_by(name: params[:id])
+    head 404 and return if @repository.nil?
   end
 end
