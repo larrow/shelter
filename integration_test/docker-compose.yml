@@ -4,12 +4,10 @@ services:
   registry:
     image: library/registry:2.5.0
     volumes:
-      - ../config/registry/root.crt:/etc/registry/root.crt
-      - ./config/registry/config.yml:/etc/registry/config.yml
+      - ../config/registry/root.crt:/etc/docker/registry/root.crt
+      - ./config/registry/config.yml:/etc/docker/registry/config.yml
     environment:
       - GODEBUG=netdns=cgo
-    command:
-      ["serve", "/etc/registry/config.yml"]
   db:
     image: postgres
   redis:
