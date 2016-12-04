@@ -7,7 +7,7 @@ storage:
     cache:
         layerinfo: inmemory
     filesystem:
-        rootdirectory: /storage
+        rootdirectory: /var/lib/registry
     maintenance:
         uploadpurging:
             enabled: false
@@ -22,7 +22,7 @@ auth:
   token:
     issuer: registry-token-issuer
     realm: http://localhost/service/token
-    rootcertbundle: /etc/registry/root.crt
+    rootcertbundle: /etc/docker/registry/root.crt
     service: token-service
 
 notifications:
