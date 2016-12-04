@@ -1,6 +1,6 @@
 class Registry
   include HTTParty
-  base_uri Setting.registry_endpoint
+  base_uri 'http://proxy'
 
   def initialize(params = {})
     @is_system = params[:is_system] || false
