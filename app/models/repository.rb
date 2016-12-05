@@ -36,10 +36,10 @@ class Repository < ApplicationRecord
 
   class << self
     def sync_from_registry
-      repositories = Registry.new(is_system: true).repositories
+      repositories = Registry.new().repositories
       Repository.transaction do
         repositories.each do |repo|
-          registry = Registry.new(is_system: true, repository: repo)
+          registry = Registry.new(repository: repo)
           if registry.tags
             find_or_create_by_repo_name repo
           else
@@ -59,6 +59,6 @@ class Repository < ApplicationRecord
 
   # 无状态的对象可以反复使用
   def registry
-    @registry ||= Registry.new(is_system: true, repository: full_path)
+    @registry ||= Registry.new(repository: full_path)
   end
 end

@@ -3,7 +3,6 @@ class Registry
   base_uri 'http://proxy'
 
   def initialize(params = {})
-    @is_system = params[:is_system] || false
     @user = params[:user]
     @repository_name = params[:repository]
   end
@@ -44,12 +43,12 @@ class Registry
       jti: SecureRandom.uuid,
       access: []
     }
-    payload[:sub] = 'system-service' if @is_system
+    payload[:sub] = 'system-service' if @user.nil?
 
     if scope
       scope_type, scope_name, scope_actions = scope.split(':')
       scope_actions = scope_actions.split(',')
-      if @is_system
+      if @user.nil?
         payload[:access] << {
           type: scope_type,
           name: scope_name,
