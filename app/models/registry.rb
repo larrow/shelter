@@ -3,7 +3,6 @@ class Registry
   base_uri 'http://proxy'
 
   def initialize(params = {})
-    @user = params[:user]
   end
 
   def repositories
@@ -19,12 +18,18 @@ class Registry
     delete_manifests repository, digest
   end
 
-  def token(scope)
+  def manifests(repository, reference)
+    resp = self.class.get("/v2/#{repository}/manifests/#{reference}",
+      headers: headers_for_scope("repository:#{repository}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
+    [resp.headers['docker-content-digest'], resp]
+  end
+
+  def token(scope, user=nil)
     rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
 
     payload = {
       iss: 'registry-token-issuer',
-      sub: (@user.nil? ? 'system-service' : @user.username),
+      sub: (user.nil? ? 'system-service' : user.username),
       aud: 'token-service',
       exp: 10.minutes.from_now.to_i,
       nbf: 1.minutes.ago.to_i,
@@ -50,8 +55,8 @@ class Registry
           namespace = Namespace.find_by(name: namespace_name)
           repository = namespace&.repositories.where(name: repository_name).first_or_initialize
           authorized_actions = []
-          authorized_actions << 'pull' if @user.can? :pull, repository
-          authorized_actions += ['*', 'push'] if @user.can? :push, repository
+          authorized_actions << 'pull' if user.can? :pull, repository
+          authorized_actions += ['*', 'push'] if user.can? :push, repository
           authorized_actions.uniq!
           payload[:access] << {
             type: scope_type,
@@ -70,12 +75,6 @@ class Registry
   end
 
   private
-
-  def manifests(repository, reference)
-    resp = self.class.get("/v2/#{repository}/manifests/#{reference}",
-      headers: headers_for_scope("repository:#{repository}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
-    [resp.headers['docker-content-digest'], resp]
-  end
 
   def delete_manifests(repository, reference)
     self.class.delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
