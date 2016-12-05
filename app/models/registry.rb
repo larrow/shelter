@@ -4,30 +4,19 @@ class Registry
 
   def initialize(params = {})
     @user = params[:user]
-    @repository_name = params[:repository]
   end
 
   def repositories
     self.class.get('/v2/_catalog', headers: headers_for_scope('registry:catalog:*'))['repositories']
   end
 
-  def tags
-    self.class.get("/v2/#{@repository_name}/tags/list", headers: headers_for_scope("repository:#{@repository_name}:pull"))['tags']
+  def tags repository
+    self.class.get("/v2/#{repository}/tags/list", headers: headers_for_scope("repository:#{repository}:pull"))['tags']
   end
 
-  def manifests(reference)
-    resp = self.class.get("/v2/#{@repository_name}/manifests/#{reference}",
-      headers: headers_for_scope("repository:#{@repository_name}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
-    [resp.headers['docker-content-digest'], resp]
-  end
-
-  def delete_manifests(reference)
-    self.class.delete("/v2/#{@repository_name}/manifests/#{reference}", headers: headers_for_scope("repository:#{@repository_name}:*"))
-  end
-
-  def delete_tag(tag)
-    digest = manifests(tag)[0]
-    delete_manifests digest
+  def delete_tag(repository, tag)
+    digest = manifests(repository, tag)[0]
+    delete_manifests repository, digest
   end
 
   def token(scope)
@@ -81,6 +70,17 @@ class Registry
   end
 
   private
+
+  def manifests(repository, reference)
+    resp = self.class.get("/v2/#{repository}/manifests/#{reference}",
+      headers: headers_for_scope("repository:#{repository}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
+    [resp.headers['docker-content-digest'], resp]
+  end
+
+  def delete_manifests(repository, reference)
+    self.class.delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
+  end
+
 
   def headers_for_scope(scope, other_headers = {})
     { 'Authorization': 'Bearer ' + token(scope) }.merge(other_headers)
