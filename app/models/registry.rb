@@ -35,7 +35,7 @@ class Registry
 
     payload = {
       iss: 'registry-token-issuer',
-      sub: (@user&.username || ''),
+      sub: (@user.nil? ? 'system-service' : @user.username),
       aud: 'token-service',
       exp: 10.minutes.from_now.to_i,
       nbf: 1.minutes.ago.to_i,
@@ -43,7 +43,6 @@ class Registry
       jti: SecureRandom.uuid,
       access: []
     }
-    payload[:sub] = 'system-service' if @user.nil?
 
     if scope
       scope_type, scope_name, scope_actions = scope.split(':')
