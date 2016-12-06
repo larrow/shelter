@@ -38,7 +38,7 @@ module Registry
     if scope
       scope_type, scope_name, scope_actions = scope.split(':')
       scope_actions = scope_actions.split(',')
-      if @user.nil?
+      if user.nil?
         payload[:access] << {
           type: scope_type,
           name: scope_name,
