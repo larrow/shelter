@@ -12,17 +12,17 @@ class Repository < ApplicationRecord
   before_destroy :clear_tags
 
   def tags
-    registry.tags(full_path).map do |tag|
+    Registry.new.tags(full_path).map do |tag|
       {
         name: tag,
-        size: JSON.parse(registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
+        size: JSON.parse(Registry.new.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
       }
     end || []
   end
 
   def clear_tags
-    registry.tags(full_path).map do |tag|
-      registry.delete_tag(full_path, tag)
+    Registry.new.tags(full_path).map do |tag|
+      Registry.new.delete_tag(full_path, tag)
     end
   end
 
@@ -39,7 +39,7 @@ class Repository < ApplicationRecord
       repositories = Registry.new.repositories
       Repository.transaction do
         repositories.each do |repo|
-          if Registry.tags repo
+          if Registry.new.tags repo
             find_or_create_by_repo_name repo
           else
             namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')
@@ -56,8 +56,4 @@ class Repository < ApplicationRecord
     end
   end
 
-  # 无状态的对象可以反复使用
-  def registry
-    @registry ||= Registry.new
-  end
 end
