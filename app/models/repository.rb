@@ -12,17 +12,17 @@ class Repository < ApplicationRecord
   before_destroy :clear_tags
 
   def tags
-    Registry.new.tags(full_path).map do |tag|
+    Registry.tags(full_path).map do |tag|
       {
         name: tag,
-        size: JSON.parse(Registry.new.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
+        size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
       }
     end || []
   end
 
   def clear_tags
-    Registry.new.tags(full_path).map do |tag|
-      Registry.new.delete_tag(full_path, tag)
+    Registry.tags(full_path).map do |tag|
+      Registry.delete_tag(full_path, tag)
     end
   end
 
@@ -36,10 +36,10 @@ class Repository < ApplicationRecord
 
   class << self
     def sync_from_registry
-      repositories = Registry.new.repositories
+      repositories = Registry.repositories
       Repository.transaction do
         repositories.each do |repo|
-          if Registry.new.tags repo
+          if Registry.tags repo
             find_or_create_by_repo_name repo
           else
             namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')

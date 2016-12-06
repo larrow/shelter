@@ -8,7 +8,7 @@ class TagsController < ApplicationController
 
   def destroy
     authorize! :write, @repository
-    Registry.new.delete_tag(@repository.full_path, params[:id])
+    Registry.delete_tag(@repository.full_path, params[:id])
     Repository.sync_from_registry
     redirect_back fallback_location: namespace_repository_path(@namespace.name, @repository.name)
   end

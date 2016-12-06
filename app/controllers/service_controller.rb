@@ -25,7 +25,7 @@ class ServiceController < ApplicationController
     end
     head 401 and return unless user_signed_in?
 
-    render json: {token: Registry.new.token(params[:scope],current_user)}
+    render json: {token: Registry.token(params[:scope],current_user)}
   end
 
   private

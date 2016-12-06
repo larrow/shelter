@@ -1,16 +1,13 @@
-class Registry
+module Registry
   include HTTParty
   base_uri 'http://proxy'
 
-  def initialize(params = {})
-  end
-
   def repositories
-    self.class.get('/v2/_catalog', headers: headers_for_scope('registry:catalog:*'))['repositories']
+    get('/v2/_catalog', headers: headers_for_scope('registry:catalog:*'))['repositories']
   end
 
   def tags repository
-    self.class.get("/v2/#{repository}/tags/list", headers: headers_for_scope("repository:#{repository}:pull"))['tags']
+    get("/v2/#{repository}/tags/list", headers: headers_for_scope("repository:#{repository}:pull"))['tags']
   end
 
   def delete_tag(repository, tag)
@@ -19,7 +16,7 @@ class Registry
   end
 
   def manifests(repository, reference)
-    resp = self.class.get("/v2/#{repository}/manifests/#{reference}",
+    resp = get("/v2/#{repository}/manifests/#{reference}",
       headers: headers_for_scope("repository:#{repository}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
     [resp.headers['docker-content-digest'], resp]
   end
@@ -74,14 +71,13 @@ class Registry
     JWT.encode payload, rsa_private_key, 'RS256', header
   end
 
-  private
-
   def delete_manifests(repository, reference)
-    self.class.delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
+    delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
   end
-
 
   def headers_for_scope(scope, other_headers = {})
     { 'Authorization': 'Bearer ' + token(scope) }.merge(other_headers)
   end
+
+  module_function :repositories, :tags, :delete_tag, :delete_manifests, :token, :manifests, :headers_for_scope
 end
