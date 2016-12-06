@@ -64,6 +64,7 @@ module Registry
       end
     end
 
+    Rails.logger.debug "payload: #{payload}"
     header = {
       kid: Base32.encode(Digest::SHA256.digest(rsa_private_key.public_key.to_der)[0...30]).scan(/.{4}/).join(':')
     }
