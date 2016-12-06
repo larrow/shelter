@@ -1,6 +1,7 @@
 module Registry
   include HTTParty
   base_uri 'http://proxy'
+  RSA_PRIVATE_KEY = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
 
   def repositories
     get('/v2/_catalog', headers: headers_for_scope('registry:catalog:*'))['repositories']
@@ -22,8 +23,6 @@ module Registry
   end
 
   def token(scope, user=nil)
-    rsa_private_key = OpenSSL::PKey::RSA.new(File.read(File.join(Rails.root, 'config', 'private_key.pem')))
-
     payload = {
       iss: 'registry-token-issuer',
       sub: (user.nil? ? 'system-service' : user.username),
@@ -66,10 +65,10 @@ module Registry
 
     Rails.logger.debug "payload: #{payload}"
     header = {
-      kid: Base32.encode(Digest::SHA256.digest(rsa_private_key.public_key.to_der)[0...30]).scan(/.{4}/).join(':')
+      kid: Base32.encode(Digest::SHA256.digest(RSA_PRIVATE_KEY.public_key.to_der)[0...30]).scan(/.{4}/).join(':')
     }
 
-    JWT.encode payload, rsa_private_key, 'RS256', header
+    JWT.encode payload, RSA_PRIVATE_KEY, 'RS256', header
   end
 
   def delete_manifests(repository, reference)
