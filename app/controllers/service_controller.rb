@@ -25,7 +25,20 @@ class ServiceController < ApplicationController
     end
     head 401 and return unless user_signed_in?
 
-    render json: {token: Registry.token(params[:scope],current_user)}
+    scope = params[:scope]
+    sub   = current_user.username
+
+    token = Registry.token scope, sub do |namespace_name, repository_name|
+      namespace = Namespace.find_by(name: namespace_name)
+      repository = namespace&.repositories.where(name: repository_name).first_or_initialize
+
+      authorized_actions = []
+      authorized_actions << 'pull' if current_user.can? :pull, repository
+      authorized_actions += ['*', 'push'] if current_user.can? :push, repository
+      authorized_actions
+    end
+
+    render json: {token: token}
   end
 
   private

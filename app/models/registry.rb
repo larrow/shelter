@@ -16,16 +16,20 @@ module Registry
     delete_manifests repository, digest
   end
 
+  def delete_manifests(repository, reference)
+    delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
+  end
+
   def manifests(repository, reference)
     resp = get("/v2/#{repository}/manifests/#{reference}",
       headers: headers_for_scope("repository:#{repository}:pull", Accept: 'application/vnd.docker.distribution.manifest.v2+json'))
     [resp.headers['docker-content-digest'], resp]
   end
 
-  def token(scope, user=nil)
+  def token(scope, sub=nil)
     payload = {
       iss: 'registry-token-issuer',
-      sub: (user.nil? ? 'system-service' : user.username),
+      sub: (sub || 'system-service'),
       aud: 'token-service',
       exp: 10.minutes.from_now.to_i,
       nbf: 1.minutes.ago.to_i,
@@ -37,7 +41,7 @@ module Registry
     if scope
       scope_type, scope_name, scope_actions = scope.split(':')
       scope_actions = scope_actions.split(',')
-      if user.nil?
+      if sub.nil?
         payload[:access] << {
           type: scope_type,
           name: scope_name,
@@ -48,12 +52,8 @@ module Registry
         when 'repository'
           namespace_name = scope_name.split('/').length == 2 ? scope_name.split('/').first : 'library'
           repository_name = scope_name.split('/').last
-          namespace = Namespace.find_by(name: namespace_name)
-          repository = namespace&.repositories.where(name: repository_name).first_or_initialize
-          authorized_actions = []
-          authorized_actions << 'pull' if user.can? :pull, repository
-          authorized_actions += ['*', 'push'] if user.can? :push, repository
-          authorized_actions.uniq!
+
+          authorized_actions = yield namespace_name, repository_name if block_given?
           payload[:access] << {
             type: scope_type,
             name: scope_name,
@@ -69,10 +69,6 @@ module Registry
     }
 
     JWT.encode payload, RSA_PRIVATE_KEY, 'RS256', header
-  end
-
-  def delete_manifests(repository, reference)
-    delete("/v2/#{repository}/manifests/#{reference}", headers: headers_for_scope("repository:#{repository}:*"))
   end
 
   def headers_for_scope(scope, other_headers = {})
