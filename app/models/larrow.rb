@@ -1,0 +1,1 @@
+require 'larrow/registry'

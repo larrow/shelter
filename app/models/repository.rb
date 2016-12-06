@@ -1,4 +1,6 @@
 class Repository < ApplicationRecord
+  include Larrow
+
   belongs_to :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
@@ -35,6 +37,8 @@ class Repository < ApplicationRecord
   end
 
   class << self
+    include Larrow
+
     def sync_from_registry
       repositories = Registry.repositories
       Repository.transaction do
