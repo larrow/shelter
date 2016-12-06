@@ -39,11 +39,11 @@ class Repository < ApplicationRecord
       repositories = Registry.repositories
       Repository.transaction do
         repositories.each do |repo|
-          if Registry.tags repo
-            find_or_create_by_repo_name repo
-          else
+          if Registry.tags(repo).empty? # no tags means repo should not be exist
             namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')
             namespace&.repositories&.where(name: repo.split('/').last)&.each { |r| r.destroy }
+          else
+            find_or_create_by_repo_name repo
           end
         end
       end

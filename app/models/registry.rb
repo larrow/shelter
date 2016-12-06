@@ -7,7 +7,7 @@ module Registry
   end
 
   def tags repository
-    get("/v2/#{repository}/tags/list", headers: headers_for_scope("repository:#{repository}:pull"))['tags']
+    get("/v2/#{repository}/tags/list", headers: headers_for_scope("repository:#{repository}:pull"))['tags']||[]
   end
 
   def delete_tag(repository, tag)
