@@ -28,8 +28,9 @@ auth:
 notifications:
   endpoints:
       - name: shelter
-        disabled: false
         url: http://proxy/service/notifications
+        headers:
+          Authorization: [Bearer]
         timeout: 500ms
         threshold: 5
         backoff: 1s

@@ -29,9 +29,6 @@ else
   cp -r $app_config/registry config/
 fi
 
-# make registry config.yml
-sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template > config/registry/config.yml
-
 # check for openssl
 command -v openssl >/dev/null 2>&1 || { echo >&2 "Require openssl but it's not installed.  Aborting."; exit 1; }
 
@@ -46,3 +43,11 @@ openssl req -new -x509 -key ${private_key_pem} -out ${root_crt} -days 3650 -subj
 
 secret_key=$(openssl rand -base64 42)
 echo "SECRET_KEY_BASE=${secret_key}" > config/env_file
+
+service_token=$(openssl rand -base64 42)
+echo "SERVICE_TOKEN=${service_token}" >> config/env_file
+
+# make registry config.yml
+sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template \
+ | sed "s/Bearer/Bearer ${service_token}/" > config/registry/config.yml
+
