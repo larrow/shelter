@@ -29,10 +29,10 @@ class SyncWorker
     # change values to simple repository name
     namespaces.map do |k,v|
       repos = v.map{|(repo, tags)| [repo.split('/').last, tags]}
-      body = Hash[repos].to_json
 
+      body = { k => Hash[repos] }
       self.class.put("/service/sync",
-                     body: Hash[repos].to_json,
+                     body: body.to_json,
                      headers: {'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV['SERVICE_TOKEN']}"}
                     )
     end
