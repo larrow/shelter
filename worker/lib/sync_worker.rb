@@ -27,10 +27,12 @@ class SyncWorker
       group_by{|(repo, _tags)| repo.split('/').length == 2 ? repo.split('/')[0] : 'library' }
 
     # change values to simple repository name
-    namespaces.each do |k,v|
+    namespaces.map do |k,v|
       repos = v.map{|(repo, tags)| [repo.split('/').last, tags]}
+      body = Hash[repos].to_json
+
       self.class.put("/service/sync",
-                     body: { k => Hash[repos] }.to_json,
+                     body: Hash[repos].to_json,
                      headers: {'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV['SERVICE_TOKEN']}"}
                     )
     end
