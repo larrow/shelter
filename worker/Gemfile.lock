@@ -1,0 +1,72 @@
+GIT
+  remote: https://github.com/larrow/larrow-registry
+  revision: 461d72c0672b53765fddeffcb7e0611c987ef8e2
+  specs:
+    larrow-registry (0.1.0)
+      base32 (~> 0.3)
+      httparty (~> 0.13)
+      jwt (~> 1.5)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (5.0.0.1)
+      activesupport (= 5.0.0.1)
+    activerecord (5.0.0.1)
+      activemodel (= 5.0.0.1)
+      activesupport (= 5.0.0.1)
+      arel (~> 7.0)
+    activesupport (5.0.0.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    arel (7.1.4)
+    base32 (0.3.2)
+    concurrent-ruby (1.0.2)
+    connection_pool (2.2.1)
+    default_value_for (3.0.2)
+      activerecord (>= 3.2.0, < 5.1)
+    http_accept_language (2.1.0)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
+    i18n (0.7.0)
+    jwt (1.5.6)
+    minitest (5.10.1)
+    multi_xml (0.6.0)
+    rack (2.0.1)
+    rack-protection (1.5.3)
+      rack
+    redis (3.3.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
+    rufus-scheduler (3.3.1)
+      tzinfo
+    sidekiq (4.2.7)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.2, >= 3.2.1)
+    sidekiq-cron (0.4.5)
+      redis-namespace (>= 1.5.2)
+      rufus-scheduler (>= 2.0.24)
+      sidekiq (>= 4.2.1)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  base32
+  default_value_for
+  http_accept_language
+  httparty
+  larrow-registry!
+  redis
+  sidekiq
+  sidekiq-cron
+
+BUNDLED WITH
+   1.13.5

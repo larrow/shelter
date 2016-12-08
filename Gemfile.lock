@@ -9,9 +9,10 @@ GIT
 
 GIT
   remote: https://github.com/larrow/larrow-registry
-  revision: 7c11ee77cfa37132402ca5a3579cc475d58f2d63
+  revision: 461d72c0672b53765fddeffcb7e0611c987ef8e2
   specs:
     larrow-registry (0.1.0)
+      base32 (~> 0.3)
       httparty (~> 0.13)
       jwt (~> 1.5)
 
