@@ -7,4 +7,6 @@ config/private_key.pem
 config/registry/config.yml
 config/nginx/cert/*
 config/env_file
+public/assets
+worker/config/private_key.pem
 
