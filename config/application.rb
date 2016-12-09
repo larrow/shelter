@@ -16,6 +16,6 @@ module Shelter
     config.action_cable.mount_path = '/cable'
     config.action_cable.disable_request_forgery_protection = true
 
-    Larrow::Registry.base_uri 'http://proxy'
+    Larrow::Registry.base_uri 'http://registry:5000'
   end
 end
