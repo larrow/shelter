@@ -21,20 +21,20 @@ class SyncWorker
     # }
     namespaces = Registry.repositories.
       # no tags means repo should not be exist
-      map{|repo| [repo, Registry.tags(repo)]}.
-      select{|(_repo, tags)| not tags.empty?}.
+      select{|repo| not Registry.tags(repo).empty?}.
       # group by namespace
-      group_by{|(repo, _tags)| repo.split('/').length == 2 ? repo.split('/')[0] : 'library' }
+      group_by{|repo| repo.split('/').length == 2 ? repo.split('/')[0] : 'library' }
 
     # change values to simple repository name
-    namespaces.map do |k,v|
-      repos = v.map{|(repo, tags)| [repo.split('/').last, tags]}
-
-      body = { k => Hash[repos] }
-      self.class.put("/service/sync",
-                     body: body.to_json,
-                     headers: {'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV['SERVICE_TOKEN']}"}
-                    )
+    namespaces.each do |k,v|
+      simple_repo_names = v.map{|repo| repo.split('/').last}
+      namespaces[k] = simple_repo_names
     end
+
+    puts "namespaces: #{namespaces}"
+    self.class.put("/service/sync",
+                   body: namespaces.to_json,
+                   headers: {'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV['SERVICE_TOKEN']}"}
+                  )
   end
 end

@@ -48,26 +48,11 @@ class ServiceController < ApplicationController
 
   def sync
     inner_service_auth do
-      JSON.parse(request.body.read).each do |namespace_name, repo_hash|
-        namespace = Namespace.find_by(name: namespace_name)
-        if namespace
-          repositories = namespace.repositories
-          repo_names = repo_hash.keys
+      namespaces = JSON.parse(request.body.read)
+      puts "namespaces: #{namespaces}"
 
-          # destroy repo which is not exist.
-          repositories.each do |r|
-            if repo_names.include?(r.name)
-              Rails.logger.debug "service - destroy repo: #{r.name}"
-              r.destroy
-            end
-          end
-
-          # create repo which is not insert to db
-          (repo_names - repositories.map(&:name)).each do |repo_name|
-            Rails.logger.debug "service - create repo: #{repo_name}"
-            namespace.repositories.create name: repo_name
-          end
-        end
+      Namespace.find_each do |namespace|
+        namespace.update_repositories namespaces[namespace]
       end
     end
   end
