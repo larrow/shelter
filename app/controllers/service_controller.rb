@@ -10,7 +10,13 @@ class ServiceController < ApplicationController
       Rails.logger.debug "events: #{events}"
       RegistryEvent.transaction do
         events.each do |event|
-          RegistryEvent.find_or_create_by(action: event['action'], repository: event['target']['repository'], original_id: event['id'], actor: event['actor']['name'], created_at: Time.parse(event['timestamp'])) unless event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
+          RegistryEvent.find_or_create_by(
+            action: event['action'],
+            repository: event['target']['repository'],
+            original_id: event['id'],
+            actor: event['actor']['name'],
+            created_at: Time.parse(event['timestamp'])
+          ) unless event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
         end
       end
     end
