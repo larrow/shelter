@@ -15,15 +15,24 @@ class Repository < ApplicationRecord
 
   def tags
     Registry.tags(full_path).map do |tag|
-      {
-        name: tag,
-        size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
-      }
-    end || []
+      if block_given?
+        yield tag
+      else
+        {
+          name: tag,
+          size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
+        }
+      end
+    end
+  end
+
+  def remove_tag tag
+    Registry.delete_tag(full_path, tag)
+    delete if tags.empty?
   end
 
   def clear_tags
-    Registry.tags(full_path).map do |tag|
+    tags do |tag|
       Registry.delete_tag(full_path, tag)
     end
   end
