@@ -22,7 +22,7 @@ class Namespace < ApplicationRecord
   end
 
   def update_repositories repo_names
-    repositories.delete_all and return if repo_names.nil?
+    repositories.delete_all || return if repo_names.nil?
 
     # destroy repo which is not exist.
     repositories.each do |r|
