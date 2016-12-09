@@ -28,6 +28,9 @@ class Repository < ApplicationRecord
 
   def remove_tag tag
     Registry.delete_tag(full_path, tag)
+  end
+
+  def try_to_delete
     delete if tags.empty?
   end
 

@@ -10,6 +10,9 @@ class RegistryEvent < ApplicationRecord
       end
     when 'pull'
       Repository.find_or_create_by_repo_name(self.repository).increment! :pull_count unless self.actor == 'system-service'
+    when 'delete'
+      repo = Repository.find_or_create_by_repo_name(self.repository)
+      repo.try_to_delete
     end
   end
 end
