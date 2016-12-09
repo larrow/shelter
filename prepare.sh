@@ -44,10 +44,10 @@ openssl req -new -x509 -key ${private_key_pem} -out ${root_crt} -days 3650 -subj
 secret_key=$(openssl rand -base64 42)
 echo "SECRET_KEY_BASE=${secret_key}" > config/env_file
 
-service_token=$(openssl rand -base64 42)
+service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> config/env_file
 
 # make registry config.yml
 sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template \
- | sed "s/Bearer/Bearer ${service_token}/" > config/registry/config.yml
+  | sed "s/Bearer/Bearer ${service_token}/" > config/registry/config.yml
 
