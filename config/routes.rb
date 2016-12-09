@@ -1,8 +1,3 @@
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
-
-Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
-
 Rails.application.routes.draw do
 
   namespace :admin do
@@ -11,8 +6,6 @@ Rails.application.routes.draw do
     resources :namespaces
     resources :repositories
   end
-
-  mount Sidekiq::Web => '/sidekiq'
 
   resources :dashboard, only: [:index]
 
