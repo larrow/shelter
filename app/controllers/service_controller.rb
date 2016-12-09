@@ -8,16 +8,14 @@ class ServiceController < ApplicationController
     inner_service_auth do
       events = JSON.parse(request.body.read)['events']
       Rails.logger.debug "events: #{events}"
-      RegistryEvent.transaction do
-        events.each do |event|
-          RegistryEvent.find_or_create_by(
-            action: event['action'],
-            repository: event['target']['repository'],
-            original_id: event['id'],
-            actor: event['actor']['name'],
-            created_at: Time.parse(event['timestamp'])
-          ) unless event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
-        end
+      events.each do |event|
+        RegistryEvent.find_or_create_by(
+          action: event['action'],
+          repository: event['target']['repository'],
+          original_id: event['id'],
+          actor: event['actor']['name'],
+          created_at: Time.parse(event['timestamp'])
+        ) unless event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
       end
     end
   end
@@ -35,12 +33,17 @@ class ServiceController < ApplicationController
 
     token = Registry.token scope, sub do |namespace_name, repository_name|
       namespace = Namespace.find_by(name: namespace_name)
-      repository = namespace&.repositories.where(name: repository_name).first_or_initialize
+      if namespace
+        repository = namespace.repositories.where(name: repository_name).first_or_initialize
 
-      authorized_actions = []
-      authorized_actions << 'pull' if current_user.can? :pull, repository
-      authorized_actions += ['*', 'push'] if current_user.can? :push, repository
-      authorized_actions
+        authorized_actions = []
+        authorized_actions << 'pull' if current_user.can? :pull, repository
+        authorized_actions += ['*', 'push'] if current_user.can? :push, repository
+        authorized_actions
+      else
+        Rails.logger.debug "nil namespace(#{namespace_name}): #{params[:scope]}"
+        []
+      end
     end
 
     render json: {token: token}
