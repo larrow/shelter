@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'base32'
+gem 'default_value_for'
+gem 'sidekiq'
+gem 'sidekiq-cron'
+gem 'http_accept_language'
+gem 'redis'
+gem 'larrow-registry', git: 'https://github.com/larrow/larrow-registry'
+gem 'httparty'
+

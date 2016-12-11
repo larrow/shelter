@@ -7,7 +7,7 @@ storage:
     cache:
         layerinfo: inmemory
     filesystem:
-        rootdirectory: /storage
+        rootdirectory: /var/lib/registry
     maintenance:
         uploadpurging:
             enabled: false
@@ -22,14 +22,15 @@ auth:
   token:
     issuer: registry-token-issuer
     realm: http://localhost/service/token
-    rootcertbundle: /etc/registry/root.crt
+    rootcertbundle: /etc/docker/registry/root.crt
     service: token-service
 
 notifications:
   endpoints:
       - name: shelter
-        disabled: false
-        url: http://proxy/service/notifications
+        url: http://web:3000/service/notifications
+        headers:
+          Authorization: [Bearer]
         timeout: 500ms
         threshold: 5
         backoff: 1s

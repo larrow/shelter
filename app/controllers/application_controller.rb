@@ -1,11 +1,12 @@
 class ApplicationController < ActionController::Base
+  include Larrow
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
   before_action :mini_profiler
 
   rescue_from CanCan::AccessDenied do |exception|
-    render :file => "#{Rails.root}/public/404.html", status: 404, layout: false
+    render :file => "#{Rails.root}/public/404.html", status: 403, layout: false
   end
 
   protected

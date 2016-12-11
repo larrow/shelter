@@ -8,36 +8,20 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: https://github.com/larrow/larrow-registry
+  revision: 461d72c0672b53765fddeffcb7e0611c987ef8e2
+  specs:
+    larrow-registry (0.1.0)
+      base32 (~> 0.3)
+      httparty (~> 0.13)
+      jwt (~> 1.5)
+
+GIT
   remote: https://github.com/ricardoemerson/font-ionicons-rails.git
   revision: 172d7e3a8113969119f1016c68e055b46668956a
   specs:
     font-ionicons-rails (2.0.1.5)
       railties (>= 3.2, < 6.0)
-
-GIT
-  remote: https://github.com/rubysherpas/paranoia.git
-  revision: 70f6e37b7b32cf4f70c5b852a38597699f476c62
-  branch: rails5
-  specs:
-    paranoia (2.2.0.pre)
-      activerecord (>= 4.0, < 5.1)
-
-GIT
-  remote: https://github.com/sinatra/rack-protection.git
-  revision: cc19dafb0c6266c2927e629688464c9992efedf8
-  specs:
-    rack-protection (2.0.0)
-      rack
-
-GIT
-  remote: https://github.com/sinatra/sinatra.git
-  revision: bd1a9dc8c9c0a75b50bacb18cbf9ec1923764edb
-  specs:
-    sinatra (2.0.0.pre.alpha)
-      mustermann (~> 0.4)
-      rack (~> 2.0)
-      rack-protection (~> 2.0)
-      tilt (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -105,7 +89,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
-    connection_pool (2.2.0)
+    connection_pool (2.2.1)
     debug_inspector (0.0.2)
     default_value_for (3.0.2)
       activerecord (>= 3.2.0, < 5.1)
@@ -123,8 +107,7 @@ GEM
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     http_accept_language (2.0.5)
-    httparty (0.13.7)
-      json (~> 1.8)
+    httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     icheck-rails (1.0.2.2)
@@ -135,8 +118,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.3)
-    jwt (1.5.4)
+    jwt (1.5.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -147,9 +129,7 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
-    multi_xml (0.5.5)
-    mustermann (0.4.0)
-      tool (~> 0.2)
+    multi_xml (0.6.0)
     nio4r (1.2.1)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
@@ -167,6 +147,8 @@ GEM
     rack (2.0.1)
     rack-mini-profiler (0.10.1)
       rack (>= 1.2.0)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0)
@@ -197,14 +179,11 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (11.2.2)
+    rake (11.3.0)
     redcarpet (3.3.4)
     redis (3.3.1)
-    redis-namespace (1.5.2)
-      redis (~> 3.0, >= 3.0.4)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
-    rufus-scheduler (3.2.2)
     sass (3.4.22)
     sass-rails (5.0.5)
       railties (>= 4.0.0, < 6)
@@ -212,14 +191,11 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sidekiq (4.1.2)
+    sidekiq (4.2.7)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
-    sidekiq-cron (0.4.3)
-      redis-namespace (>= 1.5.2)
-      rufus-scheduler (>= 2.0.24)
-      sidekiq (>= 4.0.0)
     slop (3.6.0)
     spring (1.7.2)
     sprockets (3.6.3)
@@ -232,7 +208,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    tool (0.2.3)
     turbolinks (5.0.0)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -255,7 +230,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  base32
   better_errors
   binding_of_caller
   bootstrap-sass
@@ -268,17 +242,14 @@ DEPENDENCIES
   font-ionicons-rails!
   github-markup
   http_accept_language
-  httparty
   icheck-rails
   jquery-rails
-  jwt
   kaminari!
-  paranoia!
+  larrow-registry!
   pg
   pry-rails
   puma (~> 3.0)
   rack-mini-profiler
-  rack-protection!
   rails (~> 5.0.0)
   rails-i18n (~> 5.0.0)
   rails-settings-cached
@@ -286,8 +257,6 @@ DEPENDENCIES
   redis
   sass-rails (~> 5.0)
   sidekiq
-  sidekiq-cron
-  sinatra!
   spring
   turbolinks (~> 5)
   tzinfo-data
@@ -295,4 +264,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   1.13.3
+   1.13.5

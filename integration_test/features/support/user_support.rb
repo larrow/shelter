@@ -21,6 +21,19 @@ module UserSupport
     users[u] = user
   end
 
+  # execute block as somebody
+  # if u_str is nil, execute as current user
+  def do_as u_str
+    user = users[u_str.gsub(/用户/, '')]
+    if user
+      login_as user do
+        yield
+      end
+    else
+      yield
+    end
+  end
+
   # login operation, and old session will be dismissed.
   # if you want to save current session, you may use block
   def login_as user
@@ -33,30 +46,29 @@ module UserSupport
       end
       # registry login
       Registry.login_as user
-      @current_user = user
+      store_current_user user
     end
 
     if block_given?
       new_session do
-        old_user = @current_user
+        old_user = current_user
         block.call
         v = yield
-        @current_user = old_user
+        store_current_user old_user
         v
       end
     else
       new_session!
       block.call
     end
-  rescue
-    # Omit login error, happens when admin already logs in.
   end
 
-  def create_group(g)
+  def create_group(g, publicity=true)
     group = next_group
     visit('/n/new')
-    submit_form(id: 'new_group') do |form|
-      form['group[name]'] = group
+    submit_form(id: 'new_namespace') do |form|
+      form['namespace[name]'] = group
+      form['namespace[default_publicity]'] = publicity ? '1' : '0'
     end
     groups[g] = group
     namespaces[g] = group
@@ -81,11 +93,16 @@ module UserSupport
         map(&:href)
       urls << '/admin/repositories'
 
-      urls.map do |url|
+      urls.reduce({}) do |sum, url|
         visit(url).css('table tr').map do |row|
-          row.element_children.first.text
+          if row.element_children.size >= 2
+            image_full_path = row.element_children[0].text.gsub(/[\n ]/, '')
+            tags            = row.element_children[1].text.gsub(/[\n ]/, '').split(',')
+            sum.update image_full_path => tags
+          end
         end
-      end.flatten.uniq
+        sum
+      end
     end
   end
 

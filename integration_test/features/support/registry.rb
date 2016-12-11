@@ -1,6 +1,7 @@
 require 'docker-api'
 require 'socket'
 
+# registry内置三个版本的镜像数据用于测试，分别用v1,v2,v3作为key存放在@local_imgs里面
 module Registry
   def init
     return if @local_imgs
@@ -31,7 +32,7 @@ module Registry
                          serveraddress: @addr)
   end
 
-  def push(image, tag)
+  def push image, tag
     img = @local_imgs[tag.to_s]
     id = img.id
 
@@ -45,8 +46,12 @@ module Registry
     @local_imgs[tag.to_s] = Docker::Image.get id
   end
 
+  def pull image, tag
+    Docker::Image.create('fromImage' => "#{@addr}/#{image}:#{tag}")
+  end
+
   def local_imgs; @local_imgs end
-  module_function :init, :login_as, :push, :local_imgs
+  module_function :init, :login_as, :push, :pull, :local_imgs
 end
 
 Registry.init

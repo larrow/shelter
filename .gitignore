@@ -20,6 +20,7 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+**/*/private_key.pem
 
 .vagrant
 Vagrantfile
@@ -29,8 +30,8 @@ config/environments/*.local.yml
 
 # Ignore runtime configuration files
 config/registry/root.crt
-config/private_key.pem
 config/registry/config.yml
 config/nginx/cert/*
+public/assets
 env_file
 .env

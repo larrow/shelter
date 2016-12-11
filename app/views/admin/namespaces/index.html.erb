@@ -9,7 +9,8 @@
       <table class="table no-margin">
         <thead>
           <th><%= t '.name' %></th>
-          <th><%= t '.type' %></th>
+          <th><%= t '.user_count' %></th>
+          <th><%= t '.repo_count' %></th>
         </thead>
         <tbody>
           <% if @namespaces.length == 0 %>
@@ -21,7 +22,8 @@
           <% @namespaces.each do |namespace| %>
             <tr>
               <td><%= namespace.name %></td>
-              <td><%= namespace.type %></td>
+              <td><%= namespace.users.count %></td>
+              <td><%= namespace.repositories.count %></td>
             </tr>
           <% end %>
         </tbody>

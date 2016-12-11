@@ -4,22 +4,21 @@ services:
   registry:
     image: library/registry:2.5.0
     volumes:
-      - ../config/registry/root.crt:/etc/registry/root.crt
-      - ./config/registry/config.yml:/etc/registry/config.yml
+      - ../config/registry/root.crt:/etc/docker/registry/root.crt
+      - ./config/registry/config.yml:/etc/docker/registry/config.yml
     environment:
       - GODEBUG=netdns=cgo
-    command:
-      ["serve", "/etc/registry/config.yml"]
   db:
     image: postgres
   redis:
     image: redis
   worker:
-    build: ..
-    command: "backend"
+    build: ../worker
+    volumes:
+      - ../config/private_key.pem:/usr/src/app/config/private_key.pem
     env_file: ../config/env_file
     depends_on:
-      - db
+      - web
       - registry
       - redis
   web:

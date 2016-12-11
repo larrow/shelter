@@ -4,13 +4,11 @@ services:
     image: library/registry:2.5.0
     volumes:
       - /data/registry:/storage
-      - ./config/registry/:/etc/registry/
+      - ./config/registry/:/etc/docker/registry/
     environment:
       - GODEBUG=netdns=cgo
     ports:
       - 5001:5001
-    command:
-      ["serve", "/etc/registry/config.yml"]
   db:
     image: postgres
     ports:
@@ -20,14 +18,10 @@ services:
     ports:
       - 6380:6379
   worker:
-    build: .
-    command: "backend"
-    environment:
-      RAILS_ENV: development
-    volumes:
-      - .:/usr/src/app
+    build: worker
+    env_file: config/env_file
     depends_on:
-      - db
+      - web
       - registry
       - redis
   web:
@@ -37,6 +31,7 @@ services:
     stdin_open: true
     environment:
       RAILS_ENV: development
+    env_file: config/env_file
     volumes:
       - .:/usr/src/app
     depends_on:
@@ -45,7 +40,6 @@ services:
       - redis
   proxy:
     image: nginx:1.9
-    restart: always
     volumes:
       - ./config/nginx:/etc/nginx
     ports:

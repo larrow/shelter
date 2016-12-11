@@ -3,13 +3,13 @@ class NamespacesController < ApplicationController
   before_action :authenticate_user!, except: :show
 
   def create
-    redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:group][:name])
-    @group = current_user.create_group(params[:group][:name])
-    redirect_to namespace_path(@group.name)
+    redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:namespace][:name])
+    @namespace = current_user.create_namespace(params[:namespace][:name], params[:namespace][:default_publicity])
+    redirect_to namespace_path(@namespace.name)
   end
 
   def new
-    @group = Group.new
+    @namespace = current_user.owned_namespaces.new
   end
 
   def show
@@ -19,10 +19,15 @@ class NamespacesController < ApplicationController
   end
 
   def destroy
-    authorize! :update, @namespace
-    redirect_back fallback_location: dashboard_index_path, alert: t('.library_cannot_delete') and return if @namespace.name == 'library'
-    @namespace.destroy unless @namespace.type.nil?
-    redirect_to dashboard_index_path, notice: t('.namespace_deleted')
+    authorize! :write, @namespace
+    status = @namespace.check_destroy
+
+    if status
+      redirect_back fallback_location: dashboard_index_path, alert: t(status)
+    else
+      @namespace.destroy
+      redirect_to dashboard_index_path, notice: t('.namespace_deleted')
+    end
   end
 
   def settings
@@ -32,6 +37,7 @@ class NamespacesController < ApplicationController
   private
 
   def process_params
-    @namespace = Namespace.find_by!(name: params[:id])
+    @namespace = Namespace.find_by(name: params[:id])
+    head 404 if @namespace.nil?
   end
 end

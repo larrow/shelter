@@ -8,7 +8,7 @@
     <div class="box-tools pull-right">
     </div>
   </div>
-  <%= form_tag namespace_group_members_path(@group.name) do %>
+  <%= form_tag namespace_members_path(@group.name) do %>
     <div class="box-body">
       <div class="form-group">
         <%= label_tag :username, t('.username') %>

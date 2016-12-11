@@ -50,6 +50,7 @@ en:
       public: PUBLIC
       private: PRIVATE
       description: Description
+      delete: Delete
       desc_empty: Description is empty for this repo.
       docker_pull_command: Docker Pull Command
       tags: Tags
@@ -58,9 +59,11 @@ en:
       size: Size
       action: Action
       view_all_tags: View All Tags
-      visibility_settings: Visibility Settings
       make_private: Make Private
       make_public: Make Public
+      delete_confirmation: Delete the repository? (Tags will be cleard)
+    destroy:
+      repository_deleted: Repository is deleted
   tags:
     index:
       tags: Tags
@@ -71,7 +74,7 @@ en:
   search:
     index:
       title: Result for searching '%{query}'
-  group_members:
+  members:
     index:
       collaborators: Collaborators
       invite_user: Invite user
@@ -98,6 +101,7 @@ en:
     new:
       new_org: New organization
       name: Name
+      publicity: Public group?
       create_org: Create Organization
     show:
       no_repository: This organization has no repository.

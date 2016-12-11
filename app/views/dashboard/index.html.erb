@@ -1,27 +1,13 @@
-<% content_for :content_title do %>
-  <%=t '.repositories' %>
-<% end %>
 <div class="row" style="margin-bottom: 10px;">
-  <div class="col-md-1">
-    <div class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle namespace-selector" data-toggle="dropdown" aria-expanded="false"><%= current_user.username %> <span class="fa fa-caret-down"></span></button>
-      <ul class="dropdown-menu">
-        <li><a href="#"><%= current_user.username %></a></li>
-        <% if current_user.authorized_groups.count > 0 %>
-          <li class="divider"></li>
-        <% end %>
-        <% current_user.authorized_groups.each do |group| %>
-          <li><%= link_to group.name, namespace_path(group.name) %></li>
-        <% end %>
-        <li class="divider"></li>
-        <li><%= link_to t('.new_org'), new_namespace_path %></li>
-      </ul>
-    </div>
+  <div class="col-md-12">
+    <% @authorized_groups.each do |group| %>
+      <fieldset>
+        <legend>
+          <%= link_to group.name, namespace_path(group.name) %>
+        </legend>
+        <%= render group.repositories.limit(2) %>
+      </fieldset>
+    <% end %>
   </div>
 </div>
 
-<div data-auto-update-repositories="<%= current_user.namespace.name %>">
-  <%= render @repositories %>
-</div>
-
-<%= paginate @repositories %>
