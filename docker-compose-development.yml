@@ -19,6 +19,9 @@ services:
       - 6380:6379
   worker:
     build: worker
+    volumes:
+      - ./worker:/usr/src/app
+      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
     env_file: config/env_file
     depends_on:
       - web

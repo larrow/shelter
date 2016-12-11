@@ -15,7 +15,7 @@ services:
   worker:
     build: worker
     volumes:
-        - ./config/private_key.pem:/usr/src/app/config/private_key.pem
+      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
     env_file: config/env_file
     depends_on:
       - web
@@ -24,7 +24,7 @@ services:
   web:
     build: .
     volumes:
-        - ./config/private_key.pem:/usr/src/app/config/private_key.pem
+      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
     env_file: config/env_file
     depends_on:
       - db

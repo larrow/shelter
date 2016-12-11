@@ -22,7 +22,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # processes).
 
 if ENV.fetch("RAILS_ENV")=='development'
-  workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+  workers ENV.fetch("WEB_CONCURRENCY") { 5 }
 end
 # workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
