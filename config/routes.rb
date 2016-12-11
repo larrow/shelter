@@ -1,8 +1,3 @@
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
-
-Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
-
 Rails.application.routes.draw do
 
   namespace :admin do
@@ -12,16 +7,15 @@ Rails.application.routes.draw do
     resources :repositories
   end
 
-  mount Sidekiq::Web => '/sidekiq'
-
   resources :dashboard, only: [:index]
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   root to: 'home#index'
 
   post 'service/notifications'
-  get 'service/token'
-  get 'search', to: 'search#index'
+  get  'service/token'
+  put  'service/sync'
+  get  'search', to: 'search#index'
 
   resources :namespaces, path: '/n', constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:show, :create, :new, :destroy] do
     resources :members, constraints: { id: /[a-zA-Z.0-9_\-]+/ }, only: [:index, :create, :new, :destroy] do

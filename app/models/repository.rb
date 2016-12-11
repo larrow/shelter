@@ -1,4 +1,6 @@
 class Repository < ApplicationRecord
+  include Larrow
+
   belongs_to :namespace
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
@@ -12,17 +14,29 @@ class Repository < ApplicationRecord
   before_destroy :clear_tags
 
   def tags
-    registry.tags&.map do |tag|
-      {
-        name: tag,
-        size: JSON.parse(registry.manifests(tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
-      }
-    end || []
+    Registry.tags(full_path).map do |tag|
+      if block_given?
+        yield tag
+      else
+        {
+          name: tag,
+          size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
+        }
+      end
+    end
+  end
+
+  def remove_tag tag
+    Registry.delete_tag(full_path, tag)
+  end
+
+  def try_to_delete
+    delete if tags.empty?
   end
 
   def clear_tags
-    registry.tags&.map do |tag|
-      registry.delete_tag(tag)
+    tags do |tag|
+      Registry.delete_tag(full_path, tag)
     end
   end
 
@@ -35,16 +49,17 @@ class Repository < ApplicationRecord
   end
 
   class << self
+    include Larrow
+
     def sync_from_registry
-      repositories = Registry.new(is_system: true).repositories
+      repositories = Registry.repositories
       Repository.transaction do
         repositories.each do |repo|
-          registry = Registry.new(is_system: true, repository: repo)
-          if registry.tags
-            find_or_create_by_repo_name repo
-          else
+          if Registry.tags(repo).empty? # no tags means repo should not be exist
             namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')
             namespace&.repositories&.where(name: repo.split('/').last)&.each { |r| r.destroy }
+          else
+            find_or_create_by_repo_name repo
           end
         end
       end
@@ -57,8 +72,4 @@ class Repository < ApplicationRecord
     end
   end
 
-  # 无状态的对象可以反复使用
-  def registry
-    @registry ||= Registry.new(is_system: true, repository: full_path)
-  end
 end

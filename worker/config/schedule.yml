@@ -1,0 +1,4 @@
+registry_sync_job:
+  cron: "0 0 * * *"
+  class: SyncWorker
+  queue: default

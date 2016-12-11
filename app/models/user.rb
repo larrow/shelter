@@ -29,7 +29,7 @@ class User < ApplicationRecord
 
   after_create :ensure_namespace_correct
   def ensure_namespace_correct
-    owned_namespaces << create_personal_namespace(name: username)
+    owned_namespaces << create_personal_namespace(name: username, default_publicity: false)
   end
 
   def ability

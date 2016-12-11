@@ -37,6 +37,7 @@ class NamespacesController < ApplicationController
   private
 
   def process_params
-    @namespace = Namespace.find_by!(name: params[:id])
+    @namespace = Namespace.find_by(name: params[:id])
+    head 404 if @namespace.nil?
   end
 end

@@ -21,6 +21,24 @@ class Namespace < ApplicationRecord
     return '.repositories_should_be_empty' if repositories.size > 0
   end
 
+  def update_repositories repo_names
+    repositories.delete_all || return if repo_names.nil?
+
+    # destroy repo which is not exist.
+    repositories.each do |r|
+      if not repo_names.include?(r.name)
+        Rails.logger.debug "service - destroy repo: #{r.name}"
+        r.destroy
+      end
+    end
+
+    # create repo which is not insert to db
+    (repo_names - repositories.map(&:name)).each do |repo_name|
+      Rails.logger.debug "service - create repo: #{repo_name}"
+      repositories.create name: repo_name
+    end
+  end
+
   protected
   def post_to_namespace_channel(repository)
     NamespaceChannel.broadcast_to(self, action: 'new_repository', content: ApplicationController.render(repository)) if repository.id # ignore initialize
