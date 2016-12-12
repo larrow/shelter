@@ -8,4 +8,5 @@ else
 fi
 
 docker pull larrow/shelter
+docker pull larrow/shelter:worker
 docker run -it --rm -v `pwd`:/tmp larrow/shelter config $host
