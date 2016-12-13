@@ -8,6 +8,7 @@ case "$1" in
     else
       cd /tmp
       /prepare.sh $2
+      cp /usr/src/app/deploy/docker-compose.yml . || echo 'compose file exist!'
     fi
     ;;
   backend )
