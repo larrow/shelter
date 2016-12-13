@@ -1,7 +1,6 @@
 log
 tmp
 integration_test
-deploy
 config/registry/root.crt
 config/private_key.pem
 config/registry/config.yml

@@ -2,12 +2,13 @@
 
 case "$1" in
   config )
-    if [ -f "env_file" ]
+    if [ -f "./config/env_file" ]
     then
       echo 'prepared.'
     else
       cd /tmp
       /prepare.sh $2
+      cp /usr/src/app/deploy/docker-compose.yml . || echo 'compose file exist!'
     fi
     ;;
   backend )
