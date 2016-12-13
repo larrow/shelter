@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ "$1" == "" ]
+if [ "$SHELTER_HOST" == "" ]
 then
   host="localhost"
 else
-  host=$1
+  host=$SHELTER_HOST
 fi
 
 docker run --rm -v `pwd`:/tmp larrow/shelter config $host
