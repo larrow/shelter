@@ -6,7 +6,7 @@ $stdout.sync = true
 
 def check_server
   30.times do
-    return if Net::Ping::HTTP.new('localhost').ping?
+    return if Net::Ping::HTTP.new('proxy').ping?
     puts "."
     sleep 1.5
   end
