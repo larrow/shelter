@@ -43,6 +43,7 @@ GEM
     multi_test (0.1.2)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
+    net-ping (2.0.1)
     netrc (0.11.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -76,6 +77,7 @@ DEPENDENCIES
   cucumber
   docker-api
   mechanize
+  net-ping
   pry
   pry-nav
   rest-client
@@ -83,4 +85,4 @@ DEPENDENCIES
   rspec-expectations
 
 BUNDLED WITH
-   1.13.1
+   1.13.5

@@ -1,19 +1,14 @@
 #!/usr/bin/env ruby
 
-require 'open-uri'
-require 'timeout'
-
+require 'net/ping'
 
 def check_once
-  Timeout.timeout(2) do
-      open('http://proxy/')
+  Net::Ping::HTTP.new('localhost').ping.tap do |ok|
+    if not ok
+      puts "."
+      sleep 1.5
+    end
   end
-rescue OpenURI::HTTPError, Errno::ECONNREFUSED => e
-  puts "."
-  sleep 1.5
-  false
-rescue Timeout::Error
-  false
 end
 
 $stdout.sync = true
