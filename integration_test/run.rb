@@ -2,22 +2,18 @@
 
 require 'net/ping'
 
-def check_once
-  Net::Ping::HTTP.new('localhost').ping.tap do |ok|
-    if not ok
-      puts "."
-      sleep 1.5
-    end
-  end
-end
-
 $stdout.sync = true
 
-puts 'wait for the service to be ready'
-
-30.times do
-  exec 'cucumber' if check_once
+def check_server
+  30.times do
+    return if Net::Ping::HTTP.new('localhost').ping?
+    puts "."
+    sleep 1.5
+  end
+  fail 'cannot connect to server'
 end
 
-exit 1
+puts 'wait for the service to be ready'
+check_server
+exec 'cucumber'
 
