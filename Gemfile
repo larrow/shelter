@@ -26,6 +26,7 @@ gem 'rails-settings-cached'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'redis'
 gem 'larrow-registry', git: 'https://github.com/larrow/larrow-registry'
+gem 'net-ping'
 
 # gem 'capistrano-rails', group: :development
 

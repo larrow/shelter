@@ -130,6 +130,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     multi_xml (0.6.0)
+    net-ping (2.0.1)
     nio4r (1.2.1)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
@@ -246,6 +247,7 @@ DEPENDENCIES
   jquery-rails
   kaminari!
   larrow-registry!
+  net-ping
   pg
   pry-rails
   puma (~> 3.0)
