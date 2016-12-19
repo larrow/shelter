@@ -9,19 +9,13 @@ docker 私有仓库。
 
 `shelter`本身使用`docker`相关技术进行交付，因此您需要确保`docker daemon`和`docker compose`可用。
 
-可以使用下列命令确定环境是否正常
-
 * 确认docker daemon版本不低于 1.12（之前版本没有进行测试）
-
 ```
 # docker info | grep "Server Version"
-...
 Server Version: 1.12.x
-...
 ```
 
 * 确认 docker compose 版本不低于 1.8
-
 ```
 # docker-compose -v
 docker-compose version 1.8.1, build 878cff1
@@ -32,7 +26,7 @@ docker-compose version 1.8.1, build 878cff1
 您可以用这个脚本获得一个完整的shelter系统(假定shelter对外服务的ip为192.168.0.10)——
 
 ```
-curl -sSL https://raw.githubusercontent.com/larrow/shelter/master/deploy/init.sh | SHELTER_HOST=192.168.0.10 sh
+SHELTER_HOST=192.168.0.10 curl -sSL https://raw.githubusercontent.com/larrow/shelter/master/deploy/init.sh | sh
 ```
 
 这个脚本将完成以下工作：
@@ -47,7 +41,7 @@ init脚本仅在当前目录下生成配置文件，因此删除shelter也很简
 
 ```
 # docker-compose down
-# rm -rf config
+# rm -rf config docker-compose.yml
 ```
 
 详细的使用指南请参考 [Wiki](https://github.com/larrow/shelter/wiki)
