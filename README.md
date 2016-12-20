@@ -1,7 +1,6 @@
 # Shelter简介
 
-shelter 是基于 RoR 搭建的 docker
-私有仓库管理平台，和`harbor`这样的`企业级`平台不同，shelter 的设计目标是`非企业级`应用，我们期望，通过摒弃复杂的、冗长的研发方式和繁琐但用处不大的功能，让中小型创业团队甚至个人也能拥有一个简单好用的 docker 私有仓库。
+shelter 是基于 Ruby on Rails 搭建的 docker 私有镜像管理平台，和 [harbor](https://github.com/vmware/harbor) 这样的企业级平台不同，shelter 的设计目标是`非企业级`应用。本项目希望摒弃复杂冗长的研发方式，以及繁琐但用处不大的功能，让中小型创业团队甚至个人也能拥有一个简单好用的 docker 私有仓库。
 
 [![用户指南](https://github.com/larrow/shelter/wiki/shelter_integration_test.gif)](https://youtu.be/RkhEYJ_7n_o)
 
