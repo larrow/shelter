@@ -1,28 +1,15 @@
 #!/usr/bin/env ruby
 
-require 'open-uri'
-require 'timeout'
+require 'net/ping'
 
-
-def check_once
-  Timeout.timeout(2) do
-      open('http://proxy/')
+def check_server
+  30.times do
+    return if Net::Ping::HTTP.new('proxy').ping?
+    sleep 1.5
   end
-rescue OpenURI::HTTPError, Errno::ECONNREFUSED => e
-  puts "."
-  sleep 1.5
-  false
-rescue Timeout::Error
-  false
+  fail 'cannot connect to server'
 end
 
-$stdout.sync = true
-
-puts 'wait for the service to be ready'
-
-30.times do
-  exec 'cucumber' if check_once
-end
-
-exit 1
+check_server
+exec 'cucumber'
 
