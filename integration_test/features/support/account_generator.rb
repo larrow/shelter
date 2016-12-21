@@ -8,26 +8,16 @@ module AccountGenerator
     }
   end
 
-  def next_user
+  def next_user prefix
     {
-      login: next_username,
-      email: next_email,
+      login: "#{prefix}_#{SecureRandom.hex(10)}",
+      email: "#{SecureRandom.hex(10)}@example.com",
       password: "testpassword"
     }
   end
-  def next_email
-    id = SecureRandom.hex(10)
-    "#{id}@example.com"
-  end
 
-  def next_username
-    id = SecureRandom.hex(10)
-    "user_#{id}"
-  end
-
-  def next_group
-    id = SecureRandom.hex(10)
-    "group_#{id}"
+  def next_group prefix
+    "#{prefix}_#{SecureRandom.hex(10)}"
   end
 
 end
