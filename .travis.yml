@@ -1,0 +1,18 @@
+sudo: required
+
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - cd integration_test/ && docker-compose build
+
+script:
+  - cd integration_test
+  - docker-compose up -d
+  - while true; do
+      docker-compose ps | grep 'Exit 1' && exit 1
+      docker-compose ps | grep 'Exit 0' && exit 0
+      sleep 1
+    done
