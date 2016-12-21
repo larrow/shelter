@@ -11,7 +11,6 @@ before_install:
   - docker-compose build
 
 script:
-  - cd integration_test
   - docker-compose up -d
   - while true; do
       docker-compose ps | grep 'Exit 1' && exit 1;
