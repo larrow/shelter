@@ -6,7 +6,9 @@ services:
   - docker
 
 before_install:
-  - cd integration_test/ && docker-compose build
+  - cd integration_test/
+  - echo localhost | ./prepare.sh
+  - docker-compose build
 
 script:
   - cd integration_test
