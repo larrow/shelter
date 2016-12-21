@@ -1,6 +1,7 @@
-当(/^(.*)在(.*)中添加镜像，版本为(.*)，成功$/) do |u, g, tag_str|
+当(/^(.*)在(.*)中添加镜像(.*)，版本为(.*)，成功$/) do |u, g, img, tag_str|
   do_as u do
-    image = "#{namespaces[g]}/test"
+    img = img.empty? ? 'test' : img
+    image = "#{namespaces[g]}/#{img || 'test'}"
     #分割标签可以是半角或者全角的逗号
     tag_str.split(/[,，]/).map(&:strip).each do |tag|
       Registry.push image, tag
