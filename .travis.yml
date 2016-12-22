@@ -1,0 +1,16 @@
+sudo: required
+
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - cd integration_test/
+  - ./prepare.sh
+  - docker-compose build
+
+script:
+  - docker-compose up -d
+  - docker-compose logs -f test
+  - exit `docker inspect -f '{{.State.ExitCode}}' integrationtest_test_1`
