@@ -12,4 +12,5 @@ before_install:
 
 script:
   - docker-compose up -d
-  - docker-compose logs -f test | tail -n 2 | grep 'code 0'
+  - docker-compose logs -f test
+  - exit `docker inspect -f '{{.State.ExitCode}}' integrationtest_test_1`
