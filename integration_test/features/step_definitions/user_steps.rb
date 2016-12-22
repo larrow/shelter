@@ -40,3 +40,33 @@ end
   expect(link).to_not be_nil
 end
 
+当(/^用户(.*)搜索(.*)$/) do |u,s|
+  user = users[u]
+  visit "/search?utf8=✓&q=#{s}"
+end
+
+那么(/^搜索结果包括：用户(.*)的镜像都包含关键字(.*)$/) do |u,k|
+  user = users[u]
+
+  user_image_links = page.links.select{|link| link.href =~ /\/n\/#{user}\/r\/[a-zA-Z.0-9_\-]+/ }
+  user_image_links.each do |link|
+    expect(link.href =~ /\/n\/#{user}\/r\/#{k}/).to_not be_nil
+  end
+
+end
+
+并且(/^搜索结果包括：不是用户(.*)的镜像都是公开的镜像，并包含关键字(.*)$/) do |u,k|
+  user = users[u]
+
+  result_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/[a-zA-Z.0-9_\-]+/ }
+
+  other_image_links = result_links.select{|link| !(link.href =~ /\/n\/#{user[:login]}\//) }
+  other_image_links.each do |link|
+    expect(link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/#{k}/).to_not be_nil
+    expect(link.text =~ /Public/).to_not be_nil
+  end
+end
+
+当(/^管理员搜索(.*)$/) do |k|
+  pending # Write code here that turns the phrase above into concrete actions
+end
