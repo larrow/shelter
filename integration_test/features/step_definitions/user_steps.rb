@@ -72,13 +72,11 @@ end
   visit "/search?utf8=✓&q=#{s}"
 end
 
-那么(/^搜索结果包括：镜像(\d+)个，用户(\d+)个，用户组(\d+)个$/) do |img, u, g|
+那么(/^搜索结果包括：镜像(\d+)个，用户组(\d+)个$/) do |img, g|
   image_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/[a-zA-Z.0-9_\-]+/ }
   expect(image_links.size).to be >= img.to_i
 
-  
-
-
-
+  group_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+$/ }
+  expect(group_links.size).to be >= g.to_i
 end
 
