@@ -3,11 +3,31 @@
 <% end %>
 
 
-<div class="search-result">
-  <div class="repository">
-    <%= render @repositories %>
-  </div>
-  <div class="namespace">
-    <%= render( @namespaces ) if @namespaces %>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col-md-12">
+    <div class="search-result">
+      <div class="repository">
+        <% if @repositories && !@repositories.empty? %>
+        <fieldset>
+          <legend>
+            镜像
+          </legend>
+          <%= render @repositories %>
+        </fieldset>
+        <% end %>
+      </div>
+      <div class="namespace">
+        <% if @namespaces && !@namespaces.empty? %>
+        <fieldset>
+          <legend>
+            组织
+          </legend>
+          <%= render( @namespaces ) %>
+        </fieldset>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
+
+
