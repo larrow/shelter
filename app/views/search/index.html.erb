@@ -2,6 +2,12 @@
   <%= t '.title', query: params[:q] %>
 <% end %>
 
-<%= render @repositories %>
 
-<%= render( @namespaces ) if @namespaces %>
+<div class="search-result">
+  <div class="repository">
+    <%= render @repositories %>
+  </div>
+  <div class="namespace">
+    <%= render( @namespaces ) if @namespaces %>
+  </div>
+</div>

@@ -40,41 +40,32 @@ end
   expect(link).to_not be_nil
 end
 
-当(/^用户(.*)搜索(.*)$/) do |u,s|
-  user = users[u]
+当(/^以(.*)为关键字执行搜索$/) do |s|
   visit "/search?utf8=✓&q=#{s}"
 end
 
-那么(/^搜索结果包括：用户(.*)的镜像都包含关键字(.*)$/) do |u,k|
-  user = users[u]
 
-  user_image_links = page.links.select{|link| link.href =~ /\/n\/#{user}\/r\/[a-zA-Z.0-9_\-]+/ }
-  user_image_links.each do |link|
-    expect(link.href =~ /\/n\/#{user}\/r\/#{k}/).to_not be_nil
-  end
-
+那么(/^搜索结果包括镜像(.*)$/) do |imgs|
+  _images = imgs.split(',')
+  expect( check_seach_result_for( imgs: _images ) ).to be(true)
 end
 
-并且(/^搜索结果包括：不是用户(.*)的镜像都是公开的镜像，并包含关键字(.*)$/) do |u,k|
-  user = users[u]
-
-  result_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/[a-zA-Z.0-9_\-]+/ }
-
-  other_image_links = result_links.select{|link| !(link.href =~ /\/n\/#{user[:login]}\//) }
-  other_image_links.each do |link|
-    expect(link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/#{k}/).to_not be_nil
-    expect(link.text =~ /Public/).to_not be_nil
-  end
+那么(/^搜索结果不包括镜像(.*)$/) do |imgs|
+  _images = imgs.split(',')
+  expect( check_seach_result_for( imgs: _images ) ).to be(false)
 end
 
-当(/^管理员搜索(.*)$/) do |s|
-  user = users["管理员"]
-  visit "/search?utf8=✓&q=#{s}"
+
+那么(/^搜索结果包括用户组(.*)$/) do |groups|
+  _groups =  groups.split(',')
+  expect( check_seach_result_for( groups: _groups ) ).to be(true)
 end
+
+
 
 那么(/^搜索结果包括：镜像(\d+)个，用户组(\d+)个$/) do |img, g|
   image_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+\/r\/[a-zA-Z.0-9_\-]+/ }
-  expect(image_links.size).to be >= img.to_i
+  expect(image_links.size).to be(img.to_i)
 
   group_links = page.links.select{|link| link.href =~ /\/n\/[a-zA-Z.0-9_\-]+$/ }
   expect(group_links.size).to be >= g.to_i
