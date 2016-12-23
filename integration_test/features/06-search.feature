@@ -3,14 +3,19 @@
   场景: 普通用户镜像搜索
     假定创建用户u
     并且用户u登录
-    并且在u中添加镜像test1，版本为v1，成功
-    并且在u中添加镜像test2，版本为v1，成功
-    当用户u搜索test
-    那么搜索结果包括：镜像2个
+    并且在u中添加镜像searchtest1，版本为v1，成功
+    并且在u中添加镜像searchtest2，版本为v1，成功
+    并且在u中添加镜像othertest，版本为v1，成功
+    当以search为关键字执行搜索
+    那么搜索结果包括镜像searchtest1,searchtest2
+    并且搜索结果不包括镜像othertest
   场景: 管理员综合搜索
     假定创建用户userx1,userx2
     并且用户u1创建用户组groupx
+    假定管理员登录
     并且管理员在library中添加镜像x，版本为v1，成功
-    当管理员搜索x
-    那么搜索结果包括：镜像1个，用户2个，用户组1个
+    当以x为关键字执行搜索
+    那么搜索结果包括镜像x
+    并且搜索结果包括用户组userx1,userx2,groupx
+
 

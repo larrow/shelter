@@ -5,7 +5,11 @@ class NamespacesController < ApplicationController
   def create
     redirect_back fallback_location: root_path, alert: t('.exists') and return if Namespace.find_by(name: params[:namespace][:name])
     @namespace = current_user.create_namespace(params[:namespace][:name], params[:namespace][:default_publicity])
-    redirect_to namespace_path(@namespace.name)
+    if @namespace.errors.empty?
+      redirect_to namespace_path(@namespace.name)
+    else
+      render :new
+    end
   end
 
   def new

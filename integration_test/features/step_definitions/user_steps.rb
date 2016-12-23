@@ -40,3 +40,26 @@ end
   expect(link).to_not be_nil
 end
 
+当(/^以(.*)为关键字执行搜索$/) do |s|
+  visit "/search?utf8=✓&q=#{s}"
+end
+
+
+那么(/^搜索结果包括镜像(.*)$/) do |img_str|
+  img_str.split(',').each do |img|
+    expect( search_result[:images] ).to include(img)
+  end
+end
+
+那么(/^搜索结果不包括镜像(.*)$/) do |img_str|
+  img_str.split(',').each do |img|
+    expect( search_result[:images] ).to_not include(img)
+  end
+end
+
+
+那么(/^搜索结果包括用户组(.*)$/) do |group_str|
+  group_str.split(',').each do |group|
+    expect( search_result[:groups] ).to include(namespaces[group])
+  end
+end

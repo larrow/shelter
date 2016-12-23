@@ -55,4 +55,14 @@ module WebVisitor
     agent.post(url, params.update(csrf_key => csrf_token), options)
   end
 
+  def search_result
+    images = page.css('.search-result .repository a div.repo-name').map do |link|
+      link.text.gsub(/[\n ]/, '').split('/').last
+    end
+    groups = page.css('.search-result .namespace a div.repo-name').map do |link|
+      link.text.gsub(/[\n ]/, '')
+    end
+    {images: images, groups: groups}
+  end
+
 end

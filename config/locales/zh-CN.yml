@@ -115,7 +115,9 @@ zh-CN:
       repositories_should_be_empty: 镜像尚未清空，不能删除
     settings:
       delete_namespace: 删除命名空间
-
+    namespace:
+      repository: 镜像
+      user: 用户
   admin:
     namespaces:
       index:
