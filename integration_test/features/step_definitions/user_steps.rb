@@ -45,18 +45,21 @@ end
 end
 
 
-那么(/^搜索结果包括镜像(.*)$/) do |imgs|
-  _images = imgs.split(',')
-  expect( check_seach_result_for( imgs: _images ) ).to be(true)
+那么(/^搜索结果包括镜像(.*)$/) do |img_str|
+  img_str.split(',').each do |img|
+    expect( search_result[:images] ).to include(img)
+  end
 end
 
-那么(/^搜索结果不包括镜像(.*)$/) do |imgs|
-  _images = imgs.split(',')
-  expect( check_seach_result_for( imgs: _images ) ).to be(false)
+那么(/^搜索结果不包括镜像(.*)$/) do |img_str|
+  img_str.split(',').each do |img|
+    expect( search_result[:images] ).to_not include(img)
+  end
 end
 
 
-那么(/^搜索结果包括用户组(.*)$/) do |groups|
-  _groups =  groups.split(',')
-  expect( check_seach_result_for( groups: _groups ) ).to be(true)
+那么(/^搜索结果包括用户组(.*)$/) do |group_str|
+  group_str.split(',').each do |group|
+    expect( search_result[:groups] ).to include(namespaces[group])
+  end
 end

@@ -113,28 +113,14 @@ module UserSupport
   end
 
 
-  def check_seach_result_for(hash={})
-    if hash.has_key?(:imgs)
-      imgs = hash[:imgs] || []
-      img_links = page.at(".repository").search("a")
-      match_result = img_links.map do |link|
-        _matchs = /\/n\/[a-zA-Z.0-9_\-]+\/r\/([a-zA-Z.0-9_\-]+)/.match(link['href'])
-        _matchs[1]
-      end
-      return (match_result & imgs == imgs) && !imgs.empty?
+  def search_result
+    images = page.css('.search-result .repository a div.repo-name').map do |link|
+      link.text.gsub(/[\n ]/, '').split('/').last
     end
-
-    if hash.has_key?(:groups)
-      groups = (hash[:groups] || []).map {|g| namespaces[g] }
-      group_links = page.at(".namespace").search("a")
-
-      match_result = group_links.map do |link|
-        _matchs = /\/n\/([a-zA-Z.0-9_\-]+)$/.match(link['href'])
-        _matchs[1]
-      end
-      return (match_result & groups == groups) && !groups.empty?
+    groups = page.css('.search-result .namespace a div.repo-name').map do |link|
+      link.text.gsub(/[\n ]/, '')
     end
-    raise "Need arguments."
+    {images: images, groups: groups}
   end
 
 end
