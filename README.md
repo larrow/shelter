@@ -1,4 +1,4 @@
-# Shelter简介
+# Shelter简介 [![travis任务状态](https://travis-ci.org/larrow/shelter.svg?branch=master)](https://travis-ci.org/larrow/shelter)
 
 shelter 是基于 Ruby on Rails 搭建的 docker 私有镜像管理平台，和 [harbor](https://github.com/vmware/harbor) 这样的企业级平台不同，shelter 的设计目标是`非企业级`应用。本项目希望摒弃复杂冗长的研发方式，以及繁琐但用处不大的功能，让中小型创业团队甚至个人也能拥有一个简单好用的 docker 私有仓库。
 
