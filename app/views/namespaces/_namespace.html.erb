@@ -1,0 +1,18 @@
+<%=link_to namespace_url(namespace.name) do %>
+  <div class="repo-box">
+    <span class="repo-box-icon bg-aqua">
+      <i class="fa fa-group"></i>
+    </span>
+    <div class="repo-box-content">
+      <div class="repo-name">
+        <%= "#{namespace.name}" %>
+      </div>
+      <div class="repo-publicity">
+        <%= t '.repository' %>：<%= namespace.repositories.count %>
+      </div>
+      <div class="repo-publicity">
+        <%= t '.user' %>：<%= namespace.users.count %>
+      </div>
+    </div>
+  </div>
+<% end %>
