@@ -9,7 +9,7 @@ module UserSupport
 
   def sign_up(u)
     new_session!
-    user = next_user
+    user = next_user u
     visit('/users/sign_up')
     submit_form(id: 'new_user') do |form|
       form['user[username]'] = user[:login]
@@ -64,7 +64,7 @@ module UserSupport
   end
 
   def create_group(g, publicity=true)
-    group = next_group
+    group = next_group g
     visit('/n/new')
     submit_form(id: 'new_namespace') do |form|
       form['namespace[name]'] = group
@@ -111,5 +111,7 @@ module UserSupport
       yield
     end
   end
+
+
 
 end
