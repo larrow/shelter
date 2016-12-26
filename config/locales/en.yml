@@ -9,6 +9,7 @@ en:
       sign_in: Sign in
       email_username: Email/Username
       password: Password
+      back: Back
   dashboard:
     index:
       repositories: Repositories

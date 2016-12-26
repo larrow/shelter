@@ -9,6 +9,7 @@ zh-CN:
       sign_in: 登录
       email_username: 邮箱／用户名
       password: 密码
+      back: 返回
   dashboard:
     index:
       repositories: 我的镜像
