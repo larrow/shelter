@@ -21,7 +21,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 
-if ENV.fetch("RAILS_ENV")=='development'
+if ENV["RAILS_ENV"]=='development'
   workers ENV.fetch("WEB_CONCURRENCY") { 5 }
 end
 # workers ENV.fetch("WEB_CONCURRENCY") { 2 }
