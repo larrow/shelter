@@ -23,7 +23,7 @@ when 'config'
 else
   check_db
   system 'bundle exec rake db:create db:migrate db:seed'
-  system 'tmp/pids/server.pid'
+  system 'rm -rf tmp/pids/server.pid'
   exec 'rails s -p 3000 -b 0.0.0.0'
 end
 
