@@ -9,6 +9,7 @@ zh-CN:
       sign_in: 登录
       email_username: 邮箱／用户名
       password: 密码
+      back: 返回
   dashboard:
     index:
       repositories: 我的镜像
@@ -97,8 +98,9 @@ zh-CN:
   namespaces:
     subnav:
       new_org: 新建组织
-      repositories: repositories
+      repositories: 镜像列表
       collaborators: 协作者
+      settings: 设置
     new:
       new_org: 新建组织
       name: 名称
