@@ -98,8 +98,9 @@ zh-CN:
   namespaces:
     subnav:
       new_org: 新建组织
-      repositories: repositories
+      repositories: 镜像列表
       collaborators: 协作者
+      settings: 设置
     new:
       new_org: 新建组织
       name: 名称
