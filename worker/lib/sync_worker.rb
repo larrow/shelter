@@ -14,9 +14,9 @@ class SyncWorker
     # sample:
     # {
     #   library => [
-    #     [ 'library/hello', ['v1','v2'] ],
-    #     [ 'library/hllo', ['v1','v2'] ],
-    #     [ 'library/helo', ['v1','v2'] ]
+    #     'library/hello',
+    #     'library/hllo',
+    #     'library/helo',
     #   ]
     # }
     namespaces = Registry.repositories.
