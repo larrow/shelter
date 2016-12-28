@@ -8,5 +8,5 @@ schedule_file = File.expand_path("./schedule.yml", __dir__)
 puts YAML.load_file schedule_file
 Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file)
 
-Larrow::Registry.base_uri 'http://registry:5000'
-SyncWorker.base_uri 'http://web'
+Larrow::Registry.base_uri 'http://proxy'
+SyncWorker.base_uri 'http://proxy'
