@@ -12,6 +12,8 @@ class ServiceController < ApplicationController
         RegistryEvent.find_or_create_by(
           action: event['action'],
           repository: event['target']['repository'],
+          digest: event['target']['digest'],
+          tag_name: event['target']['tag'],
           original_id: event['id'],
           actor: event['actor']['name'],
           created_at: Time.parse(event['timestamp'])

@@ -6,6 +6,8 @@ class RegistryEvent < ApplicationRecord
     when 'push'
       Repository.transaction do
         repo = Repository.find_or_create_by_repo_name self.repository
+        tag = repo.tags.find_or_create_by name: self.tag_name
+        tag.update digest: self.digest
         RepositoryChannel.broadcast_to(repo, action: 'push') if repo
       end
     when 'pull'

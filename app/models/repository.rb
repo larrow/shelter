@@ -2,6 +2,7 @@ class Repository < ApplicationRecord
   include Larrow
 
   belongs_to :namespace
+  has_many :tags, class_name: ImageTag
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true
@@ -13,30 +14,19 @@ class Repository < ApplicationRecord
   before_save :update_description_html, if: :description_changed?
   before_destroy :clear_tags
 
-  def tags
-    Registry.tags(full_path).map do |tag|
-      if block_given?
-        yield tag
-      else
-        {
-          name: tag,
-          size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
-        }
-      end
-    end
-  end
-
-  def remove_tag tag
-    Registry.delete_tag(full_path, tag)
+  def remove_tag tag_name
+    tag = tags.find_by(name: tag_name)
+    tag.delete if tag
+    Registry.delete_tag(full_path, tag_name)
   end
 
   def try_to_delete
-    delete if tags.empty?
+    delete if Registry.tags(full_path).empty?
   end
 
   def clear_tags
-    tags do |tag|
-      Registry.delete_tag(full_path, tag)
+    tags.each do |tag|
+      Registry.delete_tag(full_path, tag.name)
     end
   end
 
