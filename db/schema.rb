@@ -42,18 +42,6 @@ ActiveRecord::Schema.define(version: 20170110173143) do
     t.index ["name"], name: "index_namespaces_on_name", using: :btree
   end
 
-  create_table "registry_events", force: :cascade do |t|
-    t.string   "original_id"
-    t.string   "action"
-    t.string   "repository"
-    t.string   "actor"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "digest"
-    t.string   "tag_name"
-    t.index ["original_id"], name: "index_registry_events_on_original_id", unique: true, using: :btree
-  end
-
   create_table "repositories", force: :cascade do |t|
     t.string   "name"
     t.integer  "pull_count"

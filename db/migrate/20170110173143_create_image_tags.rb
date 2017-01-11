@@ -8,7 +8,21 @@ class CreateImageTags < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_column :registry_events, :digest, :string
-    add_column :registry_events, :tag_name, :string
+    reversible do |dir|
+      dir.up do
+        drop_table :registry_events
+      end
+      dir.down do
+        create_table :registry_events do |t|
+          t.string :original_id
+          t.string :action
+          t.string :repository
+          t.string :actor
+
+          t.timestamps
+        end
+        add_index :registry_events, :original_id, unique: true
+      end
+    end
   end
 end
