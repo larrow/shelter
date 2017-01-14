@@ -84,26 +84,15 @@ module UserSupport
     end
   end
 
-  def all_images
+  def all_tags namespace, image
     as_admin do
-      # get all repositoies on multi pages
-      urls = visit('/admin/repositories').
-        links.
-        select{|link| link.text =~ /\d+/ && link.href}.
-        map(&:href)
-      urls << '/admin/repositories'
-
-      urls.reduce({}) do |sum, url|
-        visit(url).css('table tr').map do |row|
-          if row.element_children.size >= 2
-            image_full_path = row.element_children[0].text.gsub(/[\n ]/, '')
-            tags            = row.element_children[1].text.gsub(/[\n ]/, '').split(',')
-            sum.update image_full_path => tags
-          end
-        end
-        sum
+      visit('/n/%s/r/%s/tags' % [namespace, image]).css('table tbody tr').map do |row|
+        next if row.element_children.size < 2
+        row.element_children[0].text.gsub(/[\n ]/, '')
       end
     end
+  rescue Mechanize::ResponseCodeError => e
+    raise e if e.response_code != '404'
   end
 
   def as_admin
