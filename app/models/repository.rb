@@ -15,13 +15,9 @@ class Repository < ApplicationRecord
   before_destroy :clear_tags
 
   def remove_tag tag_name
-    tag = tags.find_by(name: tag_name)
-    tag.delete if tag
+    tags.find_by(name: tag_name)&.delete
+    delete if tags.empty?
     Registry.delete_tag(full_path, tag_name)
-  end
-
-  def try_to_delete
-    delete if Registry.tags(full_path).empty?
   end
 
   def clear_tags
@@ -41,10 +37,23 @@ class Repository < ApplicationRecord
   class << self
     include Larrow
 
-    def find_or_create_by_repo_name(repo_name)
+    def find_or_create_by_full_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
-      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
+      repository = namespace.repositories.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
       repository
+    end
+
+    def find_by_full_name full_name
+      ns_name, repo_name = full_name.split('/')
+      if repo_name.nil?
+        repo_name = ns_name
+        ns_name = 'library'
+      end
+
+      namespace = Namespace.find_by(name: ns_name)
+      return nil if namespace.nil?
+
+      namespace.repositories.find_by(name: repo_name, deleted_at: nil)
     end
   end
 

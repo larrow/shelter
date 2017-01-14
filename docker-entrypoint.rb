@@ -20,8 +20,6 @@ when 'config'
     ].join(' && ')
     system cmd
   end
-when 'backend'
-  exec "bundle exec sidekiq"
 else
   check_db
   system 'bundle exec rake db:create db:migrate db:seed'

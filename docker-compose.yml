@@ -12,21 +12,13 @@ services:
     image: postgres
   redis:
     image: redis
+    ports:
+      - 6379:6379
   web:
     build: .
     volumes:
       - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
     env_file: config/env_file
-    depends_on:
-      - db
-      - registry
-      - redis
-  backend:
-    build: .
-    volumes:
-      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
-    env_file: config/env_file
-    command: 'backend'
     depends_on:
       - db
       - registry
