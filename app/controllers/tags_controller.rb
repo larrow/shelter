@@ -9,7 +9,12 @@ class TagsController < ApplicationController
   def destroy
     authorize! :write, @repository
     @repository.remove_tag params[:id]
-    redirect_back fallback_location: namespace_repository_path(@namespace.name, @repository.name)
+    begin
+      @repository.reload
+      redirect_to namespace_repository_path(@namespace.name, @repository.name)
+    rescue
+      redirect_to namespace_path(@namespace.name), notice: t('.repository_deleted')
+    end
   end
 
   private
@@ -17,6 +22,6 @@ class TagsController < ApplicationController
     @namespace = Namespace.find_by(name: params[:namespace_id])
     @repository = @namespace&.repositories&.find_by(name: params[:repository_id])
 
-    redirect_to namespace_path(@namespace.name) unless @repository
+    head 404 and return if @repository.nil?
   end
 end
