@@ -4,6 +4,7 @@
     #分割标签可以是半角或者全角的逗号
     tag_str.split(/[,，]/).map(&:strip).each do |tag|
       Registry.push "#{namespaces[g]}/#{image}", tag
+      sleep 1
       expect(all_tags namespaces[g], image).to include(tag)
     end
   end
@@ -11,6 +12,7 @@ end
 
 那么(/^不可以在(.*)中添加镜像$/) do |g|
   Registry.push "#{groups[g]}/test", 'v1'
+  sleep 1
   expect(all_tags( groups[g], 'test')).to be_nil
 end
 
@@ -29,24 +31,18 @@ end
   end
 end
 
-当(/^(.*)在界面上删除(.*)中的镜像，成功$/) do |u,g|
-  do_as u do
-    image_url = "/n/#{namespaces[g]}/r/test"
-
-    expect(all_tags namespaces[g], 'test').not_to be_empty
-    web_delete image_url
-    expect(all_tags namespaces[g], 'test').to be_nil
+那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
+  as_admin do
+    expect(all_tags namespaces[g], 'test').to include(tag)
   end
 end
 
-那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  expect(all_tags namespaces[g], 'test').to include(tag)
-end
-
 那么(/^系统不能获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  tags = all_tags namespaces[g], 'test'
-  if not tags.nil?
-    expect(tags).not_to include(tag)
+  as_admin do
+    tags = all_tags namespaces[g], 'test'
+    if not tags.nil?
+      expect(tags).not_to include(tag)
+    end
   end
 end
 

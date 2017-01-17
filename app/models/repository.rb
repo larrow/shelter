@@ -1,8 +1,6 @@
 class Repository < ApplicationRecord
-  include Larrow
-
   belongs_to :namespace
-  has_many :tags, class_name: ImageTag
+  has_many :tags, class_name: ImageTag, dependent: :destroy
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true
@@ -12,18 +10,11 @@ class Repository < ApplicationRecord
   end
 
   before_save :update_description_html, if: :description_changed?
-  before_destroy :clear_tags
 
+  # 可以通过返回值判断是否删除了repo，false表示不删除
   def remove_tag tag_name
-    tags.find_by(name: tag_name)&.delete
-    delete if tags.empty?
-    Registry.delete_tag(full_path, tag_name)
-  end
-
-  def clear_tags
-    tags.each do |tag|
-      Registry.delete_tag(full_path, tag.name)
-    end
+    tags.find_by(name: tag_name)&.destroy
+    tags.empty? && self.destroy
   end
 
   def full_path
