@@ -4,6 +4,7 @@
     #分割标签可以是半角或者全角的逗号
     tag_str.split(/[,，]/).map(&:strip).each do |tag|
       Registry.push "#{namespaces[g]}/#{image}", tag
+      sleep 1
       expect(all_tags namespaces[g], image).to include(tag)
     end
   end
@@ -11,6 +12,7 @@ end
 
 那么(/^不可以在(.*)中添加镜像$/) do |g|
   Registry.push "#{groups[g]}/test", 'v1'
+  sleep 1
   expect(all_tags( groups[g], 'test')).to be_nil
 end
 
