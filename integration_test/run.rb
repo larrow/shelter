@@ -11,5 +11,5 @@ def check_server
 end
 
 check_server
-exec 'cucumber'
+exec 'bundle exec cucumber'
 
