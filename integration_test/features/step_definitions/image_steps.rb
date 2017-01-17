@@ -29,16 +29,6 @@ end
   end
 end
 
-当(/^(.*)在界面上删除(.*)中的镜像，成功$/) do |u,g|
-  do_as u do
-    image_url = "/n/#{namespaces[g]}/r/test"
-
-    expect(all_tags namespaces[g], 'test').not_to be_empty
-    web_delete image_url
-    expect(all_tags namespaces[g], 'test').to be_nil
-  end
-end
-
 那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
   expect(all_tags namespaces[g], 'test').to include(tag)
 end
