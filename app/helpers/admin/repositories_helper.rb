@@ -1,2 +1,0 @@
-module Admin::RepositoriesHelper
-end

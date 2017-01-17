@@ -1,6 +1,6 @@
 version: 0.1
 log:
-  level: debug
+  level: info
   fields:
     service: registry
 storage:
@@ -28,7 +28,7 @@ auth:
 notifications:
   endpoints:
       - name: shelter
-        url: http://web:3000/service/notifications
+        url: http://proxy/service/notifications
         headers:
           Authorization: [Bearer]
         timeout: 500ms

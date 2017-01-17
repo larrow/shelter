@@ -51,20 +51,6 @@ class Repository < ApplicationRecord
   class << self
     include Larrow
 
-    def sync_from_registry
-      repositories = Registry.repositories
-      Repository.transaction do
-        repositories.each do |repo|
-          if Registry.tags(repo).empty? # no tags means repo should not be exist
-            namespace = Namespace.find_by(name: repo.split('/').length == 2 ? repo.split('/')[0] : 'library')
-            namespace&.repositories&.where(name: repo.split('/').last)&.each { |r| r.destroy }
-          else
-            find_or_create_by_repo_name repo
-          end
-        end
-      end
-    end
-
     def find_or_create_by_repo_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
       repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
