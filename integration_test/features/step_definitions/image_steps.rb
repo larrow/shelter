@@ -32,13 +32,17 @@ end
 end
 
 那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  expect(all_tags namespaces[g], 'test').to include(tag)
+  as_admin do
+    expect(all_tags namespaces[g], 'test').to include(tag)
+  end
 end
 
 那么(/^系统不能获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  tags = all_tags namespaces[g], 'test'
-  if not tags.nil?
-    expect(tags).not_to include(tag)
+  as_admin do
+    tags = all_tags namespaces[g], 'test'
+    if not tags.nil?
+      expect(tags).not_to include(tag)
+    end
   end
 end
 

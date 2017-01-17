@@ -85,11 +85,9 @@ module UserSupport
   end
 
   def all_tags namespace, image
-    as_admin do
-      visit('/n/%s/r/%s/tags' % [namespace, image]).css('table tbody tr').map do |row|
-        next if row.element_children.size < 2
-        row.element_children[0].text.gsub(/[\n ]/, '')
-      end
+    visit('/n/%s/r/%s/tags' % [namespace, image]).css('table tbody tr').map do |row|
+      next if row.element_children.size < 2
+      row.element_children[0].text.gsub(/[\n ]/, '')
     end
   rescue Mechanize::ResponseCodeError => e
     raise e if e.response_code != '404'
