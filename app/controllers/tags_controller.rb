@@ -8,12 +8,10 @@ class TagsController < ApplicationController
 
   def destroy
     authorize! :write, @repository
-    @repository.remove_tag params[:id]
-    begin
-      @repository.reload
-      redirect_to namespace_repository_path(@namespace.name, @repository.name)
-    rescue
+    if @repository.remove_tag(params[:id])
       redirect_to namespace_path(@namespace.name), notice: t('.repository_deleted')
+    else
+      redirect_to namespace_repository_path(@namespace.name, @repository.name)
     end
   end
 
