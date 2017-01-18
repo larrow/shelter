@@ -1,62 +1,53 @@
-当(/^(.*)在(.*)中添加镜像(.*)，版本为(.*)，成功$/) do |u, g, img, tag_str|
+当(/^(.*)在(.*)中添加镜像(.*)，版本为(.*)，成功$/) do |u, g, image, tag_str|
   do_as u do
-    img = img.empty? ? 'test' : img
-    image = "#{namespaces[g]}/#{img || 'test'}"
+    image = image.empty? ? 'test' : image
     #分割标签可以是半角或者全角的逗号
     tag_str.split(/[,，]/).map(&:strip).each do |tag|
-      Registry.push image, tag
-      expect(all_images[image]).to include(tag)
+      Registry.push "#{namespaces[g]}/#{image}", tag
+      sleep 1
+      expect(all_tags namespaces[g], image).to include(tag)
     end
   end
 end
 
 那么(/^不可以在(.*)中添加镜像$/) do |g|
-  image = "#{groups[g]}/test"
-  Registry.push image, 'v1'
-  expect(all_images[image]).to be_nil
+  Registry.push "#{groups[g]}/test", 'v1'
+  sleep 1
+  expect(all_tags( groups[g], 'test')).to be_nil
 end
 
 当(/^(.*)在界面上删除(.*)中镜像的版本(.*)，成功$/) do |u, g, tag|
   do_as u do
-    image = "#{namespaces[g]}/test"
     tags_url = "/n/#{namespaces[g]}/r/test/tags"
 
-    expect(all_images[image]).to include(tag)
+    expect(all_tags namespaces[g], 'test').to include(tag)
     visit tags_url
     expect{web_delete "#{tags_url}/#{tag}"}.not_to raise_error
     # 如果是最后一个标签，删除标签后镜像也将不存在
-    if all_images[image]
-      expect(all_images[image]).not_to include(tag)
+    tags = all_tags namespaces[g], 'test'
+    if not tags.nil?
+      expect(tags).not_to include(tag)
     end
   end
 end
 
-当(/^(.*)在界面上删除(.*)中的镜像，成功$/) do |u,g|
-  do_as u do
-    image = "#{namespaces[g]}/test"
-    image_url = "/n/#{namespaces[g]}/r/test"
-
-    expect(all_images[image]).not_to be_empty
-    web_delete image_url
-    expect(all_images[image]).to be_nil
+那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
+  as_admin do
+    expect(all_tags namespaces[g], 'test').to include(tag)
   end
 end
 
-那么(/^系统能够获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  image = "#{namespaces[g]}/test"
-  expect(all_images[image]).to include(tag)
-end
-
 那么(/^系统不能获取(.*)中镜像的(.*)版本$/) do |g, tag|
-  image = "#{namespaces[g]}/test"
-  if all_images[image]
-    expect(all_images[image]).not_to include(tag)
+  as_admin do
+    tags = all_tags namespaces[g], 'test'
+    if not tags.nil?
+      expect(tags).not_to include(tag)
+    end
   end
 end
 
 那么(/^系统不能获取(.*)中的镜像$/) do |g|
-  image = "#{namespaces[g]}/test"
-  expect(all_images[image]).to be_nil
+  expect(all_tags namespaces[g], 'test').to be_nil
 end
 
 那么(/^(.*)不能删除分组(.*)$/) do |u, g|

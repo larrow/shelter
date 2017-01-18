@@ -73,6 +73,8 @@ zh-CN:
       size: 大小
       action: 操作
       no_tags: 无标签
+    destroy:
+      repository_deleted: 标签所属镜像已被删除
   search:
     index:
       title: 搜索 '%{query}'

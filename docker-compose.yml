@@ -12,15 +12,6 @@ services:
     image: postgres
   redis:
     image: redis
-  worker:
-    build: worker
-    volumes:
-      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
-    env_file: config/env_file
-    depends_on:
-      - web
-      - registry
-      - redis
   web:
     build: .
     volumes:
@@ -28,6 +19,15 @@ services:
     env_file: config/env_file
     depends_on:
       - db
+      - registry
+      - redis
+  worker:
+    build: worker
+    volumes:
+      - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
+    env_file: config/env_file
+    depends_on:
+      - web
       - registry
       - redis
   proxy:

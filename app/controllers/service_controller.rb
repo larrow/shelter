@@ -8,15 +8,10 @@ class ServiceController < ApplicationController
     inner_service_auth do
       events = JSON.parse(request.body.read)['events']
       Rails.logger.debug "events: #{events}"
-      events.each do |event|
-        RegistryEvent.find_or_create_by(
-          action: event['action'],
-          repository: event['target']['repository'],
-          original_id: event['id'],
-          actor: event['actor']['name'],
-          created_at: Time.parse(event['timestamp'])
-        ) unless event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
+      events.delete_if do |event|
+        event['target']['mediaType'] == 'application/octet-stream' # ignore blob notification
       end
+      RegistryEventJob.perform_later events if events.size > 0
     end
   end
 

@@ -1,7 +1,6 @@
 class Repository < ApplicationRecord
-  include Larrow
-
   belongs_to :namespace
+  has_many :tags, class_name: ImageTag, dependent: :destroy
 
   validates :name, format: /\A[a-zA-Z0-9_\.-]*\z/, presence: true, length: { in: 1..30 }
   validates :namespace, presence: true
@@ -11,33 +10,11 @@ class Repository < ApplicationRecord
   end
 
   before_save :update_description_html, if: :description_changed?
-  before_destroy :clear_tags
 
-  def tags
-    Registry.tags(full_path).map do |tag|
-      if block_given?
-        yield tag
-      else
-        {
-          name: tag,
-          size: JSON.parse(Registry.manifests(full_path, tag)[1])['layers'].reduce(0) { |size, layer| size + layer['size'] }
-        }
-      end
-    end
-  end
-
-  def remove_tag tag
-    Registry.delete_tag(full_path, tag)
-  end
-
-  def try_to_delete
-    delete if tags.empty?
-  end
-
-  def clear_tags
-    tags do |tag|
-      Registry.delete_tag(full_path, tag)
-    end
+  # 可以通过返回值判断是否删除了repo，false表示不删除
+  def remove_tag tag_name
+    tags.find_by(name: tag_name)&.destroy
+    tags.empty? && self.destroy
   end
 
   def full_path
@@ -51,10 +28,23 @@ class Repository < ApplicationRecord
   class << self
     include Larrow
 
-    def find_or_create_by_repo_name(repo_name)
+    def find_or_create_by_full_name(repo_name)
       namespace = Namespace.find_by(name: repo_name.split('/').length == 2 ? repo_name.split('/')[0] : 'library')
-      repository = namespace&.repositories&.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
+      repository = namespace.repositories.find_or_create_by(name: repo_name.split('/').last, deleted_at: nil)
       repository
+    end
+
+    def find_by_full_name full_name
+      ns_name, repo_name = full_name.split('/')
+      if repo_name.nil?
+        repo_name = ns_name
+        ns_name = 'library'
+      end
+
+      namespace = Namespace.find_by(name: ns_name)
+      return nil if namespace.nil?
+
+      namespace.repositories.find_by(name: repo_name, deleted_at: nil)
     end
   end
 
