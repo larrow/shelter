@@ -42,9 +42,9 @@ services:
       - registry
       - redis
   proxy:
-    image: nginx:1.9
+    build: proxy
     volumes:
-      - ./config/nginx:/etc/nginx
+      - ./config/Caddyfile:/etc/Caddyfile
     ports:
       - 80:80
       - 443:443

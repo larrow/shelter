@@ -1,0 +1,5 @@
+local.larrow.me {
+  proxy / web:3000
+  proxy /v2 registry:5000
+  status 404 /v1
+}
