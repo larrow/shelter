@@ -2,7 +2,7 @@ class ServiceController < ApplicationController
   protect_from_forgery with: :null_session
 
   # ignore csrf params for registry callback
-  skip_before_filter :verify_authenticity_token, :only => [:notifications, :sync]
+  skip_before_action :verify_authenticity_token, :only => [:notifications, :sync]
 
   def notifications
     inner_service_auth do
