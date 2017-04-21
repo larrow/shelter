@@ -1,7 +1,7 @@
 version: '2'
 services:
   registry:
-    image: library/registry:2.5.0
+    image: library/registry
     volumes:
       - ./config/registry/:/etc/docker/registry/
     environment:
@@ -17,6 +17,8 @@ services:
     volumes:
       - ./config/private_key.pem:/usr/src/app/config/private_key.pem:ro
     env_file: config/env_file
+    environment:
+      WEB_CONCURRENCY: 4
     depends_on:
       - db
       - registry
@@ -34,6 +36,7 @@ services:
     build: proxy
     volumes:
       - ./config/Caddyfile:/etc/Caddyfile
+      - ./config/caddy:/root/.caddy
     ports:
       - 80:80
       - 443:443
