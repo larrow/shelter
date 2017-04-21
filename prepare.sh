@@ -48,25 +48,10 @@ echo "SECRET_KEY_BASE=${secret_key}" > config/env_file
 service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> config/env_file
 
-# generate https files for nginx
-cd config/nginx/cert
-
-openssl req -subj "/C=CN/ST=Hangzhou/O=company/CN=$host" -newkey rsa:4097 -nodes -sha256 -keyout ca.key -x509 -days 365 -out ca.crt
-openssl req -subj "/C=CN/ST=Hangzhou/O=company/CN=$host" -newkey rsa:4096 -nodes -sha256 -keyout server.key -out server.csr
-
-mkdir demoCA
-cd demoCA
-touch index.txt
-echo '01' > serial
-cd ..
-
-openssl ca -batch -in server.csr -out server.crt -cert ca.crt -keyfile ca.key -outdir .
-rm -rf demoCA server.csr
-
-cd ../../..
-# make nginx.conf
-sed -i '' "s/server_name .*;/server_name $host;/g" config/nginx/http.conf
-sed -i '' "s/server_name .*;/server_name $host;/g" config/nginx/https.conf
+# set caddy config file
+echo "$host {" > caddy.tmp
+sed '1d' config/Caddyfile >> caddy.tmp
+mv caddy.tmp config/Caddyfile
 
 # make registry config.yml
 sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template \
