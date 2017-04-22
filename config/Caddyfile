@@ -1,4 +1,4 @@
-local.larrow.me {
+http://local.larrow.me {
   proxy / http://web:3000 {
     transparent
     websocket

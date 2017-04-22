@@ -49,7 +49,7 @@ service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> config/env_file
 
 # set caddy config file
-echo "$host {" > caddy.tmp
+echo "http://$host {" > caddy.tmp
 sed '1d' config/Caddyfile >> caddy.tmp
 mv caddy.tmp config/Caddyfile
 
