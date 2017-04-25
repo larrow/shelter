@@ -49,9 +49,8 @@ service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> config/env_file
 
 # set caddy config file
-echo "http://$host {" > caddy.tmp
-sed '1d' config/Caddyfile >> caddy.tmp
-mv caddy.tmp config/Caddyfile
+echo "http://$host {" > config/Caddyfile
+sed '1d' config/Caddyfile.template >> config/Caddyfile
 
 # make registry config.yml
 sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" config/registry/config.yml.template \
