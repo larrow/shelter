@@ -14,14 +14,6 @@ mkdir -p config
 
 app_config=${APP_CONFIG:-'/usr/src/app/config'}
 
-# copy config files
-if [ -d 'config/nginx' ]
-then
-  echo 'has nginx conf, ignore'
-else
-  cp -r $app_config/nginx config/
-fi
-
 if [ -d 'config/registry' ]
 then
   echo 'has registry conf, ignore'

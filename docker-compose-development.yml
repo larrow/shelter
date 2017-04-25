@@ -43,7 +43,7 @@ services:
       - registry
       - redis
   proxy:
-    build: proxy
+    image: larrow/caddy
     volumes:
       - ./config/Caddyfile:/etc/Caddyfile
       - ./config/caddy:/root/.caddy
