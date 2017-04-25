@@ -1,6 +1,6 @@
 # Shelter简介 [![travis任务状态](https://travis-ci.org/larrow/shelter.svg?branch=master)](https://travis-ci.org/larrow/shelter)
 
-shelter 是基于 Ruby on Rails 搭建的 docker 私有镜像管理平台，和 [harbor](https://github.com/vmware/harbor) 这样的企业级平台不同，shelter 的设计目标是`非企业级`应用。本项目希望摒弃复杂冗长的研发方式，以及繁琐但用处不大的功能，让中小型创业团队甚至个人也能拥有一个简单好用的 docker 私有仓库。
+shelter 是基于 Ruby on Rails 搭建的 docker 私有镜像管理平台，和 [Harbor](https://github.com/vmware/harbor) 这样的企业级平台不同，shelter 的设计目标是`非企业级`应用。本项目希望摒弃复杂冗长的研发方式，以及繁琐但用处不大的功能，让中小型创业团队甚至个人也能拥有一个简单好用的 docker 私有仓库。
 
 [![用户指南](https://github.com/larrow/shelter/wiki/shelter_integration_test.gif)](https://youtu.be/RkhEYJ_7n_o)
 
@@ -9,12 +9,14 @@ shelter 是基于 Ruby on Rails 搭建的 docker 私有镜像管理平台，和 
 `shelter`本身使用`docker`相关技术进行交付，因此您需要确保`docker daemon`和`docker compose`可用。
 
 * 确认docker daemon版本不低于 1.12（之前版本没有进行测试）
+
 ```
 # docker info | grep "Server Version"
 Server Version: 1.12.x
 ```
 
 * 确认 docker compose 版本不低于 1.8
+
 ```
 # docker-compose -v
 docker-compose version 1.8.1, build 878cff1

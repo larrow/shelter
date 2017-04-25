@@ -1,7 +1,7 @@
 version: '2'
 services:
   registry:
-    image: library/registry:2.5.0
+    image: library/registry
     volumes:
       - ./config/registry/:/etc/docker/registry/
     environment:
@@ -31,9 +31,10 @@ services:
       - registry
       - redis
   proxy:
-    image: nginx:1.9
+    image: larrow/caddy
     volumes:
-      - ./config/nginx:/etc/nginx
+      - ./config/Caddyfile:/etc/Caddyfile
+      - ./config/caddy:/root/.caddy
     ports:
       - 80:80
       - 443:443

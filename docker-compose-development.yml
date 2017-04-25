@@ -34,6 +34,7 @@ services:
     stdin_open: true
     environment:
       RAILS_ENV: development
+      WEB_CONCURRENCY: 4
     env_file: config/env_file
     volumes:
       - .:/usr/src/app
@@ -42,9 +43,10 @@ services:
       - registry
       - redis
   proxy:
-    image: nginx:1.9
+    image: larrow/caddy
     volumes:
-      - ./config/nginx:/etc/nginx
+      - ./config/Caddyfile:/etc/Caddyfile
+      - ./config/caddy:/root/.caddy
     ports:
       - 80:80
       - 443:443

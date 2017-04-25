@@ -1,0 +1,10 @@
+http://localhost {
+  proxy / http://web:3000 {
+    transparent
+    websocket
+  }
+  proxy /v2 http://registry:5000 {
+    transparent
+  }
+  status 404 /v1
+}
