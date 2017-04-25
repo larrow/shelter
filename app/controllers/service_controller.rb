@@ -50,7 +50,7 @@ class ServiceController < ApplicationController
       puts "namespaces: #{namespaces}"
 
       Namespace.find_each do |namespace|
-        namespace.update_repositories namespaces[namespace]
+        namespace.update_repositories namespaces[namespace.name]
       end
     end
   end
