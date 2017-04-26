@@ -63,3 +63,30 @@ end
     expect( search_result[:groups] ).to include(namespaces[group])
   end
 end
+
+当(/^设定(.*)用户自注册$/) do |permission|
+  as_admin do
+    visit '/admin/setting/edit'
+    submit_form(action: '/admin/setting') do |form|
+      if permission == '禁止'
+        form.checkbox_with(name: "self_registration").uncheck
+      elsif permission == '允许'
+        form.checkbox_with(name: "self_registration").check
+      end
+    end
+  end
+end
+
+那么(/^用户访问注册页面$/) do
+  new_session!
+  agent.redirect_ok = false
+  visit '/users/sign_up'
+end
+
+而且(/^页面被重定向$/) do
+  expect(page.code).to eq('302')
+end
+
+而且(/^页面未被重定向$/) do
+  expect(page.code).not_to eq('302')
+end

@@ -7,16 +7,14 @@
   <%= form_tag admin_setting_path, method: :put do %>
     <div class="box-body">
       <div class="form-group">
-        <%= hidden_field_tag :self_registration, '0' %>
         <%= label_tag :self_registration do %>
-          <%= check_box_tag :self_registration, '1', Setting.self_registration %>
+          <%= check_box_tag :self_registration, 1, Setting.self_registration %>
           <%= t '.self_registration' %>
         <% end %>
       </div>
       <div class="form-group">
-        <%= hidden_field_tag :allow_push, '0' %>
         <%= label_tag :allow_push do %>
-          <%= check_box_tag :allow_push, '1', Setting.allow_push %>
+          <%= check_box_tag :allow_push, 1, Setting.allow_push %>
           <%= t '.allow_push' %>
         <% end %>
       </div>
