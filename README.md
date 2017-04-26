@@ -27,7 +27,7 @@ docker-compose version 1.8.1, build 878cff1
 您可以用这个脚本获得一个完整的shelter系统(假定shelter对外服务的ip为192.168.0.10)——
 
 ```
-SHELTER_HOST=192.168.0.10 curl -sSL https://raw.githubusercontent.com/larrow/shelter/master/deploy/init.sh | sh
+curl -sSL http://t.cn/R6b11S7 | SHELTER_HOST=192.168.0.10 sh
 ```
 
 这个脚本将完成以下工作：
