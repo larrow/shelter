@@ -129,10 +129,11 @@ en:
         is_public: Is public?
         no_repositories: There is no repositories now.
     settings:
-      index:
+      edit:
         system_settings: System Settings
         self_registration: Self registration
         allow_push: Allow push
+        save: Save
     users:
       index:
         users: Users
@@ -146,4 +147,4 @@ en:
         register: Register a new membership
         sign_up: Sign Up
 
-      
+

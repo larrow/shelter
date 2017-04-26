@@ -4,7 +4,7 @@
     <div class="box-tools pull-right">
     </div>
   </div>
-  <%= form_tag admin_settings_path, method: :post do %>
+  <%= form_tag admin_setting_path, method: :put do %>
     <div class="box-body">
       <div class="form-group">
         <%= hidden_field_tag :self_registration, '0' %>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="box-footer">
-      <%= submit_tag 'Save', class: 'btn btn-primary' %>
+      <%= submit_tag t('.save'), class: 'btn btn-primary' %>
     </div>
   <% end %>
 </div>
