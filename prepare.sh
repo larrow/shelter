@@ -22,20 +22,8 @@ else
   src_config=$dst_config
 fi
 
-if [ -d "$dst_config/registry" ]
-then
-  echo 'has registry config, ignore'
-else
-  cp -r $src_config/registry $dst_config/
-fi
-
-if [ -d "$dst_config/caddy" ]
-then
-  echo 'has caddy config, ignore'
-else
-  cp -r $src_config/caddy $dst_config/
-  cp -a $src_config/Caddyfile $dst_config/
-fi
+[ -d "$dst_config/registry" ] || cp -r $src_config/registry $dst_config/
+[ -d "$dst_config/caddy" ]    || cp -r $src_config/caddy    $dst_config/
 
 # check for openssl
 command -v openssl >/dev/null 2>&1 || { echo >&2 "Require openssl but it's not installed.  Aborting."; exit 1; }
