@@ -33,6 +33,9 @@ en:
       language: Language
       copyright: Copyright
       all_rights_reserved: All rights reserved.
+  users:
+    registrations:
+      not_open: Self registrations are not open yet
   repositories:
     edit_description:
       enter_description: Enter your description for this repository (markdown is enabled).
@@ -129,10 +132,11 @@ en:
         is_public: Is public?
         no_repositories: There is no repositories now.
     settings:
-      index:
+      edit:
         system_settings: System Settings
         self_registration: Self registration
         allow_push: Allow push
+        save: Save
     users:
       index:
         users: Users
@@ -146,4 +150,4 @@ en:
         register: Register a new membership
         sign_up: Sign Up
 
-      
+

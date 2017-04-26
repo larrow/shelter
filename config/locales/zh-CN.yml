@@ -34,6 +34,9 @@ zh-CN:
       language: 语言
       copyright: 版权所有
       all_rights_reserved: 保留所有权利
+  users:
+    registrations:
+      not_open: 管理员已禁止用户自己注册账号
   repositories:
     edit_description:
       enter_description: 输入描述（可用markdown语法）
@@ -138,10 +141,11 @@ zh-CN:
         is_public: 是否公开
         no_repositories: 当前没有 repository
     settings:
-      index:
+      edit:
         system_settings: 系统设置
         self_registration: 用户自注册
         allow_push: 允许用户 push
+        save: 保存
     users:
       index:
         users: 用户

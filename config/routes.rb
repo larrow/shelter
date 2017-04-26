@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   namespace :admin do
-    resources :settings, only: [:index, :update]
+    resource :setting, only: [:edit, :update]
     resources :users
     resources :namespaces
     resources :repositories
