@@ -7,7 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if Setting.self_registration
       super
     else
-      redirect_to root_path, alert: 'Self registrations are not open yet'
+      redirect_to root_path, alert: t('.not_open')
     end
   end
 
@@ -16,7 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if Setting.self_registration
       super
     else
-      redirect_to root_path, alert: 'Self registrations are not open yet'
+      redirect_to root_path, alert: t('.not_open')
     end
   end
 

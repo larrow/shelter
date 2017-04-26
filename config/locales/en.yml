@@ -33,6 +33,9 @@ en:
       language: Language
       copyright: Copyright
       all_rights_reserved: All rights reserved.
+  users:
+    registrations:
+      not_open: Self registrations are not open yet
   repositories:
     edit_description:
       enter_description: Enter your description for this repository (markdown is enabled).
