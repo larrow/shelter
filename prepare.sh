@@ -48,7 +48,7 @@ service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> $dst_config/env_file
 
 # set host name
-echo "REGISTRY_AUTH_TOKEN_REALM=$site_url" >> $dst_config/env_file
+echo "REGISTRY_AUTH_TOKEN_REALM=$site_url/service/token" >> $dst_config/env_file
 
 # set caddy config file
 echo "$site_url {" > $dst_config/Caddyfile
