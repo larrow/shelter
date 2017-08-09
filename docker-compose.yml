@@ -1,13 +1,10 @@
 version: '2'
 services:
   registry:
-    image: library/registry
+    image: larrow/registry:2.6
     volumes:
-      - ./config/registry/:/etc/docker/registry/
-    environment:
-      - GODEBUG=netdns=cgo
-    ports:
-      - 5001:5001
+      - ./config/cert.pem:/etc/docker/registry/cert.pem
+    env_file: config/env_file
   db:
     image: postgres
   redis:
