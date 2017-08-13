@@ -3,8 +3,9 @@
 require 'net/ping'
 
 def check_server
+  host = ENV['remote_registry'] ? 'proxy' : 'localhost'
   30.times do
-    return if Net::Ping::HTTP.new('proxy').ping?
+    return if Net::Ping::HTTP.new("http://#{host}").ping?
     sleep 1.5
   end
   fail 'cannot connect to server'

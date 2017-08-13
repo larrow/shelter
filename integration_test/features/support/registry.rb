@@ -14,7 +14,7 @@ module Registry
 
     @local_imgs = {}
     # use proxy directly will get wrong ipaddress
-    @addr = ENV['remote_registry'] || 'localhost'
+    @addr = ENV['remote_registry'] ? 'proxy.local' : 'localhost'
 
     Docker::Image.all.each do |img|
       next if img.info['RepoTags'].nil?

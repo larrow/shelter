@@ -6,9 +6,8 @@ else
   host=$1
 fi
 
-if [[ -z "${host// }" ]]
+if [[ "$host" == "localhost" ]]
 then
-  host="localhost"
   site_url="http://localhost"
 else
   site_url="https://$host"
