@@ -28,6 +28,7 @@ config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
 config/Caddyfile
+config/cert.pem
 
 # Ignore runtime configuration files
 config/registry/root.crt

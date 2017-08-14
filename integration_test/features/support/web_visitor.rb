@@ -46,7 +46,8 @@ module WebVisitor
   end
 
   def agent
-    @agent ||= Mechanize.new.tap{|a| a.get 'http://proxy/'}
+    host = ENV['remote_registry'] ? "proxy" : 'localhost'
+    @agent ||= Mechanize.new.tap{|a| a.get "http://#{host}/"}
   end
 
   def _inner_post url, params, options

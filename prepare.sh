@@ -6,8 +6,11 @@ else
   host=$1
 fi
 
-if [[ -z "${host// }" ]]; then
-    host="localhost"
+if [[ "$host" == "localhost" ]]
+then
+  site_url="http://localhost"
+else
+  site_url="https://$host"
 fi
 
 dst_config=`pwd`/config
@@ -22,7 +25,6 @@ else
   src_config=$dst_config
 fi
 
-[ -d "$dst_config/registry" ] || cp -r $src_config/registry $dst_config/
 [ -d "$dst_config/caddy" ]    || cp -r $src_config/caddy    $dst_config/
 
 # check for openssl
@@ -30,12 +32,12 @@ command -v openssl >/dev/null 2>&1 || { echo >&2 "Require openssl but it's not i
 
 # build key-pair for web and registry
 private_key_pem="$dst_config/private_key.pem"
-root_crt="$dst_config/registry/root.crt"
+cert_pem="$dst_config/cert.pem"
 
-rm $private_key_pem $root_crt >/dev/null 2>&1
+rm $private_key_pem $cert_pem >/dev/null 2>&1
 
 openssl genrsa -out ${private_key_pem} 4096
-openssl req -new -x509 -key ${private_key_pem} -out ${root_crt} -days 3650 -subj "/CN=${host}"
+openssl req -new -x509 -key ${private_key_pem} -out ${cert_pem} -days 3650 -subj "/CN=${host}"
 
 # generate secret key and service token
 secret_key=$(openssl rand -base64 42)
@@ -44,12 +46,10 @@ echo "SECRET_KEY_BASE=${secret_key}" > $dst_config/env_file
 service_token=$(openssl rand -hex 42)
 echo "SERVICE_TOKEN=${service_token}" >> $dst_config/env_file
 
+# set host name
+echo "REGISTRY_AUTH_TOKEN_REALM=$site_url/service/token" >> $dst_config/env_file
+
 # set caddy config file
-echo "http://$host {" > $dst_config/Caddyfile
+echo "$site_url {" > $dst_config/Caddyfile
 sed '1d' $src_config/Caddyfile.template >> $dst_config/Caddyfile
-
-# make registry config.yml
-sed "s/realm: http:\/\/[^\/]*/realm: http:\/\/$host/" $src_config/registry/config.yml.template \
-  | sed "s/Bearer/Bearer ${service_token}/" > $dst_config/registry/config.yml
-
 

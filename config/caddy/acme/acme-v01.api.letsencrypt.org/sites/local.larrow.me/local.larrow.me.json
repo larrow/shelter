@@ -1,6 +1,6 @@
 {
 	"domain": "local.larrow.me",
-	"certUrl": "https://acme-v01.api.letsencrypt.org/acme/cert/030a8ac8d67b719654332bd987cd9545f5c5",
+	"certUrl": "https://acme-v01.api.letsencrypt.org/acme/cert/0324e6adf161bfb577208c6fb8bca1146dd1",
 	"certStableUrl": "",
 	"accountRef": "https://acme-v01.api.letsencrypt.org/acme/reg/13016829"
 }

@@ -1,13 +1,12 @@
-version: "2"
-
+version: '2'
 services:
   registry:
-    image: library/registry:2.5.0
+    image: larrow/registry:2.6
     volumes:
-      - ../config/registry/root.crt:/etc/docker/registry/root.crt
-      - ./config/registry/config.yml:/etc/docker/registry/config.yml
+      - ../config/cert.pem:/etc/docker/registry/cert.pem
+    env_file: ../config/env_file
     environment:
-      - GODEBUG=netdns=cgo
+      - REGISTRY_AUTH_TOKEN_REALM=http://proxy.local/service/token
   db:
     image: postgres
   redis:
@@ -33,7 +32,7 @@ services:
   proxy:
     image: larrow/caddy
     volumes:
-      - ./config/Caddyfile:/etc/Caddyfile
+      - ./Caddyfile:/etc/Caddyfile
       - ../config/caddy:/root/.caddy
     depends_on:
       - db
@@ -53,7 +52,7 @@ services:
     volumes_from:
       - dind
     environment:
-      remote_registry: 'proxy.local'
+      remote_registry: 'true'
     depends_on:
       - dind
       - proxy
