@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/larrow/larrow-registry
-  revision: 461d72c0672b53765fddeffcb7e0611c987ef8e2
+  revision: d8d735a58285c3f392a83b2cd71f5cc96fa70bfa
   specs:
     larrow-registry (0.1.0)
       base32 (~> 0.3)
@@ -107,7 +107,7 @@ GEM
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     http_accept_language (2.0.5)
-    httparty (0.14.0)
+    httparty (0.15.6)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     icheck-rails (1.0.2.2)
