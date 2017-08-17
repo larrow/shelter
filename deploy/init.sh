@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$SHELTER_HOST"=="" ]
+if [ "$SHELTER_HOST" == "" ]
 then
   host="localhost"
 else
