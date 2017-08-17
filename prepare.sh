@@ -12,6 +12,8 @@ then
 else
   site_url="https://$host"
 fi
+echo "host: $host"
+echo "site_url: $site_url"
 
 dst_config=`pwd`/config
 mkdir -p $dst_config
