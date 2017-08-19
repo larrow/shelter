@@ -1,10 +1,17 @@
 http://localhost {
   proxy / http://web:3000 {
-    transparent
+    header_upstream Host {host}
+    header_upstream X-Real-IP {x-real-ip}
+    header_upstream X-Forwarded-For {x-forwarded-for}
+    header_upstream X-Forwarded-Proto {x-forwarded-proto}
     websocket
   }
   proxy /v2 http://registry:5000 {
-    transparent
+    header_upstream Host {host}
+    header_upstream X-Real-IP {x-real-ip}
+    header_upstream X-Forwarded-For {x-forwarded-for}
+    header_upstream X-Forwarded-Proto {x-forwarded-proto}
   }
   status 404 /v1
+  log / stdout
 }
