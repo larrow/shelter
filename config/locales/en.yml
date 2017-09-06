@@ -74,6 +74,7 @@ en:
       name: Name
       size: Size
       action: Action
+      updated_at: Last Updated
       no_tags: This repository has no tags.
   search:
     index:
