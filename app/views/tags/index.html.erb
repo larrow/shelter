@@ -17,6 +17,7 @@
           <% if can? :push, @repository %>
             <th><%= t '.action' %></th>
           <% end %>
+          <th><%= t '.updated_at' %></th>
         </thead>
         <tbody data-auto-update-tags="<%= @repository.id %>">
           <% if @tags.length == 0 %>

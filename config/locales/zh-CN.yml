@@ -75,6 +75,7 @@ zh-CN:
       name: 名称
       size: 大小
       action: 操作
+      updated_at: 最后更新
       no_tags: 无标签
     destroy:
       repository_deleted: 标签所属镜像已被删除
